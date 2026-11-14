@@ -1,0 +1,22 @@
+{
+ "schema_version": "0.1",
+ "synthetic": true,
+ "rows_by_platform": {
+  "terra": 0,
+  "aqua": 0,
+  "snpp": 0,
+  "noaa20": 0,
+  "noaa21": 0
+ },
+ "first_detection": {
+  "aqua": "2002-07-05"
+ },
+ "last_detection": {
+  "aqua": "2026-11-14"
+ },
+ "n_hotspots_total": 0,
+ "years_covered": [
+  2002,
+  2026
+ ]
+}

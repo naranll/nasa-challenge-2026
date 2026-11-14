@@ -1,7 +1,7 @@
 """
 Clean FIRMS hotspot CSVs for Mongolia.
-Reads every fire_archive_*.csv and fire_nrt_*.csv in etl/data/raw,
-combines them, removes non-fire heat sources, and saves one clean file.
+Reads every fire_archive_*.csv and fire_nrt_*.csv under etl/data/raw
+(including the DL_FIRE_* folders FIRMS downloads unzip into), combines them, removes non-fire heat sources, and saves one clean file.
 """
 import numpy as np
 import pandas as pd
@@ -27,7 +27,11 @@ def sensor_from_name(name):
 
 # 1. Load every file and label it
 parts = []
-for f in sorted(RAW.glob("fire_*.csv")):
+files = sorted(RAW.rglob("fire_*.csv"))
+if not files:
+    raise SystemExit(f"No fire_*.csv files found under {RAW}. "
+                     "Unzip the FIRMS downloads (DL_FIRE_*) into etl/data/raw/.")
+for f in files:
     df = pd.read_csv(f, low_memory=False)
     df["sensor"] = sensor_from_name(f.name)
     df["quality"] = "nrt" if "_nrt_" in f.name else "science"

@@ -4,6 +4,7 @@
 **Эх сурвалж:** зөвхөн [PLAN.md](PLAN.md), [GLOSSARY.md](GLOSSARY.md). Шийдвэр бүр PLAN-ийн D-дугаартай холбогдоно.
 **Цаг:** хакатон дуусах цагийг **T** гэж тэмдэглэв (PLAN §9.3, нөхөж бичнэ). **Feature freeze = T − 4 цаг.**
 **Дараалал:** MVP → MVP+ → Nice-to-have. MVP дуусаагүй байхад MVP+ эхлэхгүй.
+**Энгийн хуваалт (4 хүнд):** гол 13 ажлыг дарааллаар нь [docs/ISSUES.md](docs/ISSUES.md)-д бичсэн. Энэ файлын P1–P5 lane нь нарийвчилсан жагсаалт хэвээр.
 **Хавтсууд:** pipeline код = `etl/` · JSON contract = `contracts/` · SYNTHETIC fixture = `fixtures/` · бодит JSON (app уншина) = `public/data/` · хуучирсан planning файлууд = `docs/archive/` (**зөвхөн PLAN.md ба энэ файл хүчинтэй**).
 
 ---
@@ -58,14 +59,14 @@
 
 | ID | Түвшин | Task | Box | Needs | Done when |
 |---|---|---|---|---|---|
-| P1-01 | MVP | MAP_KEY → `.env`, transaction хязгаарыг status-аар шалгах (§9.2). `requirements.txt`: `h3` v4 (тогтоосон), pandas, pyarrow, lightgbm, scikit-learn, requests | 15 мин | — | Status хариу `docs/research/data_audit.md`-д. P2, P4 сангаа суулгаж чадна |
-| P1-02 | MVP | **FIRMS татах** (D6 bbox W85 S37 E127 N56): `MODIS_SP`, `VIIRS_SNPP_SP`, `VIIRS_NOAA20_SP` + `_NRT` сүүл. `DAY_RANGE ≤ 5`, resumable, throttled, cache. **Шууд ажиллуулна.** API гацвал Country Yearly Summary zip | 1 цаг + ~1 цаг ард | P1-01 | Kill → restart үргэлжилнэ. Platform × жилийн мөрийн тоо log-д |
+| P1-01 | MVP | `.env.example` (MAP_KEY нь Archive өгөгдөлд хэрэггүй, зөвхөн NRT шинэчлэх/bbox-д, §9.2). `requirements.txt`: `h3` v4 (тогтоосон), pandas, pyarrow, lightgbm, scikit-learn, requests | 15 мин | — | P2, P4 сангаа суулгаж чадна |
+| P1-02 | MVP | **FIRMS өгөгдөл ✅ татагдсан** (PLAN §3.1): Archive Download, Монгол, buffer 0 км, 8 файл (`docs/research/data_audit.md`). Git-д ороогүй тул бусад гишүүдэд хуваалцана (§9.1). FIRMS Area API зөвхөн NRT шинэчлэх болон bbox (Nice)-д | 15 мин | P1-01 | Бүх гишүүн `etl/data/raw/`-д файлтай |
 | P1-03 | MVP | **Ratio функцүүд** (D3, D7): r₁(сар) = Σ Aqua / Σ S-NPP + fallback (< 30), r₂, reference chain → harmonized цуваа. Unit test. **Татах ажил явж байх зуур** synthetic дээр бичнэ. Функц нь "аль жилүүдээр калибровк хийх" параметртэй байна (P2-ийн LOYO, rolling-origin үүнийг дуудна) | 2 цаг | P2-01 | Тест ногоон. P2 import хийгээд дуудаж чадна |
-| P1-04 | MVP | **Header audit** → `docs/research/data_audit.md`: багана, огноо, мөр, Aqua-ийн эхний өдөр, VIIRS SP-д `type` бий эсэх | 45 мин | P1-02 | §9.5-ын асуултууд хариулагдсан |
+| P1-04 | MVP | **Header audit ✅ хийгдсэн** (PLAN §3.2, §9.5) → `docs/research/data_audit.md` | — | — | Хийгдсэн |
 | P1-05 | MVP | **Шүүлт** (§3.3): `type == 0`, байнгын дулааны эх үүсвэрийг **flag** болгох (устгахгүй), NRT-д SP-ийн mask | 1.5 цаг | P1-04 | Flag асаах/унтраахад тоо өөрчлөгдөнө, log-д |
-| P1-06 | MVP | **Нэгж + шошго** (D9): MODIS = пиксел, VIIRS = fire unit (H3 res 8 × overpass ±10 мин), түүхий VIIRS пиксел тусад нь. Улс, 22 аймаг, day/night. `regions.json`-д бүс бүрийн **3–5 төлөөлөх цэг** (P4-ийн цаг агаарт) | 2 цаг | P1-05 | `etl/data/processed/monthly_counts.parquet` contract-д таарна. `regions.json` бэлэн |
+| P1-06 | MVP | **Нэгж + шошго** (D9): MODIS = пиксел, VIIRS = fire unit (H3 res 8 × overpass ±10 мин), түүхий VIIRS пиксел тусад нь. 22 аймаг (21 + Улаанбаатар), day/night, platform; улсын шошго MVP-д хэрэггүй (§3.5). Calendar-ийн огноо = орон нутгийн (UTC+8). `regions.json`-д бүс бүрийн **3–5 төлөөлөх цэг** (P4-ийн цаг агаарт) | 2 цаг | P1-05 | `etl/data/processed/monthly_counts.parquet` contract-д таарна. `regions.json` бэлэн |
 | P1-07 | MVP | H3 тест вектор: 20 координат → res 5, res 8 ID → `etl/tests/h3_vectors.json` | 15 мин | P1-06 | P3-т хэлсэн |
-| P1-08 | MVP | **Бодит harmonization:** `ratios.json` (+ diagnostic: улс, day/night, Aqua drift), r₂ ±15% sanity → `etl/data/processed/harmonized_monthly.parquet` (22 нэгж + улс, D6) | 1.5 цаг | P1-03, P1-06 | P2 уншиж чадна. Raw vs harmonized график хадгалсан |
+| P1-08 | MVP | **Бодит harmonization:** `ratios.json` (+ diagnostic: D/N нийлсэн pooled baseline, Aqua drift; улсаар нь Nice), r₂ ±15% sanity → `etl/data/processed/harmonized_monthly.parquet` (22 нэгж + улс, D6) | 1.5 цаг | P1-03, P1-06 | P2 уншиж чадна. Raw vs harmonized график хадгалсан |
 | P1-09 | MVP | **Assemble:** `calendar/*.json` (raw + harmonized, P2-ийн baseline/forecast-ыг байвал нэгтгэнэ), `hex_year/{raw,harm}.json` (H3 res 5, raw = **түүхий пиксел**), `pipeline_stats.json` | 1.5 цаг | P1-08 | **G1.** Contract-д таарна. Дахин ажиллуулахад ижил гаралт |
 | P1-10 | MVP | Hotspot CSV export: бүс × жилээр `public/data/exports/` | 1 цаг | P1-06 | Excel-д нээгдэнэ |
 | P1-11 | MVP | `docs/methods_harmonization.md`: pipeline алхмууд, ratio-ууд, limitation | 45 мин | P1-08 | Тоо бүр скриптээс |
@@ -88,19 +89,19 @@
 | P2-08 | MVP | **Kill check + нотолгоо:** бүс бүрийн kill criterion (≥ 5% + bootstrap), 3 backtest arm (ижил model), P10–P90 үлдэгдлийн хүрээ, feature importance → `forecast.json`, `model_metrics.json` | 2 цаг | P2-06 (P2-07 байвал) | **G2.** Бүс бүрээр "харуулах / зөвхөн хэвийн хүрээ" шийдэгдсэн. Ялагдсан бол тэр хэвээрээ бичигдсэн |
 | P2-09 | MVP | `docs/methods_model.md`: feature, leakage дүрэм, backtest, kill-ийн үр дүн, limitation | 45 мин | P2-08 | Тоо бүр скриптээс |
 | P2-10 | MVP+ | Match class (D8), R = 100/300/500 → `matches_summary.json` | 2 цаг | P1-08 | Хоёр чиглэлийн хувь |
-| P2-11 | Nice | Бүс бүрийн SHAP, day/night 24 ratio, H3 res 7 sensitivity | 2 цаг | P2-08 | — |
+| P2-11 | Nice | Бүс бүрийн SHAP, H3 res 7 sensitivity (day/night ratio аль хэдийн үндсэн хувилбар, D7) | 2 цаг | P2-08 | — |
 
 ### P3 — Globe + Таамаглалын дэлгэц
 
 | ID | Түвшин | Task | Box | Needs | Done when |
 |---|---|---|---|---|---|
 | P3-01 | MVP | `scripts/tle`: CelesTrak TLE snapshot (5 platform) + metadata + эх сурвалж → `satellites.json` | 45 мин | P2-01 | Demo-д сүлжээ дуудахгүй |
-| P3-02 | MVP | **Нүүрний globe:** хар сансар + одод, 5 platform `satellite.js`-ээр, dotted тойрог зам, ижил sensor-ийг нарийн зураасаар холбох, bbox-оос гадна бүдэг | 2 цаг | P4-01, P3-01 | Утсан дээр гацахгүй |
+| P3-02 | MVP | **Нүүрний globe:** хар сансар + одод, 5 platform `satellite.js`-ээр, dotted тойрог зам, ижил sensor-ийг нарийн зураасаар холбох, Монголоос гадна бүдэг (D6), Harmonize товч ба Method хэсэг рүү холбоос | 2 цаг | P4-01, P3-01 | Утсан дээр гацахгүй |
 | P3-03 | MVP | **Hover:** platform, sensor, хөөргөсөн огноо, манай өгөгдөл дэх сүүлийн илрүүлэлт, статус + линк (P5-04). "Одоо ажиллаж байна" гэж гараар бичихгүй | 45 мин | P3-02 | Текст i18n key-ээс |
 | P3-04 | MVP | h3-js v4 тест (P1-07-ийн вектор) | 15 мин | P1-07 | Бүх ID таарсан |
 | P3-05 | MVP | **Harmonize hero** (D12): хоёр globe (Raw "түүхий пиксел" / Harmonized), камер sync, H3 res 5 hex, 2003→2025 scrubber, шугаман график, "ойролцоолол" тэмдэглэл | 3 цаг | P1-09 (эхлээд fixture) | Scrubber 2012-ыг давахад Raw гэрэлтэж, Harmonized тэгш |
 | P3-06 | MVP | WebGL байхгүй / FPS бага → P4-07 руу автоматаар шилжих | 45 мин | P4-07 | WebGL унтраахад fallback гарна |
-| P3-07 | MVP | **Таамаглалын дэлгэц** (PLAN §4): аймгуудыг "хэвийнээс зөрөх төлөв"-өөр эрэмбэлсэн жагсаалт. Аймаг бүрт таамаглал + P10–P90 + baseline, "X дахин их/бага байх төлөвтэй", гол 3 feature. Kill-д тэнцээгүй бол зөвхөн "хэвийн хүрээ". **Backtest самбар:** ML vs Түвшин 1–2, harmonized-all vs raw-VIIRS-only, v1 vs v2 (тоо `model_metrics.json`-оос). Disclaimer | 2.5 цаг | P2-01 (fixture) → P2-08 | **G2.** Бүх тоо JSON-оос, хоосон төлөвгүй |
+| P3-07 | MVP | **Таамаглалын дэлгэц** (PLAN §4): аймаг бүрийн ирэх сарын таамаглал + P10–P90 + сарын baseline, "хэвийнээс X дахин их/бага байх төлөвтэй", гол 3 feature. Kill-д тэнцээгүй бол зөвхөн "хэвийн хүрээ". **Backtest самбар:** ML vs baseline, harmonized vs raw-VIIRS-only (тоо `model_metrics.json`-оос; v1, v2 тусад нь, D15). Disclaimer | 2.5 цаг | P2-01 (fixture) → P2-08 | **G2.** Бүх тоо JSON-оос, хоосон төлөвгүй |
 | P3-08 | MVP+ | Globe дээр аймгийг таамаглалаар будах. Бүс дарахад zoom, scroll-оор камер нисэх, reduced-motion | 2.5 цаг | P2-08, P1-14 | Reduced-motion дээр анимацгүй |
 | P3-09 | Nice | Uncertainty дүрс `scan × track` | 1 цаг | P1-14 | — |
 
@@ -115,7 +116,7 @@
 | P4-03 | MVP | **Calendar:** сар × он, cividis төст ramp, **Raw toggle**, NOAA-20 хэсэг тасархай, ирэх сарууд тасархай (таамаглал), бүрэн бус сарын тэмдэглэл, tooltip | 2.5 цаг | P2-01 → P1-09 | **G1.** Бодит calendar сайт дээр |
 | P4-04 | MVP | AOI (аймаг/улс/bbox), огнооны муж, calendar CSV (browser-т), hotspot CSV (P1-10) | 1.5 цаг | P4-03, P1-10 | CSV татагдана |
 | P4-05 | MVP | Anomaly өгүүлбэр ("энэ сард хэвийнээс X дахин"), < 5 fire unit дүрэм, disclaimer | 45 мин | P4-03, P5-02 | Текст i18n-ээс |
-| P4-06 | MVP | **Method хэсэг** (D13): зүүн = pipeline, баруун = тестүүд (Aqua LOYO, forward, нэг-ratio, r₂ LOYO, **ML backtest, kill criterion**) + тоо JSON-оос | 1 цаг | P2-02, P2-08 | Тоо бүр JSON-оос |
+| P4-06 | MVP | **Method хэсэг** (D13): зүүн = pipeline, баруун = тестүүд (Aqua LOYO, forward, нэг-ratio baseline, r₂ LOYO; D13) + тоо JSON-оос | 1 цаг | P2-02, P2-08 | Тоо бүр JSON-оос |
 | P4-07 | MVP | "For scientists" Raw vs Harmonized calendar (P3-06-ийн fallback) | 45 мин | P4-03 | P3 импортлож чадна |
 | P4-08 | MVP | Хоосон төлөвгүй (skeleton, "hotspot бүртгэгдээгүй" өгүүлбэр, N/A хэзээ ч үгүй). **Production build-д `synthetic: true` байвал build унана** | 45 мин | P4-01 | Fixture-тэй production build унадаг |
 | P4-09 | MVP+ | Satellite хуудас (NASA зураг + credit, "арга хэмжээ" хэсэггүй) | 1.5 цаг | P3-01, P5-03 | — |

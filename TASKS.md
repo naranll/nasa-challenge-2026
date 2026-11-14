@@ -3,6 +3,7 @@
 **Эх сурвалж:** зөвхөн [PLAN.md](PLAN.md), [GLOSSARY.md](GLOSSARY.md). Шийдвэр бүр PLAN-ийн D-дугаартай холбогдоно.
 **Цаг:** хакатон дуусах цагийг **T** гэж тэмдэглэв (PLAN §9.3, нөхөж бичнэ). **Feature freeze = T − 4 цаг.**
 **Дараалал:** MVP → MVP+ → Nice-to-have. MVP дуусаагүй байхад MVP+ эхлэхгүй.
+**Хавтсууд:** pipeline код = `etl/` · JSON contract = `contracts/` · SYNTHETIC fixture = `fixtures/` · бодит JSON (app уншина) = `public/data/` · хуучирсан planning файлууд = `docs/archive/` (**зөвхөн PLAN.md ба энэ файл хүчинтэй**).
 
 ---
 
@@ -25,8 +26,8 @@
 
 | Lane | Үүрэг | **Засах эрхтэй** | **Хэзээ ч хийхгүй** |
 |---|---|---|---|
-| **P1** | Data pipeline | `/pipeline/fetch`, `/pipeline/prep`, `/pipeline/requirements.txt`, `/data` (gitignore), `public/data/{regions,pipeline_stats}.json`, `public/data/hex_year/raw.json`, `public/data/exports/`, `docs/data_audit.md` | Ratio, validation, таамаглал тооцох. UI, текст засах. Дэлхийн бүх өгөгдлийг татах. |
-| **P2** | Science / Validation | `/contracts`, `/fixtures`, `/pipeline/science`, `/pipeline/tests`, `public/data/{ratios,validation,matches_summary,case_study}.json`, `public/data/calendar/`, `public/data/hex_year/harm.json`, `docs/methods.md` | Өгөгдөл татах, шүүх (P1-ийн ажил). UI засах. Тест муу гарсныг нуух. |
+| **P1** | Data pipeline | `etl/get_boundaries.py`, `etl/clean_hotspots.py`, `etl/build_cell_days.py`, `etl/requirements.txt`, `etl/data/` (gitignore), `public/data/{regions,pipeline_stats}.json`, `public/data/hex_year/raw.json`, `public/data/exports/`, `docs/research/data_audit.md` | Ratio, validation, таамаглал тооцох. UI, текст засах. Дэлхийн бүх өгөгдлийг татах. |
+| **P2** | Science / Validation | `/contracts`, `/fixtures`, `etl/harmonize_*.py` (science), `etl/tests/`, `public/data/{ratios,validation,matches_summary,case_study}.json`, `public/data/calendar/`, `public/data/hex_year/harm.json`, `docs/methods.md` | Өгөгдөл татах, шүүх (P1-ийн ажил). UI засах. Тест муу гарсныг нуух. |
 | **P3** | Globe | `/app/src/globe`, `/app/src/harmonize`, `/scripts/tle`, `public/data/satellites.json` | Шинжлэх ухааны тооцоог browser-т хийх (JSON-оос л уншина). Компонент дотор текст hardcode хийх. Calendar, routing. |
 | **P4** | App UI + deploy | `/app` (globe, harmonize, i18n-ээс бусад бүгд), `/app/package.json`, deploy тохиргоо | Тооцоо хийх. Компонент дотор текст hardcode хийх. Globe код засах. |
 | **P5** | Story / QA / Lead | `/docs` (`data_audit`, `methods`-ээс бусад), `/app/src/i18n/{mn,en}.json`, `TASKS.md`, `PLAN.md` §9 ба нэрсийг нөхөх | Арга зүй, тоо өөрчлөх. Эх сурвалжгүй статус, сэрэмжлүүлэг бичих. Freeze-ээс өмнө pitch/слайд эхлэх. |
@@ -54,12 +55,12 @@
 
 | ID | Түвшин | Task | Box | Needs | Done when |
 |---|---|---|---|---|---|
-| P1-01 | MVP | MAP_KEY авч `.env`-д хийх, key-ийн status-аар transaction-ий хязгаарыг шалгах (§9.2) | 15 мин | — | Status дуудлага хязгаарын тоог буцаана, тоог `docs/data_audit.md`-д бичсэн |
+| P1-01 | MVP | MAP_KEY авч `.env`-д хийх, key-ийн status-аар transaction-ий хязгаарыг шалгах (§9.2) | 15 мин | — | Status дуудлага хязгаарын тоог буцаана, тоог `docs/research/data_audit.md`-д бичсэн |
 | P1-02 | MVP | **Татах скрипт** (D6 bbox W85 S37 E127 N56): `MODIS_SP`, `VIIRS_SNPP_SP`, `VIIRS_NOAA20_SP` + SP хоцорсон саруудад `_NRT`. `DAY_RANGE ≤ 5`, resumable, throttled, CSV/Parquet cache. **Шууд ажиллуулж эхлүүлнэ.** API гацвал Country Yearly Summary zip руу шилжинэ | 1 цаг бичих + ~1 цаг арын ажил | P1-01 | Kill хийгээд дахин эхлүүлэхэд үргэлжилнэ. Platform × жил бүрийн мөрийн тоо log-д |
-| P1-03 | MVP | **Header audit** → `docs/data_audit.md`: багана, platform, огнооны хүрээ, мөрийн тоо, Aqua-ийн FIRMS дээрх эхний өдөр, VIIRS SP-д `type` багана бий эсэх | 45 мин | P1-02 | Хүснэгт: файл × platform × огноо × мөр. §9.5-ын асуултууд хариулагдсан |
+| P1-03 | MVP | **Header audit** → `docs/research/data_audit.md`: багана, platform, огнооны хүрээ, мөрийн тоо, Aqua-ийн FIRMS дээрх эхний өдөр, VIIRS SP-д `type` багана бий эсэх | 45 мин | P1-02 | Хүснэгт: файл × platform × огноо × мөр. §9.5-ын асуултууд хариулагдсан |
 | P1-04 | MVP | **Шүүлт** (§3.3): `type == 0`, байнгын дулааны эх үүсвэрийг **flag** болгох (устгахгүй), NRT-д SP-ээс гаргасан mask | 1.5 цаг | P1-03 | Flag асаах/унтраахад тоо өөрчлөгдөнө. Юу хасагдсаныг тоогоор log-д |
-| P1-05 | MVP | **Нэгж + шошго** (D9, §3.4–5): MODIS = пиксел. VIIRS = fire unit (H3 res 8 × overpass, ижил platform + огноо + `acq_time` ±10 мин). Түүхий VIIRS пикселийн тоог тусад нь хадгална. Улс (Natural Earth), аймаг (geoBoundaries, 22 нэгж), day/night. Python `h3` v4-ийг тогтооно | 2 цаг | P1-04 | `data/interim/monthly_counts.parquet` (бүс × сар × platform × day/night: pixel, fire_unit) P2-ийн contract-д таарна |
-| P1-06 | MVP | **H3 тест вектор:** 20 координат → res 5 ба res 8 cell ID → `pipeline/tests/h3_vectors.json` (P3 h3-js-ээр шалгана) | 15 мин | P1-05 | Файл байгаа, P3-т хэлсэн |
+| P1-05 | MVP | **Нэгж + шошго** (D9, §3.4–5): MODIS = пиксел. VIIRS = fire unit (H3 res 8 × overpass, ижил platform + огноо + `acq_time` ±10 мин). Түүхий VIIRS пикселийн тоог тусад нь хадгална. Улс (Natural Earth), аймаг (geoBoundaries, 22 нэгж), day/night. Python `h3` v4-ийг тогтооно | 2 цаг | P1-04 | `etl/data/processed/monthly_counts.parquet` (бүс × сар × platform × day/night: pixel, fire_unit) P2-ийн contract-д таарна |
+| P1-06 | MVP | **H3 тест вектор:** 20 координат → res 5 ба res 8 cell ID → `etl/tests/h3_vectors.json` (P3 h3-js-ээр шалгана) | 15 мин | P1-05 | Файл байгаа, P3-т хэлсэн |
 | P1-07 | MVP | `hex_year/raw.json` (H3 res 5 × жил × platform, **түүхий пиксел**, D12), `regions.json`, `pipeline_stats.json` (хэдэн мөр, platform, жил) | 1 цаг | P1-05 | Contract-д таарна, тоо скриптээс гарсан |
 | P1-08 | MVP | **Hotspot CSV export:** бүс × жилээр урьдчилан бэлдсэн CSV-ууд `public/data/exports/` (platform, огноо/цаг, lat, lon, frp, confidence, scan, track, flags) | 1 цаг | P1-05 | Excel-д нээгдэнэ, P4 татах товчинд холбосон |
 | P1-09 | MVP+ | Aqua-ийн түүхэн давтамжийн heatmap (D11): 2003–2025, зөвхөн Aqua, H3 res 5, "гал гарсан өдрийн тоо / жил" | 1 цаг | P1-05 | JSON contract-д таарна |

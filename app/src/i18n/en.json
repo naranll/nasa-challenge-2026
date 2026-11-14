@@ -1,0 +1,19 @@
+{
+  "app.title": "MODIS ↔ VIIRS Hotspot Harmonization",
+  "nav.home": "Home",
+  "nav.harmonizing": "Harmonizing",
+  "nav.dashboard": "Dashboard",
+  "nav.story": "Story",
+  "nav.forecast": "Forecast",
+  "lang.switch": "МН",
+  "banner.synthetic": "SYNTHETIC sample data. These numbers are made up for building the site. They are not real.",
+  "disclaimer": "Informational only, not an official fire warning.",
+  "page.home.lead": "Two generations of fire satellites, one consistent record.",
+  "page.harmonizing.lead": "What data we have, and how MODIS and VIIRS counts are made comparable.",
+  "page.dashboard.lead": "Monthly burning-activity calendar by region.",
+  "page.story.lead": "Why this data matters.",
+  "page.forecast.lead": "Next month's fire activity, as an example of using the data.",
+  "data.loading": "Loading data…",
+  "data.error": "The data could not be loaded.",
+  "data.regions": "Regions in the data:"
+}

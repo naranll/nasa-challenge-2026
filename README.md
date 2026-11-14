@@ -25,13 +25,13 @@ Decisions and reasoning: [PLAN.md](PLAN.md). Vocabulary: [GLOSSARY.md](GLOSSARY.
 | `contracts/` | The JSON shapes the pipeline writes and the app reads |
 | `fixtures/` | **Synthetic** sample data in the same shapes, for building the UI before real data exists |
 | `public/data/` | Real pipeline output served by the app *(created by the pipeline)* |
-| `app/` | Web app *(created in P4-01)* |
+| `app/` | Web app (Vite + React + TypeScript): Home, Harmonizing, Dashboard, Story, Forecast |
 | `docs/` | Research notes, methods, credits, claims ledger, AI-use log |
 | `docs/archive/` | Superseded planning documents (do not follow) |
 
 ## Getting started
 
-Requirements: Python 3.11+.
+Requirements: Python 3.11+, Node.js 24 (what CI uses).
 
 ```bash
 python -m venv .venv
@@ -45,6 +45,22 @@ Put the FIRMS archive CSVs in `etl/data/raw/` (where they come from: [etl/README
 ```bash
 python etl/run_all.py
 ```
+
+### Website
+
+```bash
+cd app
+npm install
+npm run dev        # http://localhost:5173
+npm test           # unit tests
+npm run build      # production build in app/dist
+```
+
+The app reads contract JSON through one helper, `loadData()` in `app/src/data/`.
+By default it serves the **SYNTHETIC** files from `fixtures/` and shows a red "SYNTHETIC" banner.
+To use the real pipeline output in `public/data/`, set `VITE_MOCK=false` (in `app/.env.local` or the environment). In that mode any file that says `"synthetic": true` is refused.
+
+Public address (after a repo admin sets Settings → Pages → Source: GitHub Actions): https://naranll.github.io/nasa-challenge-2026/, deployed from `main` by `.github/workflows/deploy.yml`. It shows SYNTHETIC fixtures until the repo variable `VITE_MOCK` is set to `false`.
 
 ## Data and credits
 

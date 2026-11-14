@@ -1,0 +1,19 @@
+{
+  "app.title": "MODIS ↔ VIIRS hotspot уялдуулалт",
+  "nav.home": "Нүүр",
+  "nav.harmonizing": "Уялдуулалт",
+  "nav.dashboard": "Самбар",
+  "nav.story": "Түүх",
+  "nav.forecast": "Таамаглал",
+  "lang.switch": "EN",
+  "banner.synthetic": "SYNTHETIC жишээ өгөгдөл. Эдгээр тоо сайт барихад зориулж зохиосон, бодит биш.",
+  "disclaimer": "Мэдээллийн зорилготой, албан ёсны сэрэмжлүүлэг биш.",
+  "page.home.lead": "Хоёр үеийн галын хиймэл дагуул, нэг нэгэн хэвийн бүртгэл.",
+  "page.harmonizing.lead": "Бидэнд ямар өгөгдөл байгаа, MODIS ба VIIRS-ийн тоог хэрхэн харьцуулж болохуйц болгодог.",
+  "page.dashboard.lead": "Бүс бүрийн сарын галын идэвхийн calendar.",
+  "page.story.lead": "Энэ өгөгдөл яагаад чухал вэ.",
+  "page.forecast.lead": "Ирэх сарын галын идэвх: өгөгдлийг ашиглах жишээ.",
+  "data.loading": "Өгөгдөл ачаалж байна…",
+  "data.error": "Өгөгдлийг ачаалж чадсангүй.",
+  "data.regions": "Өгөгдөл дэх бүсүүд:"
+}

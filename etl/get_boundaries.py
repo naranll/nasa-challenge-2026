@@ -1,7 +1,7 @@
-1  """
-2  Download Mongolia's aimag boundaries (ADM1) from geoBoundaries (source: OpenStreetMap, license ODbL 1.0).
-3  Saves etl/data/raw/mongolia_aimags.geojson
-4  """
+"""
+Download Mongolia's aimag boundaries (ADM1) from geoBoundaries (source: OpenStreetMap, license ODbL 1.0).
+Saves etl/data/raw/mongolia_aimags.geojson
+"""
 
 import json
 from pathlib import Path

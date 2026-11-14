@@ -1,0 +1,5617 @@
+{
+ "schema_version": "0.1",
+ "synthetic": true,
+ "region_id": "dornod",
+ "unit": "aqua_equivalent_hotspots",
+ "reference_years": [
+  2003,
+  2025
+ ],
+ "months": [
+  {
+   "ym": "2002-07",
+   "harmonized": 23,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 19,
+    "aqua": 23,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [
+    "partial_year"
+   ],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2002-08",
+   "harmonized": 33,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 34,
+    "aqua": 33,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [
+    "partial_year"
+   ],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2002-09",
+   "harmonized": 56,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 45,
+    "aqua": 56,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [
+    "partial_year"
+   ],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2002-10",
+   "harmonized": 74,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 78,
+    "aqua": 74,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [
+    "partial_year"
+   ],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2002-11",
+   "harmonized": 59,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 55,
+    "aqua": 59,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [
+    "partial_year"
+   ],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2002-12",
+   "harmonized": 27,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 28,
+    "aqua": 27,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [
+    "partial_year"
+   ],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2003-01",
+   "harmonized": 26,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 25,
+    "aqua": 26,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2003-02",
+   "harmonized": 44,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 43,
+    "aqua": 44,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2003-03",
+   "harmonized": 78,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 71,
+    "aqua": 78,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2003-04",
+   "harmonized": 72,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 78,
+    "aqua": 72,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2003-05",
+   "harmonized": 94,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 100,
+    "aqua": 94,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2003-06",
+   "harmonized": 45,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 48,
+    "aqua": 45,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2003-07",
+   "harmonized": 30,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 30,
+    "aqua": 30,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2003-08",
+   "harmonized": 23,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 24,
+    "aqua": 23,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2003-09",
+   "harmonized": 64,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 61,
+    "aqua": 64,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2003-10",
+   "harmonized": 78,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 82,
+    "aqua": 78,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2003-11",
+   "harmonized": 61,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 60,
+    "aqua": 61,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2003-12",
+   "harmonized": 28,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 27,
+    "aqua": 28,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2004-01",
+   "harmonized": 46,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 38,
+    "aqua": 46,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2004-02",
+   "harmonized": 56,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 61,
+    "aqua": 56,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2004-03",
+   "harmonized": 112,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 122,
+    "aqua": 112,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2004-04",
+   "harmonized": 134,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 112,
+    "aqua": 134,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2004-05",
+   "harmonized": 75,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 63,
+    "aqua": 75,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2004-06",
+   "harmonized": 67,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 64,
+    "aqua": 67,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2004-07",
+   "harmonized": 35,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 28,
+    "aqua": 35,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2004-08",
+   "harmonized": 49,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 41,
+    "aqua": 49,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2004-09",
+   "harmonized": 75,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 80,
+    "aqua": 75,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2004-10",
+   "harmonized": 109,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 111,
+    "aqua": 109,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2004-11",
+   "harmonized": 66,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 67,
+    "aqua": 66,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2004-12",
+   "harmonized": 47,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 43,
+    "aqua": 47,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2005-01",
+   "harmonized": 54,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 47,
+    "aqua": 54,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2005-02",
+   "harmonized": 94,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 95,
+    "aqua": 94,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2005-03",
+   "harmonized": 137,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 134,
+    "aqua": 137,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2005-04",
+   "harmonized": 207,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 187,
+    "aqua": 207,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2005-05",
+   "harmonized": 106,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 111,
+    "aqua": 106,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2005-06",
+   "harmonized": 83,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 83,
+    "aqua": 83,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2005-07",
+   "harmonized": 61,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 52,
+    "aqua": 61,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2005-08",
+   "harmonized": 43,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 47,
+    "aqua": 43,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2005-09",
+   "harmonized": 72,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 59,
+    "aqua": 72,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2005-10",
+   "harmonized": 83,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 82,
+    "aqua": 83,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2005-11",
+   "harmonized": 87,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 92,
+    "aqua": 87,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2005-12",
+   "harmonized": 66,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 58,
+    "aqua": 66,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2006-01",
+   "harmonized": 41,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 35,
+    "aqua": 41,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2006-02",
+   "harmonized": 57,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 48,
+    "aqua": 57,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2006-03",
+   "harmonized": 154,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 143,
+    "aqua": 154,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2006-04",
+   "harmonized": 129,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 116,
+    "aqua": 129,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2006-05",
+   "harmonized": 123,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 120,
+    "aqua": 123,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2006-06",
+   "harmonized": 91,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 74,
+    "aqua": 91,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2006-07",
+   "harmonized": 45,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 40,
+    "aqua": 45,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2006-08",
+   "harmonized": 62,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 63,
+    "aqua": 62,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2006-09",
+   "harmonized": 75,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 76,
+    "aqua": 75,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2006-10",
+   "harmonized": 125,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 111,
+    "aqua": 125,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2006-11",
+   "harmonized": 105,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 99,
+    "aqua": 105,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2006-12",
+   "harmonized": 55,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 56,
+    "aqua": 55,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2007-01",
+   "harmonized": 47,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 46,
+    "aqua": 47,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2007-02",
+   "harmonized": 81,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 79,
+    "aqua": 81,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2007-03",
+   "harmonized": 104,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 103,
+    "aqua": 104,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2007-04",
+   "harmonized": 190,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 153,
+    "aqua": 190,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2007-05",
+   "harmonized": 96,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 97,
+    "aqua": 96,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2007-06",
+   "harmonized": 89,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 77,
+    "aqua": 89,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2007-07",
+   "harmonized": 59,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 60,
+    "aqua": 59,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2007-08",
+   "harmonized": 50,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 47,
+    "aqua": 50,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2007-09",
+   "harmonized": 81,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 73,
+    "aqua": 81,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2007-10",
+   "harmonized": 108,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 91,
+    "aqua": 108,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2007-11",
+   "harmonized": 99,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 90,
+    "aqua": 99,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2007-12",
+   "harmonized": 58,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 54,
+    "aqua": 58,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2008-01",
+   "harmonized": 30,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 26,
+    "aqua": 30,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2008-02",
+   "harmonized": 52,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 57,
+    "aqua": 52,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2008-03",
+   "harmonized": 79,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 76,
+    "aqua": 79,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2008-04",
+   "harmonized": 87,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 93,
+    "aqua": 87,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2008-05",
+   "harmonized": 110,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 94,
+    "aqua": 110,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2008-06",
+   "harmonized": 67,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 68,
+    "aqua": 67,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2008-07",
+   "harmonized": 43,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 41,
+    "aqua": 43,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2008-08",
+   "harmonized": 46,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 40,
+    "aqua": 46,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2008-09",
+   "harmonized": 77,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 74,
+    "aqua": 77,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2008-10",
+   "harmonized": 65,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 58,
+    "aqua": 65,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2008-11",
+   "harmonized": 72,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 61,
+    "aqua": 72,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2008-12",
+   "harmonized": 41,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 37,
+    "aqua": 41,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2009-01",
+   "harmonized": 27,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 25,
+    "aqua": 27,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2009-02",
+   "harmonized": 48,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 48,
+    "aqua": 48,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2009-03",
+   "harmonized": 77,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 68,
+    "aqua": 77,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2009-04",
+   "harmonized": 108,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 109,
+    "aqua": 108,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2009-05",
+   "harmonized": 86,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 81,
+    "aqua": 86,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2009-06",
+   "harmonized": 56,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 46,
+    "aqua": 56,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2009-07",
+   "harmonized": 25,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 27,
+    "aqua": 25,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2009-08",
+   "harmonized": 37,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 37,
+    "aqua": 37,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2009-09",
+   "harmonized": 42,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 39,
+    "aqua": 42,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2009-10",
+   "harmonized": 50,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 41,
+    "aqua": 50,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2009-11",
+   "harmonized": 63,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 62,
+    "aqua": 63,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2009-12",
+   "harmonized": 26,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 21,
+    "aqua": 26,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2010-01",
+   "harmonized": 25,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 21,
+    "aqua": 25,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2010-02",
+   "harmonized": 63,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 66,
+    "aqua": 63,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2010-03",
+   "harmonized": 100,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 88,
+    "aqua": 100,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2010-04",
+   "harmonized": 123,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 121,
+    "aqua": 123,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2010-05",
+   "harmonized": 81,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 75,
+    "aqua": 81,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2010-06",
+   "harmonized": 56,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 56,
+    "aqua": 56,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2010-07",
+   "harmonized": 32,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 28,
+    "aqua": 32,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2010-08",
+   "harmonized": 35,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 33,
+    "aqua": 35,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2010-09",
+   "harmonized": 43,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 36,
+    "aqua": 43,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2010-10",
+   "harmonized": 58,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 60,
+    "aqua": 58,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2010-11",
+   "harmonized": 46,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 43,
+    "aqua": 46,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2010-12",
+   "harmonized": 28,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 25,
+    "aqua": 28,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2011-01",
+   "harmonized": 50,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 48,
+    "aqua": 50,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2011-02",
+   "harmonized": 58,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 47,
+    "aqua": 58,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2011-03",
+   "harmonized": 109,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 90,
+    "aqua": 109,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2011-04",
+   "harmonized": 110,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 90,
+    "aqua": 110,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2011-05",
+   "harmonized": 94,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 94,
+    "aqua": 94,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2011-06",
+   "harmonized": 57,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 55,
+    "aqua": 57,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2011-07",
+   "harmonized": 56,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 61,
+    "aqua": 56,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2011-08",
+   "harmonized": 44,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 39,
+    "aqua": 44,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2011-09",
+   "harmonized": 71,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 57,
+    "aqua": 71,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2011-10",
+   "harmonized": 124,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 122,
+    "aqua": 124,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2011-11",
+   "harmonized": 60,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 53,
+    "aqua": 60,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2011-12",
+   "harmonized": 61,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 55,
+    "aqua": 61,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2012-01",
+   "harmonized": 46,
+   "chain_platform": "aqua",
+   "raw": {
+    "terra": 46,
+    "aqua": 46,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2012-02",
+   "harmonized": 69,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 64,
+    "aqua": 72,
+    "snpp": 220,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [
+    "chain_switch"
+   ],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2012-03",
+   "harmonized": 138,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 112,
+    "aqua": 130,
+    "snpp": 440,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2012-04",
+   "harmonized": 135,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 136,
+    "aqua": 140,
+    "snpp": 433,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2012-05",
+   "harmonized": 114,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 112,
+    "aqua": 124,
+    "snpp": 366,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2012-06",
+   "harmonized": 112,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 97,
+    "aqua": 104,
+    "snpp": 359,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2012-07",
+   "harmonized": 47,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 50,
+    "aqua": 50,
+    "snpp": 150,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2012-08",
+   "harmonized": 61,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 63,
+    "aqua": 64,
+    "snpp": 195,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2012-09",
+   "harmonized": 69,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 64,
+    "aqua": 72,
+    "snpp": 222,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2012-10",
+   "harmonized": 152,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 142,
+    "aqua": 149,
+    "snpp": 488,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2012-11",
+   "harmonized": 92,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 86,
+    "aqua": 91,
+    "snpp": 294,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2012-12",
+   "harmonized": 51,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 50,
+    "aqua": 48,
+    "snpp": 164,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2013-01",
+   "harmonized": 44,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 49,
+    "aqua": 45,
+    "snpp": 141,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2013-02",
+   "harmonized": 57,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 46,
+    "aqua": 54,
+    "snpp": 182,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2013-03",
+   "harmonized": 105,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 107,
+    "aqua": 108,
+    "snpp": 335,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2013-04",
+   "harmonized": 152,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 144,
+    "aqua": 151,
+    "snpp": 485,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2013-05",
+   "harmonized": 170,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 147,
+    "aqua": 167,
+    "snpp": 543,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2013-06",
+   "harmonized": 83,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 73,
+    "aqua": 82,
+    "snpp": 265,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2013-07",
+   "harmonized": 50,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 60,
+    "aqua": 55,
+    "snpp": 159,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2013-08",
+   "harmonized": 58,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 65,
+    "aqua": 64,
+    "snpp": 187,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2013-09",
+   "harmonized": 76,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 65,
+    "aqua": 69,
+    "snpp": 242,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2013-10",
+   "harmonized": 129,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 135,
+    "aqua": 136,
+    "snpp": 414,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2013-11",
+   "harmonized": 67,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 55,
+    "aqua": 63,
+    "snpp": 214,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2013-12",
+   "harmonized": 42,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 40,
+    "aqua": 42,
+    "snpp": 133,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2014-01",
+   "harmonized": 25,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 25,
+    "aqua": 27,
+    "snpp": 81,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2014-02",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 50,
+    "aqua": 60,
+    "snpp": 200,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2014-03",
+   "harmonized": 118,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 134,
+    "aqua": 122,
+    "snpp": 379,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2014-04",
+   "harmonized": 119,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 109,
+    "aqua": 120,
+    "snpp": 380,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2014-05",
+   "harmonized": 83,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 75,
+    "aqua": 77,
+    "snpp": 267,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2014-06",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 63,
+    "aqua": 67,
+    "snpp": 200,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2014-07",
+   "harmonized": 32,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 30,
+    "aqua": 33,
+    "snpp": 101,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2014-08",
+   "harmonized": 42,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 43,
+    "aqua": 43,
+    "snpp": 136,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2014-09",
+   "harmonized": 90,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 92,
+    "aqua": 88,
+    "snpp": 287,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2014-10",
+   "harmonized": 127,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 105,
+    "aqua": 116,
+    "snpp": 406,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2014-11",
+   "harmonized": 85,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 66,
+    "aqua": 82,
+    "snpp": 273,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2014-12",
+   "harmonized": 52,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 51,
+    "aqua": 48,
+    "snpp": 166,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2015-01",
+   "harmonized": 27,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 27,
+    "aqua": 26,
+    "snpp": 87,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2015-02",
+   "harmonized": 44,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 39,
+    "aqua": 43,
+    "snpp": 141,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2015-03",
+   "harmonized": 99,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 86,
+    "aqua": 99,
+    "snpp": 318,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2015-04",
+   "harmonized": 98,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 88,
+    "aqua": 96,
+    "snpp": 313,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2015-05",
+   "harmonized": 73,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 64,
+    "aqua": 71,
+    "snpp": 233,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2015-06",
+   "harmonized": 41,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 40,
+    "aqua": 45,
+    "snpp": 132,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2015-07",
+   "harmonized": 22,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 20,
+    "aqua": 22,
+    "snpp": 70,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2015-08",
+   "harmonized": 26,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 32,
+    "aqua": 29,
+    "snpp": 84,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2015-09",
+   "harmonized": 39,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 42,
+    "aqua": 43,
+    "snpp": 124,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2015-10",
+   "harmonized": 52,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 55,
+    "aqua": 51,
+    "snpp": 166,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2015-11",
+   "harmonized": 39,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 41,
+    "aqua": 39,
+    "snpp": 124,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2015-12",
+   "harmonized": 24,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 21,
+    "aqua": 26,
+    "snpp": 77,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2016-01",
+   "harmonized": 36,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 32,
+    "aqua": 34,
+    "snpp": 115,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2016-02",
+   "harmonized": 48,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 38,
+    "aqua": 44,
+    "snpp": 154,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2016-03",
+   "harmonized": 105,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 93,
+    "aqua": 99,
+    "snpp": 336,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2016-04",
+   "harmonized": 121,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 134,
+    "aqua": 125,
+    "snpp": 386,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2016-05",
+   "harmonized": 99,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 102,
+    "aqua": 97,
+    "snpp": 318,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2016-06",
+   "harmonized": 57,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 48,
+    "aqua": 53,
+    "snpp": 182,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2016-07",
+   "harmonized": 31,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 26,
+    "aqua": 28,
+    "snpp": 98,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2016-08",
+   "harmonized": 32,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 27,
+    "aqua": 30,
+    "snpp": 102,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2016-09",
+   "harmonized": 54,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 44,
+    "aqua": 53,
+    "snpp": 172,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2016-10",
+   "harmonized": 92,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 73,
+    "aqua": 90,
+    "snpp": 294,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2016-11",
+   "harmonized": 40,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 39,
+    "aqua": 42,
+    "snpp": 129,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2016-12",
+   "harmonized": 41,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 40,
+    "aqua": 39,
+    "snpp": 132,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2017-01",
+   "harmonized": 47,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 39,
+    "aqua": 47,
+    "snpp": 151,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2017-02",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 48,
+    "aqua": 59,
+    "snpp": 198,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2017-03",
+   "harmonized": 87,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 86,
+    "aqua": 96,
+    "snpp": 278,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2017-04",
+   "harmonized": 128,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 110,
+    "aqua": 129,
+    "snpp": 411,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2017-05",
+   "harmonized": 108,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 121,
+    "aqua": 117,
+    "snpp": 346,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2017-06",
+   "harmonized": 76,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 82,
+    "aqua": 77,
+    "snpp": 242,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2017-07",
+   "harmonized": 46,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 45,
+    "aqua": 45,
+    "snpp": 146,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2017-08",
+   "harmonized": 40,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 46,
+    "aqua": 43,
+    "snpp": 128,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2017-09",
+   "harmonized": 68,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 58,
+    "aqua": 63,
+    "snpp": 217,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2017-10",
+   "harmonized": 107,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 94,
+    "aqua": 104,
+    "snpp": 341,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2017-11",
+   "harmonized": 105,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 90,
+    "aqua": 98,
+    "snpp": 335,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2017-12",
+   "harmonized": 43,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 43,
+    "aqua": 40,
+    "snpp": 138,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2018-01",
+   "harmonized": 43,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 45,
+    "aqua": 47,
+    "snpp": 139,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2018-02",
+   "harmonized": 77,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 76,
+    "aqua": 78,
+    "snpp": 247,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2018-03",
+   "harmonized": 100,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 99,
+    "aqua": 99,
+    "snpp": 321,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2018-04",
+   "harmonized": 165,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 178,
+    "aqua": 183,
+    "snpp": 527,
+    "noaa20": 527,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2018-05",
+   "harmonized": 182,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 167,
+    "aqua": 175,
+    "snpp": 581,
+    "noaa20": 581,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2018-06",
+   "harmonized": 70,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 69,
+    "aqua": 74,
+    "snpp": 223,
+    "noaa20": 223,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2018-07",
+   "harmonized": 60,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 64,
+    "aqua": 65,
+    "snpp": 193,
+    "noaa20": 193,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2018-08",
+   "harmonized": 52,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 49,
+    "aqua": 56,
+    "snpp": 165,
+    "noaa20": 165,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2018-09",
+   "harmonized": 72,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 65,
+    "aqua": 79,
+    "snpp": 232,
+    "noaa20": 232,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2018-10",
+   "harmonized": 143,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 149,
+    "aqua": 149,
+    "snpp": 459,
+    "noaa20": 459,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2018-11",
+   "harmonized": 92,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 86,
+    "aqua": 92,
+    "snpp": 295,
+    "noaa20": 295,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2018-12",
+   "harmonized": 37,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 33,
+    "aqua": 40,
+    "snpp": 117,
+    "noaa20": 117,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2019-01",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 65,
+    "aqua": 60,
+    "snpp": 200,
+    "noaa20": 200,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2019-02",
+   "harmonized": 83,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 86,
+    "aqua": 88,
+    "snpp": 266,
+    "noaa20": 266,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2019-03",
+   "harmonized": 145,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 140,
+    "aqua": 152,
+    "snpp": 465,
+    "noaa20": 465,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2019-04",
+   "harmonized": 196,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 168,
+    "aqua": 208,
+    "snpp": 627,
+    "noaa20": 627,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2019-05",
+   "harmonized": 167,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 169,
+    "aqua": 172,
+    "snpp": 533,
+    "noaa20": 533,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2019-06",
+   "harmonized": 95,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 89,
+    "aqua": 101,
+    "snpp": 304,
+    "noaa20": 304,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2019-07",
+   "harmonized": 44,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 44,
+    "aqua": 46,
+    "snpp": 141,
+    "noaa20": 141,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2019-08",
+   "harmonized": 41,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 43,
+    "aqua": 39,
+    "snpp": 132,
+    "noaa20": 132,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2019-09",
+   "harmonized": 74,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 69,
+    "aqua": 76,
+    "snpp": 238,
+    "noaa20": 238,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2019-10",
+   "harmonized": 137,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 147,
+    "aqua": 139,
+    "snpp": 437,
+    "noaa20": 437,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2019-11",
+   "harmonized": 112,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 98,
+    "aqua": 117,
+    "snpp": 357,
+    "noaa20": 357,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2019-12",
+   "harmonized": 53,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 54,
+    "aqua": 58,
+    "snpp": 169,
+    "noaa20": 169,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2020-01",
+   "harmonized": 35,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 30,
+    "aqua": 33,
+    "snpp": 112,
+    "noaa20": 112,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2020-02",
+   "harmonized": 78,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 78,
+    "aqua": 76,
+    "snpp": 248,
+    "noaa20": 248,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2020-03",
+   "harmonized": 130,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 126,
+    "aqua": 123,
+    "snpp": 416,
+    "noaa20": 416,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2020-04",
+   "harmonized": 164,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 143,
+    "aqua": 168,
+    "snpp": 526,
+    "noaa20": 526,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2020-05",
+   "harmonized": 100,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 78,
+    "aqua": 94,
+    "snpp": 320,
+    "noaa20": 320,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2020-06",
+   "harmonized": 67,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 60,
+    "aqua": 74,
+    "snpp": 215,
+    "noaa20": 215,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2020-07",
+   "harmonized": 48,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 48,
+    "aqua": 46,
+    "snpp": 154,
+    "noaa20": 154,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2020-08",
+   "harmonized": 42,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 42,
+    "aqua": 41,
+    "snpp": 136,
+    "noaa20": 136,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2020-09",
+   "harmonized": 57,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 51,
+    "aqua": 62,
+    "snpp": 183,
+    "noaa20": 183,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2020-10",
+   "harmonized": 93,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 76,
+    "aqua": 88,
+    "snpp": 297,
+    "noaa20": 297,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2020-11",
+   "harmonized": 92,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 97,
+    "aqua": 89,
+    "snpp": 293,
+    "noaa20": 293,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2020-12",
+   "harmonized": 42,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 39,
+    "aqua": 38,
+    "snpp": 133,
+    "noaa20": 133,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2021-01",
+   "harmonized": 21,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 18,
+    "aqua": 22,
+    "snpp": 67,
+    "noaa20": 67,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2021-02",
+   "harmonized": 44,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 47,
+    "aqua": 43,
+    "snpp": 140,
+    "noaa20": 140,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2021-03",
+   "harmonized": 97,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 98,
+    "aqua": 101,
+    "snpp": 311,
+    "noaa20": 311,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2021-04",
+   "harmonized": 96,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 94,
+    "aqua": 106,
+    "snpp": 307,
+    "noaa20": 307,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2021-05",
+   "harmonized": 83,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 84,
+    "aqua": 83,
+    "snpp": 266,
+    "noaa20": 266,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2021-06",
+   "harmonized": 46,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 45,
+    "aqua": 42,
+    "snpp": 147,
+    "noaa20": 147,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2021-07",
+   "harmonized": 25,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 23,
+    "aqua": 27,
+    "snpp": 80,
+    "noaa20": 80,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2021-08",
+   "harmonized": 30,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 28,
+    "aqua": 30,
+    "snpp": 96,
+    "noaa20": 96,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2021-09",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 47,
+    "aqua": 59,
+    "snpp": 197,
+    "noaa20": 197,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2021-10",
+   "harmonized": 57,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 55,
+    "aqua": 58,
+    "snpp": 183,
+    "noaa20": 183,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2021-11",
+   "harmonized": 66,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 58,
+    "aqua": 63,
+    "snpp": 212,
+    "noaa20": 212,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2021-12",
+   "harmonized": 34,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 34,
+    "aqua": 36,
+    "snpp": 110,
+    "noaa20": 110,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2022-01",
+   "harmonized": 37,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 28,
+    "aqua": 35,
+    "snpp": 117,
+    "noaa20": 117,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2022-02",
+   "harmonized": 52,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 54,
+    "aqua": 51,
+    "snpp": 166,
+    "noaa20": 166,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2022-03",
+   "harmonized": 52,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 52,
+    "aqua": 58,
+    "snpp": 167,
+    "noaa20": 167,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2022-04",
+   "harmonized": 126,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 126,
+    "aqua": 130,
+    "snpp": 403,
+    "noaa20": 403,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2022-05",
+   "harmonized": 66,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 68,
+    "aqua": 66,
+    "snpp": 212,
+    "noaa20": 212,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2022-06",
+   "harmonized": 37,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 39,
+    "aqua": 40,
+    "snpp": 117,
+    "noaa20": 117,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2022-07",
+   "harmonized": 20,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 19,
+    "aqua": 22,
+    "snpp": 64,
+    "noaa20": 64,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2022-08",
+   "harmonized": 27,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 32,
+    "aqua": 29,
+    "snpp": 87,
+    "noaa20": 87,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2022-09",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 59,
+    "aqua": 59,
+    "snpp": 199,
+    "noaa20": 199,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2022-10",
+   "harmonized": 57,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 51,
+    "aqua": 63,
+    "snpp": 182,
+    "noaa20": 182,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2022-11",
+   "harmonized": 41,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 40,
+    "aqua": 42,
+    "snpp": 131,
+    "noaa20": 131,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2022-12",
+   "harmonized": 39,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 38,
+    "aqua": 36,
+    "snpp": 125,
+    "noaa20": 125,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2023-01",
+   "harmonized": 42,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 43,
+    "aqua": 40,
+    "snpp": 134,
+    "noaa20": 134,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2023-02",
+   "harmonized": 77,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 76,
+    "aqua": 75,
+    "snpp": 246,
+    "noaa20": 246,
+    "noaa21": null
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2023-03",
+   "harmonized": 134,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 120,
+    "aqua": 125,
+    "snpp": 429,
+    "noaa20": 429,
+    "noaa21": 429
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2023-04",
+   "harmonized": 151,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 122,
+    "aqua": 138,
+    "snpp": 483,
+    "noaa20": 483,
+    "noaa21": 483
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2023-05",
+   "harmonized": 103,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 90,
+    "aqua": 94,
+    "snpp": 331,
+    "noaa20": 331,
+    "noaa21": 331
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2023-06",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 51,
+    "aqua": 63,
+    "snpp": 197,
+    "noaa20": 197,
+    "noaa21": 197
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2023-07",
+   "harmonized": 42,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 37,
+    "aqua": 40,
+    "snpp": 136,
+    "noaa20": 136,
+    "noaa21": 136
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2023-08",
+   "harmonized": 29,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 26,
+    "aqua": 32,
+    "snpp": 94,
+    "noaa20": 94,
+    "noaa21": 94
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2023-09",
+   "harmonized": 86,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 87,
+    "aqua": 84,
+    "snpp": 275,
+    "noaa20": 275,
+    "noaa21": 275
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2023-10",
+   "harmonized": 101,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 107,
+    "aqua": 111,
+    "snpp": 322,
+    "noaa20": 322,
+    "noaa21": 322
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2023-11",
+   "harmonized": 53,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 47,
+    "aqua": 55,
+    "snpp": 169,
+    "noaa20": 169,
+    "noaa21": 169
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2023-12",
+   "harmonized": 41,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 35,
+    "aqua": 42,
+    "snpp": 130,
+    "noaa20": 130,
+    "noaa21": 130
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2024-01",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 56,
+    "aqua": 58,
+    "snpp": 198,
+    "noaa20": 198,
+    "noaa21": 198
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2024-02",
+   "harmonized": 95,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 80,
+    "aqua": 94,
+    "snpp": 303,
+    "noaa20": 303,
+    "noaa21": 303
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2024-03",
+   "harmonized": 160,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 145,
+    "aqua": 159,
+    "snpp": 513,
+    "noaa20": 513,
+    "noaa21": 513
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2024-04",
+   "harmonized": 138,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 114,
+    "aqua": 129,
+    "snpp": 441,
+    "noaa20": 441,
+    "noaa21": 441
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2024-05",
+   "harmonized": 163,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 153,
+    "aqua": 173,
+    "snpp": 523,
+    "noaa20": 523,
+    "noaa21": 523
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2024-06",
+   "harmonized": 85,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 88,
+    "aqua": 82,
+    "snpp": 273,
+    "noaa20": 273,
+    "noaa21": 273
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2024-07",
+   "harmonized": 40,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 45,
+    "aqua": 43,
+    "snpp": 127,
+    "noaa20": 127,
+    "noaa21": 127
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2024-08",
+   "harmonized": 44,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 43,
+    "aqua": 48,
+    "snpp": 142,
+    "noaa20": 142,
+    "noaa21": 142
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2024-09",
+   "harmonized": 73,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 89,
+    "aqua": 81,
+    "snpp": 235,
+    "noaa20": 235,
+    "noaa21": 235
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2024-10",
+   "harmonized": 146,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 135,
+    "aqua": 144,
+    "snpp": 466,
+    "noaa20": 466,
+    "noaa21": 466
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2024-11",
+   "harmonized": 65,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 58,
+    "aqua": 64,
+    "snpp": 207,
+    "noaa20": 207,
+    "noaa21": 207
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2024-12",
+   "harmonized": 59,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 56,
+    "aqua": 63,
+    "snpp": 188,
+    "noaa20": 188,
+    "noaa21": 188
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2025-01",
+   "harmonized": 66,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 58,
+    "aqua": 60,
+    "snpp": 211,
+    "noaa20": 211,
+    "noaa21": 211
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2025-02",
+   "harmonized": 76,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 80,
+    "aqua": 73,
+    "snpp": 242,
+    "noaa20": 242,
+    "noaa21": 242
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2025-03",
+   "harmonized": 96,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 86,
+    "aqua": 102,
+    "snpp": 307,
+    "noaa20": 307,
+    "noaa21": 307
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2025-04",
+   "harmonized": 202,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 170,
+    "aqua": 189,
+    "snpp": 646,
+    "noaa20": 646,
+    "noaa21": 646
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2025-05",
+   "harmonized": 153,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 141,
+    "aqua": 170,
+    "snpp": 491,
+    "noaa20": 491,
+    "noaa21": 491
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2025-06",
+   "harmonized": 72,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 66,
+    "aqua": 67,
+    "snpp": 229,
+    "noaa20": 229,
+    "noaa21": 229
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2025-07",
+   "harmonized": 39,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 40,
+    "aqua": 38,
+    "snpp": 126,
+    "noaa20": 126,
+    "noaa21": 126
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2025-08",
+   "harmonized": 54,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 58,
+    "aqua": 54,
+    "snpp": 172,
+    "noaa20": 172,
+    "noaa21": 172
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2025-09",
+   "harmonized": 74,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 81,
+    "aqua": 77,
+    "snpp": 236,
+    "noaa20": 236,
+    "noaa21": 236
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2025-10",
+   "harmonized": 114,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 89,
+    "aqua": 108,
+    "snpp": 364,
+    "noaa20": 364,
+    "noaa21": 364
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2025-11",
+   "harmonized": 77,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 75,
+    "aqua": 78,
+    "snpp": 247,
+    "noaa20": 247,
+    "noaa21": 247
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2025-12",
+   "harmonized": 45,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 40,
+    "aqua": 49,
+    "snpp": 144,
+    "noaa20": 144,
+    "noaa21": 144
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  },
+  {
+   "ym": "2026-01",
+   "harmonized": 51,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 48,
+    "aqua": 53,
+    "snpp": 163,
+    "noaa20": 163,
+    "noaa21": 163
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 27,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2026-02",
+   "harmonized": 83,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 75,
+    "aqua": 80,
+    "snpp": 266,
+    "noaa20": 266,
+    "noaa21": 266
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 62,
+    "p25": 52,
+    "p75": 77
+   }
+  },
+  {
+   "ym": "2026-03",
+   "harmonized": 102,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 108,
+    "aqua": 103,
+    "snpp": 327,
+    "noaa20": 327,
+    "noaa21": 327
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 105,
+    "p25": 96,
+    "p75": 130
+   }
+  },
+  {
+   "ym": "2026-04",
+   "harmonized": 156,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 148,
+    "aqua": 164,
+    "snpp": 500,
+    "noaa20": 500,
+    "noaa21": 500
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 129,
+    "p25": 110,
+    "p75": 152
+   }
+  },
+  {
+   "ym": "2026-05",
+   "harmonized": 148,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 122,
+    "aqua": 137,
+    "snpp": 474,
+    "noaa20": 474,
+    "noaa21": 474
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 100,
+    "p25": 83,
+    "p75": 114
+   }
+  },
+  {
+   "ym": "2026-06",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 64,
+    "aqua": 66,
+    "snpp": 200,
+    "noaa20": 200,
+    "noaa21": 200
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 67,
+    "p25": 56,
+    "p75": 83
+   }
+  },
+  {
+   "ym": "2026-07",
+   "harmonized": 48,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 48,
+    "aqua": 45,
+    "snpp": 152,
+    "noaa20": 152,
+    "noaa21": 152
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 31,
+    "p75": 47
+   }
+  },
+  {
+   "ym": "2026-08",
+   "harmonized": 62,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 54,
+    "aqua": 57,
+    "snpp": 198,
+    "noaa20": 198,
+    "noaa21": 198
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 42,
+    "p25": 32,
+    "p75": 49
+   }
+  },
+  {
+   "ym": "2026-09",
+   "harmonized": 65,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 50,
+    "aqua": 61,
+    "snpp": 207,
+    "noaa20": 207,
+    "noaa21": 207
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 72,
+    "p25": 62,
+    "p75": 75
+   }
+  },
+  {
+   "ym": "2026-10",
+   "harmonized": 85,
+   "chain_platform": "snpp",
+   "raw": {
+    "terra": 83,
+    "aqua": 82,
+    "snpp": 271,
+    "noaa20": 271,
+    "noaa21": 271
+   },
+   "is_forecast": false,
+   "flags": [],
+   "baseline": {
+    "median": 107,
+    "p25": 65,
+    "p75": 125
+   }
+  },
+  {
+   "ym": "2026-11",
+   "harmonized": null,
+   "chain_platform": "noaa20",
+   "raw": {
+    "terra": null,
+    "aqua": null,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": true,
+   "flags": [
+    "noaa20_derived",
+    "chain_switch"
+   ],
+   "baseline": {
+    "median": 67,
+    "p25": 60,
+    "p75": 92
+   }
+  },
+  {
+   "ym": "2026-12",
+   "harmonized": null,
+   "chain_platform": "noaa20",
+   "raw": {
+    "terra": null,
+    "aqua": null,
+    "snpp": null,
+    "noaa20": null,
+    "noaa21": null
+   },
+   "is_forecast": true,
+   "flags": [
+    "noaa20_derived"
+   ],
+   "baseline": {
+    "median": 42,
+    "p25": 37,
+    "p75": 52
+   }
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Python files compile
+        run: python -m compileall -q etl fixtures
+      - name: Fixtures are synthetic and well-formed
+        run: python fixtures/check_fixtures.py
+      - name: Unit tests (if any)
+        run: |
+          if [ -d etl/tests ]; then
+            pip install -r etl/requirements-dev.txt
+            python -m pytest etl/tests
+          else
+            echo "no etl/tests yet"
+          fi

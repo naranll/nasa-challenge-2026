@@ -22,3 +22,7 @@ dist/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Tests / tooling
+.pytest_cache/
+*.egg-info/

@@ -126,30 +126,16 @@ def main():
     write(OUT / "regions.json", dict(
         schema_version=SCHEMA, synthetic=True,
         regions=[dict(region_id=r, name_en=en, name_mn=mn, kind=k) for r, en, mn, k, _ in REGIONS]))
-    calendars = {}
     for n, (rid, _, _, _, size) in enumerate(REGIONS):
-        calendars[rid] = calendar(rid, size, 42 + n)
-        write(OUT / "calendar" / f"{rid}.json", calendars[rid])
+        write(OUT / "calendar" / f"{rid}.json", calendar(rid, size, 42 + n))
     raw, harm = hex_year()
     write(OUT / "hex_year" / "raw.json", raw)
     write(OUT / "hex_year" / "harm.json", harm)
-    write(OUT / "pipeline_stats.json", pipeline_stats(calendars["mongolia"]))
-
-
-# Made-up last days: S-NPP's ends 12 days before the others, like the real FIRMS stop (PLAN §1).
-FAKE_LAST_DAY = dict(terra="2026-11-11", aqua="2026-11-14", snpp="2026-11-02", noaa20="2026-11-13", noaa21="2026-11-14")
-
-
-def pipeline_stats(cal):
-    """Rows per platform = the calendar's raw sum, so the home card and charts agree (spec §7.1)."""
-    rows, first = {}, {}
-    for p in ("terra", "aqua", "snpp", "noaa20", "noaa21"):
-        months = [m for m in cal["months"] if m["raw"][p] is not None]
-        rows[p] = sum(m["raw"][p] for m in months)
-        first[p] = months[0]["ym"] + "-05"
-    return dict(schema_version=SCHEMA, synthetic=True, rows_by_platform=rows,
-                first_detection=first, last_detection=dict(FAKE_LAST_DAY),
-                n_hotspots_total=sum(rows.values()), years_covered=[2002, 2026])
+    write(OUT / "pipeline_stats.json", dict(
+        schema_version=SCHEMA, synthetic=True,
+        rows_by_platform=dict(terra=0, aqua=0, snpp=0, noaa20=0, noaa21=0),
+        first_detection=dict(aqua="2002-07-05"), last_detection=dict(aqua="2026-11-14"),
+        n_hotspots_total=0, years_covered=[2002, 2026]))
 
 
 if __name__ == "__main__":

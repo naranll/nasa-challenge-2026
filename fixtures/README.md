@@ -1,7 +1,6 @@
 # Fixtures (SYNTHETIC)
 
 Made-up numbers in the exact shapes of [`contracts/`](../contracts/README.md), so the app can be built before real data exists. Every file says `"synthetic": true`.
-Exception: `satellites.json` is written by `scripts/tle/fetch_tle.ts`, not `make_fixtures.py`. It is the real CelesTrak orbit snapshot, marked `"synthetic": true` only so it is allowed here.
 **Never shown in the demo.** Real files live in `public/data/`; switching is `MOCK=false`.
 
 ```bash

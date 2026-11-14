@@ -4,6 +4,7 @@
 **Эх сурвалж:** зөвхөн [PLAN.md](PLAN.md), [GLOSSARY.md](GLOSSARY.md). Шийдвэр бүр PLAN-ийн D-дугаартай холбогдоно.
 **Цаг:** хакатон дуусах цагийг **T** гэж тэмдэглэв (PLAN §9.3, нөхөж бичнэ). **Feature freeze = T − 4 цаг.**
 **Дараалал:** MVP → MVP+ → Nice-to-have. MVP дуусаагүй байхад MVP+ эхлэхгүй.
+**Хавтсууд:** pipeline код = `etl/` · JSON contract = `contracts/` · SYNTHETIC fixture = `fixtures/` · бодит JSON (app уншина) = `public/data/` · хуучирсан planning файлууд = `docs/archive/` (**зөвхөн PLAN.md ба энэ файл хүчинтэй**).
 
 ---
 
@@ -27,10 +28,10 @@
 
 | Lane | Үүрэг | **Засах эрхтэй** | **Хэзээ ч хийхгүй** |
 |---|---|---|---|
-| **P1** | Data + Harmonization | `/pipeline/fetch`, `/pipeline/prep`, `/pipeline/harmonize`, `/pipeline/requirements.txt`, `/data` (gitignore), `public/data/{regions,pipeline_stats,ratios}.json`, `public/data/calendar/`, `public/data/hex_year/`, `public/data/exports/`, `docs/data_audit.md`, `docs/methods_harmonization.md` | Model сургах, validation тооцох. UI, текст засах. Дэлхийн бүх өгөгдлийг татах. |
-| **P2** | Validation + ML | `/contracts`, `/fixtures`, `/pipeline/validation`, `/pipeline/ml`, `public/data/{validation,baseline,forecast,model_metrics,matches_summary}.json`, `docs/methods_model.md` | Өгөгдөл татах, ratio функц засах (P1-ийнхийг import хийнэ). UI засах. Ялагдсан үр дүнг нуух. |
+| **P1** | Data + Harmonization | `etl/get_boundaries.py`, `etl/clean_hotspots.py`, `etl/build_cell_days.py`, `etl/harmonize_*.py`, `etl/tests/`, `etl/requirements.txt`, `etl/data/` (gitignore), `public/data/{regions,pipeline_stats,ratios}.json`, `public/data/calendar/`, `public/data/hex_year/`, `public/data/exports/`, `docs/research/data_audit.md`, `docs/methods_harmonization.md` | Model сургах, validation тооцох. UI, текст засах. Дэлхийн бүх өгөгдлийг татах. |
+| **P2** | Validation + ML | `/contracts`, `/fixtures`, `etl/validation/`, `etl/ml/`, `public/data/{validation,baseline,forecast,model_metrics,matches_summary}.json`, `docs/methods_model.md` | Өгөгдөл татах, ratio функц засах (P1-ийнхийг import хийнэ). UI засах. Ялагдсан үр дүнг нуух. |
 | **P3** | Globe + Таамаглалын дэлгэц | `/app/src/globe`, `/app/src/harmonize`, `/app/src/forecast`, `/scripts/tle`, `public/data/satellites.json` | Тооцоо хийх (JSON-оос л уншина). Компонент дотор текст hardcode хийх. Calendar, routing. |
-| **P4** | App UI + deploy + цаг агаар | `/app` (globe, harmonize, forecast, i18n-ээс бусад), `/app/package.json`, deploy тохиргоо, `/pipeline/weather`, `.env.example`, `docs/research/meteomatics.md` | Тооцоо, model хийх. Компонент дотор текст hardcode хийх. Globe/forecast код засах. |
+| **P4** | App UI + deploy + цаг агаар | `/app` (globe, harmonize, forecast, i18n-ээс бусад), `/app/package.json`, deploy тохиргоо, `etl/weather/`, `.env.example`, `docs/research/meteomatics.md` | Тооцоо, model хийх. Компонент дотор текст hardcode хийх. Globe/forecast код засах. |
 | **P5** | Story / QA / Lead | `/docs` (дээр нэрлэсэн эзэнтэй файлуудаас бусад), `/app/src/i18n/{mn,en}.json`, `TASKS.md`, `PLAN.md` §9 ба нэрсийг нөхөх | Арга зүй, тоо өөрчлөх. Эх сурвалжгүй статус, сэрэмжлүүлэг бичих. Freeze-ээс өмнө pitch/слайд эхлэх. |
 
 **Сан нэмэх:** Python → P1-д хэл (`requirements.txt`), npm → P4-д хэл (`package.json`).
@@ -57,14 +58,14 @@
 
 | ID | Түвшин | Task | Box | Needs | Done when |
 |---|---|---|---|---|---|
-| P1-01 | MVP | MAP_KEY → `.env`, transaction хязгаарыг status-аар шалгах (§9.2). `requirements.txt`: `h3` v4 (тогтоосон), pandas, pyarrow, lightgbm, scikit-learn, requests | 15 мин | — | Status хариу `docs/data_audit.md`-д. P2, P4 сангаа суулгаж чадна |
+| P1-01 | MVP | MAP_KEY → `.env`, transaction хязгаарыг status-аар шалгах (§9.2). `requirements.txt`: `h3` v4 (тогтоосон), pandas, pyarrow, lightgbm, scikit-learn, requests | 15 мин | — | Status хариу `docs/research/data_audit.md`-д. P2, P4 сангаа суулгаж чадна |
 | P1-02 | MVP | **FIRMS татах** (D6 bbox W85 S37 E127 N56): `MODIS_SP`, `VIIRS_SNPP_SP`, `VIIRS_NOAA20_SP` + `_NRT` сүүл. `DAY_RANGE ≤ 5`, resumable, throttled, cache. **Шууд ажиллуулна.** API гацвал Country Yearly Summary zip | 1 цаг + ~1 цаг ард | P1-01 | Kill → restart үргэлжилнэ. Platform × жилийн мөрийн тоо log-д |
 | P1-03 | MVP | **Ratio функцүүд** (D3, D7): r₁(сар) = Σ Aqua / Σ S-NPP + fallback (< 30), r₂, reference chain → harmonized цуваа. Unit test. **Татах ажил явж байх зуур** synthetic дээр бичнэ. Функц нь "аль жилүүдээр калибровк хийх" параметртэй байна (P2-ийн LOYO, rolling-origin үүнийг дуудна) | 2 цаг | P2-01 | Тест ногоон. P2 import хийгээд дуудаж чадна |
-| P1-04 | MVP | **Header audit** → `docs/data_audit.md`: багана, огноо, мөр, Aqua-ийн эхний өдөр, VIIRS SP-д `type` бий эсэх | 45 мин | P1-02 | §9.5-ын асуултууд хариулагдсан |
+| P1-04 | MVP | **Header audit** → `docs/research/data_audit.md`: багана, огноо, мөр, Aqua-ийн эхний өдөр, VIIRS SP-д `type` бий эсэх | 45 мин | P1-02 | §9.5-ын асуултууд хариулагдсан |
 | P1-05 | MVP | **Шүүлт** (§3.3): `type == 0`, байнгын дулааны эх үүсвэрийг **flag** болгох (устгахгүй), NRT-д SP-ийн mask | 1.5 цаг | P1-04 | Flag асаах/унтраахад тоо өөрчлөгдөнө, log-д |
-| P1-06 | MVP | **Нэгж + шошго** (D9): MODIS = пиксел, VIIRS = fire unit (H3 res 8 × overpass ±10 мин), түүхий VIIRS пиксел тусад нь. Улс, 22 аймаг, day/night. `regions.json`-д бүс бүрийн **3–5 төлөөлөх цэг** (P4-ийн цаг агаарт) | 2 цаг | P1-05 | `monthly_counts.parquet` contract-д таарна. `regions.json` бэлэн |
-| P1-07 | MVP | H3 тест вектор: 20 координат → res 5, res 8 ID → `pipeline/prep/tests/h3_vectors.json` | 15 мин | P1-06 | P3-т хэлсэн |
-| P1-08 | MVP | **Бодит harmonization:** `ratios.json` (+ diagnostic: улс, day/night, Aqua drift), r₂ ±15% sanity → `data/interim/harmonized_monthly.parquet` (24 давхардалгүй бүс + bbox) | 1.5 цаг | P1-03, P1-06 | P2 уншиж чадна. Raw vs harmonized график хадгалсан |
+| P1-06 | MVP | **Нэгж + шошго** (D9): MODIS = пиксел, VIIRS = fire unit (H3 res 8 × overpass ±10 мин), түүхий VIIRS пиксел тусад нь. Улс, 22 аймаг, day/night. `regions.json`-д бүс бүрийн **3–5 төлөөлөх цэг** (P4-ийн цаг агаарт) | 2 цаг | P1-05 | `etl/data/processed/monthly_counts.parquet` contract-д таарна. `regions.json` бэлэн |
+| P1-07 | MVP | H3 тест вектор: 20 координат → res 5, res 8 ID → `etl/tests/h3_vectors.json` | 15 мин | P1-06 | P3-т хэлсэн |
+| P1-08 | MVP | **Бодит harmonization:** `ratios.json` (+ diagnostic: улс, day/night, Aqua drift), r₂ ±15% sanity → `etl/data/processed/harmonized_monthly.parquet` (22 нэгж + улс, D6) | 1.5 цаг | P1-03, P1-06 | P2 уншиж чадна. Raw vs harmonized график хадгалсан |
 | P1-09 | MVP | **Assemble:** `calendar/*.json` (raw + harmonized, P2-ийн baseline/forecast-ыг байвал нэгтгэнэ), `hex_year/{raw,harm}.json` (H3 res 5, raw = **түүхий пиксел**), `pipeline_stats.json` | 1.5 цаг | P1-08 | **G1.** Contract-д таарна. Дахин ажиллуулахад ижил гаралт |
 | P1-10 | MVP | Hotspot CSV export: бүс × жилээр `public/data/exports/` | 1 цаг | P1-06 | Excel-д нээгдэнэ |
 | P1-11 | MVP | `docs/methods_harmonization.md`: pipeline алхмууд, ratio-ууд, limitation | 45 мин | P1-08 | Тоо бүр скриптээс |
@@ -108,7 +109,7 @@
 | ID | Түвшин | Task | Box | Needs | Done when |
 |---|---|---|---|---|---|
 | P4-01 | MVP | **Scaffold:** Vite + React + TS, router (Нүүр / Harmonize / **Таамаглал** / Бүс + Calendar / Method), сан (`react-globe.gl`, `satellite.js`, `h3-js` v4), `MOCK` data client, **static deploy + URL** | 1 цаг | — | **G0.** Бүгд clone хийж ажиллуулна, URL нээгдэнэ |
-| P4-W1 | MVP | **Meteomatics gate** (PLAN D15, §9.8): account-ын төрөл (Space Apps / trial / Free Basic), **2003 оноос түүх авч болох эсэх** (нэг жижиг query-ээр шалгах), query хязгаар, параметрийн яг нэр (URL Creator) → `docs/research/meteomatics.md`. Шийдвэрийг P2-д хэлнэ | 30 мин | — | **G0.** "Тийм/үгүй" шийдэгдсэн. Free Basic бол **"үгүй"** (24 цагийн түүх) |
+| P4-W1 | MVP | **Meteomatics gate** (PLAN D15, §9.11): account-ын төрөл (Space Apps / trial / Free Basic), **2003 оноос түүх авч болох эсэх** (нэг жижиг query-ээр шалгах), query хязгаар, параметрийн яг нэр (URL Creator) → `docs/research/meteomatics.md`. Шийдвэрийг P2-д хэлнэ | 30 мин | — | **G0.** "Тийм/үгүй" шийдэгдсэн. Free Basic бол **"үгүй"** (24 цагийн түүх) |
 | P4-W2 | MVP | **Цаг агаар татах** (gate "тийм" бол): `regions.json`-ий төлөөлөх цэгүүд, 2002–2026, өдрийн температур, хур тунадас, чийгшил, салхи, цасны зузаан. Нэг query-д олон цэг. Resumable, query тоолуур → сараар нэгтгэсэн `data/interim/weather_monthly.parquet` | 2 цаг | P4-W1, P1-06 (эхлээд fixture-ийн цэг) | Нийт query < хязгаар. Contract-д таарна. Сар бүр 24 бүсэд утгатай |
 | P4-02 | MVP | Layout, i18n plumbing, өнгө, монгол фонт (ө, ү) | 1 цаг | P4-01 | MN/EN солигдоно |
 | P4-03 | MVP | **Calendar:** сар × он, cividis төст ramp, **Raw toggle**, NOAA-20 хэсэг тасархай, ирэх сарууд тасархай (таамаглал), бүрэн бус сарын тэмдэглэл, tooltip | 2.5 цаг | P2-01 → P1-09 | **G1.** Бодит calendar сайт дээр |

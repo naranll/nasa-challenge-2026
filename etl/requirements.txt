@@ -1,0 +1,9 @@
+# Bounded ranges: allow patch/minor updates, block surprise major versions.
+# Tested locally on Python 3.11 with pandas 2.2, numpy 2.x, pyarrow 20, geopandas 1.0, requests 2.32.
+# For an exact lock run:  pip freeze > etl/requirements.lock
+pandas>=2.0,<3
+numpy>=1.24,<3
+pyarrow>=14,<22
+geopandas>=1.0,<2
+requests>=2.31,<3
+h3>=4,<5            # PLAN D9: H3 res 5/8 (not used by the v0 prototype yet)

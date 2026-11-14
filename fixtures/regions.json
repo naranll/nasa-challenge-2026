@@ -1,0 +1,24 @@
+{
+ "schema_version": "0.1",
+ "synthetic": true,
+ "regions": [
+  {
+   "region_id": "mongolia",
+   "name_en": "Mongolia",
+   "name_mn": "Монгол",
+   "kind": "country"
+  },
+  {
+   "region_id": "dornod",
+   "name_en": "Dornod",
+   "name_mn": "Дорнод",
+   "kind": "aimag"
+  },
+  {
+   "region_id": "ulaanbaatar",
+   "name_en": "Ulaanbaatar",
+   "name_mn": "Улаанбаатар",
+   "kind": "capital"
+  }
+ ]
+}

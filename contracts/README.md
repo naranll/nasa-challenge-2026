@@ -79,6 +79,24 @@ Shapes for `case_study`, `matches_summary` and `satellites` are added by their o
   "n_hotspots_total": 0, "years_covered": [2002, 2026] }
 ```
 
+## `satellites.json` (P3, home globe)
+
+Written by `scripts/tle/fetch_tle.ts` (`npm --prefix app run tle`) from CelesTrak; static facts come from `scripts/tle/platforms.json`, each with a source URL. Orbits and metadata only: hotspot numbers stay in `pipeline_stats.json`, UI text stays in i18n.
+
+```jsonc
+{ "schema_version": "0.1", "synthetic": false,
+  "generated_at": "2026-11-15T00:00:00Z",                       // when the snapshot was taken
+  "tle_source": { "name": "CelesTrak", "url": "https://celestrak.org/NORAD/elements/gp.php" },
+  "platforms": [ {
+    "id": "aqua", "norad_id": 27424, "sensor": "MODIS",           // id: terra | aqua | snpp | noaa20 | noaa21
+    "launch_date": "2002-05-04", "launch_source_url": "https://…", // null = not confirmed, row hidden
+    "in_reference_chain": true,                                    // D3
+    "status_source_url": "https://…",                              // source of the i18n globe.status.{id} text
+    "tle": { "line1": "1 27424U …", "line2": "2 27424 …", "epoch": "2026-11-14T11:34:37Z" } } ] }
+```
+Refresh before the demo; epochs older than 7 days draw as "approximate", older than 30 days are hidden.
+`fixtures/satellites.json` is a copy with `"synthetic": true` so mock-mode dev shows orbits (there is no made-up TLE).
+
 ## `ratios.json` and `validation.json` (DRAFT, owner may extend)
 
 ```jsonc

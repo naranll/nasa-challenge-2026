@@ -79,7 +79,8 @@ def title(t):
 
 
 def labels(t):
-    ls = [f"lane:{t['lane'].lower()}", f"step:{t['wave'] + 1}", "tier:mvp"]
+    ls = [f"lane:{t['lane'].lower()}", f"step:{t['wave'] + 1}", "tier:mvp",
+          "feature:" + t["feature"].lower().replace(" ", "-")]
     if t["gate"]:
         ls.append(f"gate:{t['gate']}")
     ls += [{"ml": "forecast"}[x] for x in t["tags"]]
@@ -100,6 +101,7 @@ def body(t, numbers=None):
     if t["blocked_by"]:
         lines += [f"**Wait for these tickets first:** {wait}", ""]
     lines += [
+        f"**Feature:** {t['feature']}",
         f"**Who:** {t['lane']} {LANES[t['lane']]}",
         f"**Time:** {t['box']}",
         f"**Order:** {STEPS[t['wave']]}" + (f" (gate {t['gate']})" if t["gate"] else ""),
@@ -140,13 +142,19 @@ def write_index():
         "All of them are MVP in PLAN.md section 5. The tag `ml` means: part of the forecast model (PLAN D15).",
         "",
     ]
+    features = list(dict.fromkeys(t["feature"] for t in TASKS))
+    lines += ["## Order of work", ""]
     for wave in (0, 1, 2):
-        lines += [f"## {STEPS[wave]}", "",
-                  "| ID | Ticket | Who | Time | Start with | Wait for | Gate | Tags |", "|---|---|---|---|---|---|---|---|"]
-        for t in TASKS:
-            if t["wave"] == wave:
-                lines.append(f"| {t['id']} | {t['title']} | {t['lane']} | {t['box']} | {t['start_with']} | "
-                             f"{', '.join(t['blocked_by']) or 'nobody'} | {t['gate'] or ''} | {', '.join(t['tags'])} |")
+        n = sum(1 for t in TASKS if t["wave"] == wave)
+        lines.append(f"- **{STEPS[wave]}:** {n} tickets")
+    lines += ["", "## Tickets by feature", ""]
+    for feat in features:
+        mine = [t for t in TASKS if t["feature"] == feat]
+        lines += [f"### {feat} ({len(mine)} tickets, about {sum(hours(t['box']) for t in mine):.1f} hours)", "",
+                  "| ID | Ticket | Who | Time | Start with | Wait for | Step | Gate | Tags |", "|---|---|---|---|---|---|---|---|---|"]
+        for t in mine:
+            lines.append(f"| {t['id']} | {t['title']} | {t['lane']} | {t['box']} | {t['start_with']} | "
+                         f"{', '.join(t['blocked_by']) or 'nobody'} | {t['wave'] + 1} | {t['gate'] or ''} | {', '.join(t['tags'])} |")
         lines.append("")
     lines += ["## Work for each lane", ""]
     for lane, name in LANES.items():

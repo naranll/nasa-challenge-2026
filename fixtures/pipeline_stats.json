@@ -2,19 +2,27 @@
  "schema_version": "0.1",
  "synthetic": true,
  "rows_by_platform": {
-  "terra": 0,
-  "aqua": 0,
-  "snpp": 0,
-  "noaa20": 0,
-  "noaa21": 0
+  "terra": 61042,
+  "aqua": 63759,
+  "snpp": 128062,
+  "noaa20": 76288,
+  "noaa21": 36485
  },
  "first_detection": {
-  "aqua": "2002-07-05"
+  "terra": "2002-07-05",
+  "aqua": "2002-07-05",
+  "snpp": "2012-02-05",
+  "noaa20": "2018-04-05",
+  "noaa21": "2023-03-05"
  },
  "last_detection": {
-  "aqua": "2026-11-14"
+  "terra": "2026-11-11",
+  "aqua": "2026-11-14",
+  "snpp": "2026-11-02",
+  "noaa20": "2026-11-13",
+  "noaa21": "2026-11-14"
  },
- "n_hotspots_total": 0,
+ "n_hotspots_total": 365636,
  "years_covered": [
   2002,
   2026

@@ -1,0 +1,36 @@
+{
+  "_comment": "The one place for NORAD ids and static platform facts (spec A20, A24). Every date needs its source URL. Checked 2026-11-15.",
+  "tle_source": { "name": "CelesTrak", "url": "https://celestrak.org/NORAD/elements/gp.php" },
+  "platforms": [
+    {
+      "id": "terra", "norad_id": 25994, "sensor": "MODIS",
+      "launch_date": "1999-12-18", "launch_source_url": "https://science.nasa.gov/mission/terra/",
+      "in_reference_chain": false,
+      "status_source_url": "https://ntrs.nasa.gov/citations/20250000522"
+    },
+    {
+      "id": "aqua", "norad_id": 27424, "sensor": "MODIS",
+      "launch_date": "2002-05-04", "launch_source_url": "https://science.nasa.gov/mission/aqua/",
+      "in_reference_chain": true,
+      "status_source_url": "https://science.nasa.gov/mission/aqua/"
+    },
+    {
+      "id": "snpp", "norad_id": 37849, "sensor": "VIIRS",
+      "launch_date": "2011-10-28", "launch_source_url": "https://science.nasa.gov/mission/suomi-npp/",
+      "in_reference_chain": true,
+      "status_source_url": "https://www.earthdata.nasa.gov/news/blog/transitioning-from-suomi-npp-viirs-omps-what-firms-users-need-know"
+    },
+    {
+      "id": "noaa20", "norad_id": 43013, "sensor": "VIIRS",
+      "launch_date": "2017-11-18", "launch_source_url": "https://www.nesdis.noaa.gov/news/lift-noaas-jpss-1-heads-orbitnew-polar-satellite-will-improve-weather-forecasts-out-seven-days",
+      "in_reference_chain": true,
+      "status_source_url": "https://www.nesdis.noaa.gov/news/noaa-20-operational"
+    },
+    {
+      "id": "noaa21", "norad_id": 54234, "sensor": "VIIRS",
+      "launch_date": "2022-11-10", "launch_source_url": "https://www.nesdis.noaa.gov/news/noaa-21-satellite-handover-celebrates-nasanoaa-operations-transition",
+      "in_reference_chain": false,
+      "status_source_url": "https://www.nesdis.noaa.gov/news/noaa-21-satellite-handover-celebrates-nasanoaa-operations-transition"
+    }
+  ]
+}

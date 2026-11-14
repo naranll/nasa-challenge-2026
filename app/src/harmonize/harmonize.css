@@ -1,3 +1,251 @@
+/* Harmonizing page (#14): result line, twin globes, year slider, monthly chart, For scientists, Method. */
+
+.harmonize {
+  display: grid;
+  gap: 2rem;
+}
+
+.harm-header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.harm-header p {
+  margin: 0.25rem 0;
+  color: var(--muted);
+  max-width: 48rem;
+}
+
+.harm-result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: #0c1120;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.harm-result span + span {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.harm-fallback-note,
+.harm-note,
+.harm-hint,
+.chart-note,
+.method-note {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0;
+}
+
+/* Two globes side by side; stacked on phones. */
+.twin-globes-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .twin-globes-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.side-globe {
+  margin: 0;
+  min-width: 0;
+}
+
+.side-globe figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.side-globe figcaption span {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.side-globe-stage {
+  position: relative;
+  border: 1px solid #1c2233;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000004;
+}
+
+.side-globe-canvas {
+  height: clamp(260px, 42vw, 440px);
+  touch-action: pan-y;
+}
+
+.side-globe-year {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.year-totals {
+  width: 100%;
+}
+
+.chart-handover {
+  stroke: var(--muted);
+  stroke-dasharray: 3 3;
+}
+
+.chart-cursor {
+  stroke: var(--fg);
+  stroke-opacity: 0.35;
+}
+
+/* Year slider */
+.year-scrubber {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.year-play {
+  background: none;
+  color: var(--fg);
+  border: 1px solid var(--muted);
+  border-radius: 4px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.year-play[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.year-track {
+  flex: 1;
+  min-width: 0;
+}
+
+.year-track input {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.year-marks {
+  position: relative;
+  height: 1.5rem;
+}
+
+.year-mark {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.75rem;
+  color: var(--muted);
+  border-left: 1px dashed var(--muted);
+  padding-left: 0.25rem;
+}
+
+.year-now {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+}
+
+.harm-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.harm-section-head h2 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.monthly-chart {
+  width: 100%;
+}
+
+/* Calendars */
+.for-scientists h2 {
+  margin-bottom: 0.25rem;
+}
+
+.for-scientists > p {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.calendar-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .calendar-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Method */
+.method-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 720px) {
+  .method-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.method h3 {
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.method ol {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.method-steps li,
+.method-tests li {
+  margin-bottom: 0.75rem;
+}
+
+.method-tests p {
+  margin: 0.15rem 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.method-tests .method-result {
+  color: var(--fg);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Raw part (Job 4): region table, raw monthly chart, satellite table. */
 .raw-view {
   max-width: 960px;
 }

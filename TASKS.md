@@ -4,7 +4,7 @@
 **Эх сурвалж:** зөвхөн [PLAN.md](PLAN.md), [GLOSSARY.md](GLOSSARY.md). Шийдвэр бүр PLAN-ийн D-дугаартай холбогдоно.
 **Цаг:** хакатон дуусах цагийг **T** гэж тэмдэглэв (PLAN §9.3, нөхөж бичнэ). **Feature freeze = T − 4 цаг.**
 **Дараалал:** MVP → MVP+ → Nice-to-have. MVP дуусаагүй байхад MVP+ эхлэхгүй.
-**Жижиг хуваалт:** task бүрийг 1–1.5 цагийн issue болгож хуваасан жагсаалт = [docs/ISSUES.md](docs/ISSUES.md) (ID дараа `.1`, `.2` = тухайн task-ийн хэсэг).
+**Энгийн хуваалт (4 хүнд):** гол 13 ажлыг дарааллаар нь [docs/ISSUES.md](docs/ISSUES.md)-д бичсэн. Энэ файлын P1–P5 lane нь нарийвчилсан жагсаалт хэвээр.
 **Хавтсууд:** pipeline код = `etl/` · JSON contract = `contracts/` · SYNTHETIC fixture = `fixtures/` · бодит JSON (app уншина) = `public/data/` · хуучирсан planning файлууд = `docs/archive/` (**зөвхөн PLAN.md ба энэ файл хүчинтэй**).
 
 ---

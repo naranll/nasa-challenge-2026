@@ -1,10 +1,9 @@
-"""Validate the task list, write docs/ISSUES.md, and (only on request) create the GitHub issues.
+"""Write docs/ISSUES.md from tasks.py, and (only if asked) create the GitHub issues.
 
-    python scripts/issues/create_issues.py            # dry run: validate + regenerate docs/ISSUES.md
-    python scripts/issues/create_issues.py --publish  # create the issues with the gh CLI
+    python scripts/issues/create_issues.py            # check the list and rewrite docs/ISSUES.md
+    python scripts/issues/create_issues.py --publish  # also create the issues on GitHub (needs the gh tool)
 
---publish needs the GitHub CLI (`gh auth login` done). It checks the target repo, skips tasks whose
-"[ID]" title already exists, and creates issues in dependency order so "Blocked by: #n" is correct.
+Publishing asks you to confirm the repository first, and skips issues that already exist.
 """
 import json
 import subprocess
@@ -12,196 +11,117 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from tasks import LANES, START, STEPS, TASKS  # noqa: E402
+from tasks import ISSUES  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
-BY_ID = {t["id"]: t for t in TASKS}
+BY_ID = {i["id"]: i for i in ISSUES}
 
 
-def validate():
+def check():
     errors = []
-    if len(BY_ID) != len(TASKS):
-        errors.append("duplicate task ids")
-    for t in TASKS:
-        if t["lane"] not in LANES:
-            errors.append(f"{t['id']}: unknown lane {t['lane']}")
-        for b in t["blocked_by"]:
-            if b not in BY_ID:
-                errors.append(f"{t['id']}: blocked_by unknown {b}")
-            elif BY_ID[b]["wave"] > t["wave"]:
-                errors.append(f"{t['id']} (wave {t['wave']}) is blocked by later-wave {b} (wave {BY_ID[b]['wave']})")
-        if not t["done"] or not t["steps"]:
-            errors.append(f"{t['id']}: needs steps and at least one 'done' line")
-        if t["start_with"] not in START:
-            errors.append(f"{t['id']}: unknown start_with {t['start_with']}")
-        for field in [t["goal"], *t["steps"], *t["done"], t["title"]]:
-            bad = [c for c in field if ord(c) > 127 and not 0x400 <= ord(c) <= 0x4FF]  # Cyrillic is allowed
+    ids = [i["id"] for i in ISSUES]
+    if len(set(ids)) != len(ids):
+        errors.append("duplicate ids")
+    for i in ISSUES:
+        for field in [i["title"], i["goal"], i["time"], *i["parts"], *i["done"], *i["needs"]]:
+            bad = [c for c in field if ord(c) > 127 and not 0x400 <= ord(c) <= 0x4FF]
             if bad:
-                errors.append(f"{t['id']}: non-ASCII character {bad[0]!r} (keep text simple): {field[:50]}")
-    # cycle check
-    state = {}
-
-    def visit(i, path):
-        if state.get(i) == 2:
-            return
-        if state.get(i) == 1:
-            errors.append("cycle: " + " -> ".join(path + [i]))
-            return
-        state[i] = 1
-        for b in BY_ID.get(i, {}).get("blocked_by", []):
-            visit(b, path + [i])
-        state[i] = 2
-
-    for t in TASKS:
-        visit(t["id"], [])
+                errors.append(f"issue {i['id']}: special character {bad[0]!r} in: {field[:50]}")
+        if not i["parts"] or not i["done"]:
+            errors.append(f"issue {i['id']}: needs parts and a 'done when'")
     return errors
 
 
-def order():
-    """Topological order: blockers first."""
-    done, out = set(), []
-
-    def add(i):
-        if i in done:
-            return
-        done.add(i)
-        for b in BY_ID[i]["blocked_by"]:
-            add(b)
-        out.append(i)
-
-    for t in TASKS:
-        add(t["id"])
-    return out
+def title(i):
+    return f"{i['id']}. {i['title']}"
 
 
-def title(t):
-    return f"[{t['id']}] {t['title']}"
-
-
-def labels(t):
-    ls = [f"lane:{t['lane'].lower()}", f"step:{t['wave'] + 1}", "tier:mvp",
-          "feature:" + t["feature"].lower().replace(" ", "-")]
-    if t["gate"]:
-        ls.append(f"gate:{t['gate']}")
-    ls += [{"ml": "forecast"}[x] for x in t["tags"]]
-    return ls
-
-
-def hours(box):
-    if not box[0].isdigit():
-        return 0.0
-    n = float(box.split()[0])
-    return n / 60 if box.split()[1].startswith("min") else n
-
-
-def body(t, numbers=None):
-    numbers = numbers or {}
-    wait = ", ".join(f"#{numbers[b]} ({b})" if b in numbers else b for b in t["blocked_by"])
-    lines = []
-    if t["blocked_by"]:
-        lines += [f"**Wait for these tickets first:** {wait}", ""]
-    lines += [
-        f"**Feature:** {t['feature']}",
-        f"**Who:** {t['lane']} {LANES[t['lane']]}",
-        f"**Time:** {t['box']}",
-        f"**Order:** {STEPS[t['wave']]}" + (f" (gate {t['gate']})" if t["gate"] else ""),
-        f"**You can start with:** {START[t['start_with']]}"
-        + (" Nothing blocks this ticket." if not t["blocked_by"] else ""),
+def body(i):
+    lines = [
+        f"**Time:** about {i['time']}",
+        f"**Suggested person:** {i['who']}",
+        f"**You can start with:** {i['start']}",
+        "**Needs first:** " + ("; ".join(i["needs"]) if i["needs"] else "nothing"),
         "",
-        "## Goal",
-        t["goal"],
+        "## What we build",
+        i["goal"],
         "",
-        "## What to do",
-        *[f"{i}. {s}" for i, s in enumerate(t["steps"], 1)],
+        "## Parts",
+        *[f"- [ ] {p}" for p in i["parts"]],
         "",
         "## Done when",
-        *[f"- [ ] {d}" for d in t["done"]],
+        *[f"- [ ] {d}" for d in i["done"]],
         "",
-        "## Files you may change",
-        t["edits"] + ". Do not change other files. If you need a change somewhere else, ask the owner in the group chat.",
+        f"**Where in the code:** {i['where']}",
         "",
-        "## Rules",
-        "- Every number must come from a script (PLAN section 7).",
-        "- Never invent data, numbers or sources.",
-        "- Fake sample files (synthetic) must never appear in the demo (PLAN section 10).",
-        "",
-        f"Source: PLAN.md and {t['ref']}. Terms: GLOSSARY.md.",
+        "Rules: every number must come from a script. Never invent data or sources. Fake sample files must never appear in the demo.",
+        f"Source: PLAN.md ({i['ref']}).",
     ]
     return "\n".join(lines)
 
 
 def write_index():
-    ready = [t for t in TASKS if not t["blocked_by"]]
     lines = [
-        "# Ticket plan (made by a script)",
+        "# What we build, in order",
         "",
-        "Do not edit this file by hand. Edit `scripts/issues/tasks.py`, then run `python scripts/issues/create_issues.py`.",
-        "Terms: [GLOSSARY.md](../GLOSSARY.md). The only plan: [PLAN.md](../PLAN.md).",
+        "**Goal:** a website that introduces the fire datasets and why they matter, shows how we harmonize them "
+        "(make MODIS and VIIRS comparable), and shows how the data can be used for research, with our prediction model as the example.",
         "",
-        f"There are **{len(TASKS)} tickets**. **{len(ready)} tickets can start right now.** "
-        "All of them are MVP in PLAN.md section 5. The tag `ml` means: part of the forecast model (PLAN D15).",
+        "Only [PLAN.md](../PLAN.md) is the plan. This list cuts the work into 13 jobs. "
+        "Parts that are not in PLAN.md are marked EXTRA.",
+        "",
+        "## The 13 jobs",
+        "",
+        "| # | Job | About | Suggested person | Needs first |",
+        "|---|---|---|---|---|",
+    ]
+    for i in ISSUES:
+        needs = "; ".join(n.split(" (")[0].split(". ")[0] for n in i["needs"]) or "nothing"
+        lines.append(f"| {i['id']} | {i['title']} | {i['time']} | {i['who']} | {needs} |")
+    lines += [
+        "",
+        "## How to work",
+        "",
+        "- Jobs 1 and 2 start now. After job 1, the website jobs (3, 4, 5, 8) can run at the same time as the data jobs (2, 6).",
+        "- Website jobs start with fake sample files (the `fixtures` folder). When the real files are ready, switch to them.",
+        "- A job is finished when every 'Done when' line is true.",
+        "- If you are stuck for more than 15 minutes, ask in the group chat.",
+        "- New ideas go in `docs/parking_lot.md`. Do not add them to a job.",
         "",
     ]
-    features = list(dict.fromkeys(t["feature"] for t in TASKS))
-    lines += ["## Order of work", ""]
-    for wave in (0, 1, 2):
-        n = sum(1 for t in TASKS if t["wave"] == wave)
-        lines.append(f"- **{STEPS[wave]}:** {n} tickets")
-    lines += ["", "## Tickets by feature", ""]
-    for feat in features:
-        mine = [t for t in TASKS if t["feature"] == feat]
-        lines += [f"### {feat} ({len(mine)} tickets, about {sum(hours(t['box']) for t in mine):.1f} hours)", "",
-                  "| ID | Ticket | Who | Time | Start with | Wait for | Step | Gate | Tags |", "|---|---|---|---|---|---|---|---|---|"]
-        for t in mine:
-            lines.append(f"| {t['id']} | {t['title']} | {t['lane']} | {t['box']} | {t['start_with']} | "
-                         f"{', '.join(t['blocked_by']) or 'nobody'} | {t['wave'] + 1} | {t['gate'] or ''} | {', '.join(t['tags'])} |")
-        lines.append("")
-    lines += ["## Work for each lane", ""]
-    for lane, name in LANES.items():
-        mine = [t for t in TASKS if t["lane"] == lane]
-        lines.append(f"- **{lane} {name}:** {len(mine)} tickets, about {sum(hours(t['box']) for t in mine):.1f} hours")
-    (ROOT / "docs" / "ISSUES.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    for i in ISSUES:
+        lines += [f"## {title(i)}", "", body(i), ""]
+    (ROOT / "docs" / "ISSUES.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-def gh(*args, check=True, stdin=None):
+def gh(*args, stdin=None):
     return subprocess.run(["gh", *args], capture_output=True, text=True, encoding="utf-8", input=stdin,
-                          check=check, cwd=ROOT)
+                          check=True, cwd=ROOT)
 
 
 def publish():
     try:
         repo = json.loads(gh("repo", "view", "--json", "nameWithOwner").stdout)["nameWithOwner"]
     except (FileNotFoundError, subprocess.CalledProcessError):
-        sys.exit("The GitHub CLI (gh) is missing or not logged in. Install it and run `gh auth login`.")
-    print(f"Target repo: {repo}")
-    if input("Create issues in this repo? [y/N] ").strip().lower() != "y":
-        sys.exit("Aborted.")
-
-    all_labels = {l for t in TASKS for l in labels(t)}
-    for l in sorted(all_labels):
-        gh("label", "create", l, "--force", check=False)
-
-    existing = {i["title"]: i["number"] for i in json.loads(gh("issue", "list", "--state", "all", "--limit", "500",
-                                                              "--json", "number,title").stdout)}
-    numbers = {}
-    for i in order():
-        t = BY_ID[i]
-        if title(t) in existing:
-            numbers[i] = existing[title(t)]
-            print(f"skip   {title(t)} (exists as #{numbers[i]})")
+        sys.exit("The GitHub tool (gh) is missing or not logged in. Install it and run: gh auth login")
+    print(f"Repository: {repo}")
+    if input("Create the issues here? [y/N] ").strip().lower() != "y":
+        sys.exit("Stopped. Nothing was created.")
+    existing = {x["title"] for x in json.loads(gh("issue", "list", "--state", "all", "--limit", "200",
+                                                  "--json", "title").stdout)}
+    for i in ISSUES:
+        if title(i) in existing:
+            print("skip  ", title(i))
             continue
-        out = gh("issue", "create", "--title", title(t), "--body-file", "-",
-                 *sum((["--label", l] for l in labels(t)), []), stdin=body(t, numbers)).stdout.strip()
-        numbers[i] = int(out.rsplit("/", 1)[-1])
-        print(f"create #{numbers[i]}  {title(t)}")
+        out = gh("issue", "create", "--title", title(i), "--body-file", "-", stdin=body(i)).stdout.strip()
+        print("create", out)
 
 
 if __name__ == "__main__":
-    errs = validate()
+    errs = check()
     if errs:
-        sys.exit("Invalid task list:\n  " + "\n  ".join(errs))
+        sys.exit("Problems:\n  " + "\n  ".join(errs))
     write_index()
-    ready = [t["id"] for t in TASKS if not t["blocked_by"]]
-    print(f"OK: {len(TASKS)} tickets, {len(ready)} startable now -> docs/ISSUES.md")
+    print(f"OK: {len(ISSUES)} issues -> docs/ISSUES.md")
     if "--publish" in sys.argv:
         publish()

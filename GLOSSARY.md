@@ -55,6 +55,10 @@ _Avoid_: 1 km cell, deduplicated hotspot
 For a calendar month in an area, the median harmonized count over the reference years plus its typical range; what "normal" looks like.
 _Avoid_: Average, expected value, prediction
 
+**Backtest arm**:
+One training history in the prediction backtest: _raw-all_ (2003 on, each platform's own counts), _raw-VIIRS-only_ (2012 on, Suomi NPP counts) or _harmonized-all_ (2003 on, harmonized counts). All arms are scored on the same Suomi NPP counts; harmonized-all vs raw-VIIRS-only is the comparison that tests whether the MODIS years help.
+_Avoid_: Model variant
+
 **Raw view**:
 The calendar showing each platform's own uncorrected hotspot counts, so the jumps that harmonization removes are visible.
 

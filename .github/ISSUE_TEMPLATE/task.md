@@ -1,24 +1,31 @@
 ---
 name: Task
-about: One independent piece of work with a clear "done when"
+about: One piece of work with clear steps and a clear end
 title: "[ID] Short title"
 labels: ""
 ---
 
-Blocked by: <!-- #n, or delete this line if nothing blocks it -->
+**Wait for these tickets first:** <!-- write #numbers, or delete this line -->
 
-**Lane:** P? · **Time-box:** ? · **Can start from:** fixtures / synthetic data / local data / nothing
+**Who:** P?
+**Time:** ? hours
+**You can start with:** fake sample files / made-up test data / our real data / nothing
 
-## What
-<!-- One short paragraph: the outcome, not the steps. -->
+## Goal
+<!-- One or two short sentences. What is the result? Why do we need it? -->
+
+## What to do
+1. <!-- Start each step with a verb: Open, Write, Run, Check. -->
 
 ## Done when
-- [ ] <!-- a checkable statement -->
+- [ ] <!-- Something anyone can check -->
 
-## You may edit
-<!-- Paths from TASKS.md §1. Everything else is read-only. -->
+## Files you may change
+<!-- See TASKS.md section 1. Do not change other files. -->
 
 ## Rules
-- Numbers shown to users come from a script and go in `docs/claims.md`.
-- Build against `contracts/` and `fixtures/`.
-- PR ends with `AI-used: …` and says `Closes #<this issue>`.
+- Every number users see must come from a script. Add it to `docs/claims.md`.
+- Never invent data, numbers, sources or status.
+- In your pull request, write `Closes #<this ticket number>` and a last line: `AI-used: <tool> / <what for> / <who checked it>`.
+
+Unknown word? See docs/WORDS.md.

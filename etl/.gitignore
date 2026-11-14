@@ -1,0 +1,7 @@
+# Raw and processed data stay on your computer, not in git
+data/
+*.zip
+*.parquet
+.venv/
+.env
+__pycache__/

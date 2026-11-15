@@ -1,4 +1,4 @@
-/** #34: World map-ийн бүх текст `world.*` i18n key-ээс, en болон mn хоёуланд нь. */
+/** #34, #36: World map-ийн бүх текст `world.*` i18n key-ээс, en болон mn хоёуланд нь. */
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -17,7 +17,7 @@ describe("world map text", () => {
     expect(used.length).toBeGreaterThan(10);
     const templated = [
       ...["terra", "aqua", "snpp", "noaa20", "noaa21"].map((p) => `world.platform.${p}`),
-      ...["VIIRS", "MODIS"].map((s) => `world.sensor.${s}`),
+      ...["VIIRS", "MODIS"].flatMap((s) => [`world.sensor.${s}`, `world.harm.note.${s}`]),
       ...["low", "nominal", "high"].map((c) => `world.conf.${c}`),
       ...["D", "N"].map((d) => `world.dn.${d}`),
       ...["both", "viirs_only", "modis_only", "not_comparable"].map((m) => `world.match.${m}`),

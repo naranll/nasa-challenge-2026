@@ -73,3 +73,15 @@
   border-radius: 2px;
   vertical-align: -0.05rem;
 }
+
+/* Тивийн r мөр (#36) */
+.world-ratio {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.world-ratio-fallback {
+  display: block;
+  color: var(--fg);
+}

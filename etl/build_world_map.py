@@ -1,11 +1,12 @@
 """
-World map 2/8 (#33): татсан NRT CSV-үүдийг цэвэрлэж, тив оноож, апп-ын JSON-ыг бичнэ.
+World map 2/8 (#33), 4/8 (#35): татсан NRT CSV-үүдийг цэвэрлэж, тив оноож, NOAA-20 fire unit ба тивийн
+r_day/r_night-ээр Aqua-equivalent тоо тооцож, апп-ын JSON-ыг бичнэ.
 
     python etl/build_world_map.py
 
 Уншина: etl/data/raw/world/{SOURCE}_{DATE}_{DAY_RANGE}.csv, etl/data/raw/ne_110m_admin_0_countries.geojson
   (хоёуланг нь fetch_world_nrt.py татна)
-Бичнэ: public/data/world/index.json, public/data/world/points_{тив}.json  ("synthetic": false, commit хийгдэнэ)
+Бичнэ: public/data/world/index.json, public/data/world/points_{тив}.json, public/data/world/cells_{тив}.json  ("synthetic": false, commit хийгдэнэ)
 Хасагдсан цэгүүдийг (Antarctica, Seven seas, тив олдоогүй) тоолж хэвлэнэ. Эцэст нь тив бүрийн хураангуйг хэвлэнэ.
 """
 import json
@@ -67,10 +68,16 @@ def build(raw_dir=RAW, ne_path=NE_PATH, out_dir=OUT, period=wm.PERIOD):
           f"Antarctica {dropped['antarctica']}, Seven seas {dropped['seven_seas']}, "
           f"тив олдоогүй (> {wm.NEAREST_MAX_DEG}°) {dropped['no_continent']}")
 
+    units = wm.fire_units(kept)
+    ratios = wm.continent_ratios(kept, units)
     bboxes = wm.continent_bboxes(countries)
-    index = wm.index_doc(kept, dropped, bboxes, period, sources)
+    index = wm.index_doc(kept, dropped, bboxes, period, sources, ratios=ratios)
     for c in index["continents"]:
-        write_json(out_dir / c["points_file"], wm.points_doc(kept[kept["continent"] == c["id"]], c["id"], period))
+        pts = kept[kept["continent"] == c["id"]]
+        write_json(out_dir / c["points_file"], wm.points_doc(pts, c["id"], period))
+        write_json(out_dir / c["cells_file"],
+                   wm.cells_doc(pts, units[units["continent"] == c["id"]], ratios["continents"][c["id"]],
+                                c["id"], period))
     write_json(out_dir / "index.json", index)
 
     print("\nТив бүрийн хураангуй (UTC, 2026-11-05 – 11-14):")
@@ -78,6 +85,15 @@ def build(raw_dir=RAW, ne_path=NE_PATH, out_dir=OUT, period=wm.PERIOD):
     for c in index["continents"]:
         print(f"{c['id']:<15}{c['n_points']:>9}" + "".join(f"{c['n_by_platform'][p]:>9}" for p in wm.PLATFORMS)
               + f"  {c['bbox']}")
+
+    w = index["world_ratio"]
+    print(f"\nNOAA-20 fire unit: {len(units)} (пиксел {int((kept['platform'] == 'noaa20').sum())}). "
+          f"Дэлхийн r: D {w['D']}, N {w['N']}  (Aqua пиксел / NOAA-20 unit)")
+    print(f"{'тив':<15}{'r_day':>8}{'r_night':>9}{'aqua D':>8}{'unit D':>8}{'aqua N':>8}{'unit N':>8}  flags")
+    for c in index["continents"]:
+        n = c["n"]
+        print(f"{c['id']:<15}{c['r_day']!s:>8}{c['r_night']!s:>9}{n['D']['aqua']:>8}{n['D']['noaa20_units']:>8}"
+              f"{n['N']['aqua']:>8}{n['N']['noaa20_units']:>8}  {','.join(c['flags'])}")
     return index
 
 

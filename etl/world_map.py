@@ -12,6 +12,7 @@ from collections import namedtuple
 from datetime import date, timedelta
 
 import geopandas as gpd
+import h3
 import numpy as np
 import pandas as pd
 
@@ -39,6 +40,12 @@ NE_TO_ID = {c.ne_name: c.id for c in CONTINENTS}
 NEAREST_MAX_DEG = 1.0
 SCHEMA = "0.1"
 PERIOD = ("2026-11-05", "2026-11-14")  # UTC, fetch_world_nrt.py-ийн START..END
+
+# #35: Aqua-equivalent (D2). VIIRS тал = NOAA-20 fire unit (D9), Aqua тал = пиксел. Terra, NOAA-21 оролцохгүй (D3).
+FIRE_UNIT_RES = 8
+CELL_RES = 5
+OVERPASS_GAP_MIN = 10  # ижил нүдэнд дараалсан цагийн зай > 10 мин бол шинэ overpass
+MIN_N = 30  # тив, D/N-д аль нэг тал < 30 бол дэлхийн харьцаа
 
 CLEAN_COLUMNS = ["platform", "lon", "lat", "frp", "conf", "date", "hhmm", "daynight",
                  "brightness", "bright_t31", "scan", "track"]
@@ -184,8 +191,12 @@ def points_doc(points, continent_id, period, synthetic=False):
                 dates=dates, columns=cols)
 
 
-def index_doc(points, dropped, bboxes, period, sources, synthetic=False):
-    """`index.json`: хугацаа, эх сурвалж, хасагдсан тоо, тивүүдийн жагсаалт."""
+def index_doc(points, dropped, bboxes, period, sources, synthetic=False, ratios=None):
+    """`index.json`: хугацаа, эх сурвалж, хасагдсан тоо, тивүүдийн жагсаалт.
+
+    ratios (continent_ratios()-ийн гаралт) өгвөл тив бүрт r_day, r_night, n, flags, fallback, cells_file,
+    дээд түвшинд world_ratio, harmonization нэмнэ (#35, additive).
+    """
     continents = []
     for c in CONTINENTS:
         sub = points[points["continent"] == c.id]
@@ -196,6 +207,111 @@ def index_doc(points, dropped, bboxes, period, sources, synthetic=False):
             id=c.id, name_en=c.name_en, name_mn=c.name_mn, bbox=bboxes[c.id],
             points_file=f"points_{c.id}.json", n_points=int(len(sub)),
             n_by_platform={p: int(by_platform.get(p, 0)) for p in PLATFORMS}))
-    return dict(schema_version=SCHEMA, synthetic=synthetic,
-                period=dict(start=period[0], end=period[1]), time_zone="UTC",
-                sources=list(sources), dropped=dict(dropped), continents=continents)
+        if ratios is not None:
+            cr = ratios["continents"][c.id]
+            continents[-1].update(r_day=round_r(cr["r_day"]), r_night=round_r(cr["r_night"]), n=cr["n"],
+                                  fallback=cr["fallback"], flags=list(cr["flags"]), cells_file=f"cells_{c.id}.json")
+    doc = dict(schema_version=SCHEMA, synthetic=synthetic,
+               period=dict(start=period[0], end=period[1]), time_zone="UTC",
+               sources=list(sources), dropped=dict(dropped), continents=continents)
+    if ratios is not None:
+        w = ratios["world"]
+        doc["world_ratio"] = dict(D=round_r(w["D"]), N=round_r(w["N"]), n=w["n"])
+        doc["harmonization"] = dict(fire_unit="h3_res8_x_overpass", overpass_gap_min=OVERPASS_GAP_MIN,
+                                    min_n=MIN_N, cell_resolution=CELL_RES, noaa20_vs="aqua")
+    return doc
+
+
+def round_r(r):
+    """Харьцааг файлд 4 оронтой бичнэ; null (тодорхойгүй) хэвээр."""
+    return None if r is None else round(r, 4)
+
+
+def minutes(hhmm):
+    """FIRMS acq_time (342 = 03:42) → өдрийн эхнээс хойш минут (222)."""
+    hhmm = pd.Series(hhmm).astype(int)
+    return (hhmm // 100) * 60 + hhmm % 100
+
+
+def fire_units(points):
+    """NOAA-20 hotspot-уудыг fire unit болгоно (D9): H3 res 8 нүд × overpass.
+
+    Overpass: ижил platform (зөвхөн NOAA-20), ижил тив, ижил UTC огноо, ижил res 8 нүдэн дэх цагуудыг эрэмбэлээд дараалсан хоёрын
+    зай > OVERPASS_GAP_MIN минут бол шинэ overpass (яг 10 мин = ижил overpass).
+    Буцаана: unit бүр нэг мөр — continent, date, h8, daynight (unit-ийн эхний hotspot-оос), lat, lon (эхний hotspot), n_pixels.
+    """
+    v = points[points["platform"] == "noaa20"].copy()
+    cols = ["continent", "date", "h8", "daynight", "lat", "lon", "n_pixels"]
+    if len(v) == 0:
+        return pd.DataFrame(columns=cols)
+    v["h8"] = [h3.latlng_to_cell(la, lo, FIRE_UNIT_RES) for la, lo in zip(v["lat"], v["lon"])]
+    v["min"] = minutes(v["hhmm"]).to_numpy()
+    key = ["continent", "date", "h8"]
+    v = v.sort_values(key + ["min"], kind="stable")
+    gap = v.groupby(key)["min"].diff()  # бүлгийн эхний цаг → NaN
+    v["unit"] = (gap.isna() | (gap > OVERPASS_GAP_MIN)).cumsum()
+    g = v.groupby("unit", sort=True)
+    out = g.first()[["continent", "date", "h8", "daynight", "lat", "lon"]]
+    out["n_pixels"] = g.size()
+    return out.reset_index(drop=True)[cols]
+
+
+def continent_ratios(points, units, min_n=MIN_N):
+    """Тив бүрийн Aqua/NOAA-20 харьцаа өдөр (D), шөнө (N) тусад нь: r = Σ Aqua пиксел / Σ NOAA-20 fire unit.
+
+    Ratio of sums (жилийн дундаж биш, D7). Тив, D/N-д аль нэг тал < min_n бол тухайн D/N-ийн дэлхийн харьцаа
+    (бүх тивийн нийлбэр) авч `flags`-д "ratio_fallback". Fire unit 0 бол харьцаа null (0 биш).
+    """
+    def counts(pts, us):
+        return {dn: {"aqua": int(((pts["platform"] == "aqua") & (pts["daynight"] == dn)).sum()),
+                     "noaa20_units": int((us["daynight"] == dn).sum()) if len(us) else 0}
+                for dn in ("D", "N")}
+
+    def ratio(n):
+        return n["aqua"] / n["noaa20_units"] if n["noaa20_units"] else None
+
+    world_n = counts(points, units)
+    world = {dn: ratio(world_n[dn]) for dn in ("D", "N")}
+    out = {}
+    for c in CONTINENTS:
+        n = counts(points[points["continent"] == c.id],
+                   units[units["continent"] == c.id] if len(units) else units)
+        fallback = {dn: min(n[dn].values()) < min_n for dn in ("D", "N")}
+        r = {dn: world[dn] if fallback[dn] else ratio(n[dn]) for dn in ("D", "N")}
+        out[c.id] = dict(r_day=r["D"], r_night=r["N"], n=n, fallback=fallback,
+                         flags=["ratio_fallback"] if any(fallback.values()) else [])
+    return {"world": dict(world, n=world_n), "continents": out}
+
+
+def cell_boundary(cell):
+    """H3 нүдний оройнууд [[lon, lat], ...]. 180°-ыг дамнавал сөрөг уртрагт +360 (east > 180, bbox-той ижил)."""
+    lonlat = [[lo, la] for la, lo in h3.cell_to_boundary(cell)]
+    if max(v[0] for v in lonlat) - min(v[0] for v in lonlat) > 180:
+        lonlat = [[lo + 360 if lo < 0 else lo, la] for lo, la in lonlat]
+    return [[round(lo, 3), round(la, 3)] for lo, la in lonlat]
+
+
+def cells_doc(points, units, ratios, continent_id, period, synthetic=False):
+    """Нэг тивийн `cells_{тив}.json`: H3 res 5 нүд бүрт Aqua пиксел, NOAA-20 unit (D/N), viirs_harm.
+
+    points: тухайн тивийн цэвэр hotspot-ууд; units: тэдгээрээс fire_units(); ratios: {"r_day", "r_night"}.
+    viirs_harm = Σ unit_D × r_D + Σ unit_N × r_N (Aqua-equivalent, D2). Харьцаа null бол null.
+    """
+    r = {"D": round_r(ratios["r_day"]), "N": round_r(ratios["r_night"])}  # index.json-тэй ижил утга
+    a = points[points["platform"] == "aqua"]
+    aqua = pd.Series([h3.latlng_to_cell(la, lo, CELL_RES) for la, lo in zip(a["lat"], a["lon"])],
+                     dtype=object).value_counts()
+    u = pd.DataFrame({"cell": [h3.cell_to_parent(h, CELL_RES) for h in units["h8"]],
+                      "daynight": list(units["daynight"])})
+    by_dn = u.groupby(["cell", "daynight"]).size()
+    out = []
+    for cell in sorted(set(aqua.index) | set(u["cell"])):
+        n = {dn: int(by_dn.get((cell, dn), 0)) for dn in ("D", "N")}
+        harm = None if any(n[dn] and r[dn] is None for dn in n) else \
+            round(sum(n[dn] * r[dn] for dn in n if n[dn]), 2)
+        lat, lon = h3.cell_to_latlng(cell)
+        out.append(dict(id=cell, lat=round(lat, 3), lon=round(lon, 3), boundary=cell_boundary(cell),
+                        viirs_harm=harm, aqua=int(aqua.get(cell, 0)), noaa20_units=n, r=r))
+    return dict(schema_version=SCHEMA, synthetic=synthetic, continent=continent_id, resolution=CELL_RES,
+                unit="aqua_equivalent_hotspots", period=dict(start=period[0], end=period[1]),
+                n=len(out), cells=out)

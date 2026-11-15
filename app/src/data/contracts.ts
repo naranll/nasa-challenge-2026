@@ -95,6 +95,23 @@ export interface WorldContinent {
   points_file: string;
   n_points: number;
   n_by_platform: Record<PlatformKey, number>;
+  /** #35: Aqua/NOAA-20 ratio used for this continent (own, or world on fallback). null = unknown. */
+  r_day?: number | null;
+  r_night?: number | null;
+  /** #35: this continent's own sums (Aqua pixels, NOAA-20 fire units). */
+  n?: WorldRatioCounts;
+  /** #35: true = fewer than `harmonization.min_n` on either side; the world ratio is used for that D/N. */
+  fallback?: { D: boolean; N: boolean };
+  /** #35: "ratio_fallback" when D or N fell back. */
+  flags?: string[];
+  /** #35: cells_{continent}.json */
+  cells_file?: string;
+}
+
+/** #35: Σ Aqua pixels and Σ NOAA-20 fire units, day and night. */
+export interface WorldRatioCounts {
+  D: { aqua: number; noaa20_units: number };
+  N: { aqua: number; noaa20_units: number };
 }
 
 /** world/index.json: period, sources, dropped counts and the continent list. */
@@ -107,6 +124,16 @@ export interface WorldIndexFile {
   /** Hotspots left out of every continent, counted. */
   dropped: { antarctica: number; seven_seas: number; no_continent: number };
   continents: WorldContinent[];
+  /** #35: Σ Aqua / Σ NOAA-20 fire units over all continents. null = no units. */
+  world_ratio?: { D: number | null; N: number | null; n: WorldRatioCounts };
+  /** #35: method constants. */
+  harmonization?: {
+    fire_unit: "h3_res8_x_overpass";
+    overpass_gap_min: number;
+    min_n: number;
+    cell_resolution: number;
+    noaa20_vs: "aqua";
+  };
 }
 
 export type WorldConfLevel = "low" | "nominal" | "high";
@@ -135,4 +162,33 @@ export interface WorldPointsFile {
     /** null = not matched (Terra, NOAA-21, or before #37). */
     match_class: (number | null)[];
   };
+}
+
+/** One H3 res 5 cell of world/cells_{continent}.json (#35). */
+export interface WorldCell {
+  /** H3 v4 index. */
+  id: string;
+  lat: number;
+  lon: number;
+  /** [lon, lat] vertices. Crossing 180°: negative lons + 360 (like bbox). */
+  boundary: [number, number][];
+  /** Aqua-equivalent: units_D × r_D + units_N × r_N. null if a needed ratio is null. */
+  viirs_harm: number | null;
+  /** Aqua pixels. */
+  aqua: number;
+  noaa20_units: { D: number; N: number };
+  /** Ratios used (= index r_day, r_night). */
+  r: { D: number | null; N: number | null };
+}
+
+/** world/cells_{continent}.json (#35). */
+export interface WorldCellsFile {
+  schema_version: string;
+  synthetic: boolean;
+  continent: WorldContinentId;
+  resolution: number;
+  unit: "aqua_equivalent_hotspots";
+  period: { start: string; end: string };
+  n: number;
+  cells: WorldCell[];
 }

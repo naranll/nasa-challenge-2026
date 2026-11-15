@@ -93,7 +93,7 @@
   "globe.tle.stale_hidden": "Orbit data is too old, so the position is not shown.",
   "globe.time.accelerated": "Sped up ×{n}",
   "globe.credit.tle": "Orbits: {source}, {date}",
-  "globe.credit.texture": "Earth image: three-globe example texture",
+  "globe.credit.texture": "Earth image: NASA Earth Observatory, Blue Marble: Next Generation (July 2004)",
   "globe.credit.boundaries": "Mongolia border: geoBoundaries, ODbL, © OpenStreetMap contributors",
   "globe.credit.land": "Land: Natural Earth",
   "globe.fallback.static_alt": "Picture of the Earth with the ground tracks of the 5 satellites",

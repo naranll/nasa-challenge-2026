@@ -93,7 +93,7 @@
   "globe.tle.stale_hidden": "Тойрог замын өгөгдөл хуучирсан тул байрлалыг харуулаагүй.",
   "globe.time.accelerated": "Хурдасгасан ×{n}",
   "globe.credit.tle": "Тойрог зам: {source}, {date}",
-  "globe.credit.texture": "Дэлхийн зураг: three-globe жишээ texture",
+  "globe.credit.texture": "Дэлхийн зураг: NASA Earth Observatory, Blue Marble: Next Generation (2004 оны 7-р сар)",
   "globe.credit.boundaries": "Монголын хил: geoBoundaries, ODbL, © OpenStreetMap contributors",
   "globe.credit.land": "Хуурай газар: Natural Earth",
   "globe.fallback.static_alt": "Дэлхий ба 5 хиймэл дагуулын тойрог замын зураг",

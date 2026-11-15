@@ -146,6 +146,27 @@
   color: var(--fg);
 }
 
+/* #38: Harmonize горимын match статистикийн мөр. */
+.world-stats {
+  margin: 0.6rem 0 0.9rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.world-stats-title {
+  margin: 0 0 0.3rem;
+  color: var(--fg);
+}
+
+.world-stats ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.world-stats li + li {
+  margin-top: 0.2rem;
+}
+
 @media (max-width: 640px) {
   .world-globe-hint {
     display: none;

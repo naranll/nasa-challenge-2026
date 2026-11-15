@@ -1,6 +1,7 @@
 /**
- * Dashboard-ийн World map хэсэг (#31, #34, #36): тив сонгох, VIIRS | MODIS сэлгэх, түүхий hotspot-ын 3D globe,
- * Harmonize товчоор H3 res 5 hexagon (Aqua-equivalent, хоёр дэлгэц нэг шкалтай), тивийн r мөр.
+ * Dashboard-ийн World map хэсэг (#31, #34, #36, #38): тив сонгох, VIIRS | MODIS сэлгэх, түүхий hotspot-ын 3D globe,
+ * Harmonize товчоор H3 res 5 hexagon (Aqua-equivalent, хоёр дэлгэц нэг шкалтай), тивийн r мөр,
+ * Harmonize горимд NOAA-20 ↔ Aqua match-ийн статистикийн мөр (IoU, P(V|M), P(M|V), Not comparable).
  * index.json-ийг эхэнд, тивийн points эсвэл cells файлыг зөвхөн тэр тив, тэр горимыг сонгосон үед ачаална.
  */
 import { useMemo, useState } from "react";
@@ -12,6 +13,7 @@ import { platformsOf, type Sensor } from "../globe/platforms";
 import { useI18n, type MessageKey } from "../i18n";
 import "../calendar/calendar.css";
 import { cellValue, drawnOn, harmMax, NO_RATIO_COLOR } from "./cellsData";
+import { matchLines, type MatchConfig } from "./matchData";
 import { WorldGlobe } from "./WorldGlobe";
 import { PLATFORM_COLOR } from "./worldData";
 
@@ -148,6 +150,8 @@ export function WorldMapSection() {
               </div>
             </>
           )}
+          {/* index.json-оос тул cells файл ачаалж байхад ч харагдана. */}
+          {harm && <MatchRow continent={continent} match={index.match} />}
           <p className="chart-note">
             {t("world.note.dropped", { n: formatNumber(dropped, lang) })} {t("world.note.static")}
           </p>
@@ -181,5 +185,33 @@ function RatioRow({ continent }: { continent: WorldContinent }) {
       {t("world.ratio.row", { d: ratio(continent.r_day), n: ratio(continent.r_night) })}
       {fallbackKey && <span className="world-ratio-fallback">{t(fallbackKey)}</span>}
     </p>
+  );
+}
+
+/**
+ * Harmonize горимын статистикийн мөр (#38): тивийн IoU, P(V|M), P(M|V) ба Not comparable-ийн хувь.
+ * null утгыг 'N/A' биш, учрыг нь хэлсэн өгүүлбэрээр. #37-оос өмнөх index.json-д харагдахгүй.
+ */
+function MatchRow({ continent, match }: { continent: WorldContinent; match: MatchConfig | undefined }) {
+  const { t, lang } = useI18n();
+  const lines = matchLines(continent, match);
+  if (!lines || !match) return null;
+  const params = (line: (typeof lines)[number]) => {
+    const out: Record<string, string> = {};
+    for (const [k, v] of Object.entries(line.ratios ?? {})) out[k] = formatNumber(v, lang, { maximumFractionDigits: 2 });
+    for (const [k, v] of Object.entries(line.shares ?? {}))
+      out[k] = v === null ? t("world.stats.nc.none") : formatNumber(v, lang, { style: "percent", maximumFractionDigits: 1 });
+    for (const [k, v] of Object.entries(line.counts ?? {})) out[k] = formatNumber(v, lang);
+    return out;
+  };
+  return (
+    <div className="world-stats">
+      <p className="world-stats-title">{t("world.stats.title", { window: formatNumber(match.window_min, lang) })}</p>
+      <ul>
+        {lines.map((line) => (
+          <li key={line.key}>{t(line.key, params(line))}</li>
+        ))}
+      </ul>
+    </div>
   );
 }

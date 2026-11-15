@@ -1,5 +1,6 @@
 import { cpSync, existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, extname, join, relative, resolve } from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv, type Plugin } from "vite";
 
@@ -53,6 +54,6 @@ export default defineConfig(({ mode }) => {
     // satellite.js re-exports an optional WASM build whose worker uses top-level await. We only use
     // its plain JS functions, so the worker is never loaded, but it must still be bundled as ES.
     worker: { format: "es" as const },
-    plugins: [react(), dataDir(mock ? join(repoRoot, "fixtures") : join(repoRoot, "public", "data"), base, mock)],
+    plugins: [react(), tailwindcss(), dataDir(mock ? join(repoRoot, "fixtures") : join(repoRoot, "public", "data"), base, mock)],
   };
 });

@@ -111,20 +111,8 @@ export function Ch5Notes() {
         The outline is Mongolia's border from the repository's globe/assets/mongolia.json. The orange marks are <strong>illustrative</strong>: each is drawn at a seeded random spot inside a cell of the harmonized hex grid and stands
         for about {DETECTIONS_PER_MARK} detections. They are not real detection positions (<Claimed id="S-C17">claim S-C17</Claimed>). The data is a synthetic fixture until the real hex_year files exist.
       </p>
-      <h4>The test and the Numrug case</h4>
-      <ul>
-        <li>
-          <strong>[verify]</strong> The Numrug pin is at an approximate spot in eastern Mongolia, not a surveyed position.
-        </li>
-        <li>
-          <strong>[verify]</strong> “8 October”, “a strictly protected area” and “satellites saw it first” come from the project brief and still need an official source. No cause is stated: cause under investigation.
-        </li>
-        <li>
-          <strong>[verify]</strong> The test result (rebuilding Aqua's counts from VIIRS alone, one year left out) is a placeholder until the real result exists. No number is shown.
-        </li>
-      </ul>
       <h4>Where it leads</h4>
-      <p>“See it in Mongolia” opens the app's dashboard (#/dashboard). Mongolia appears only in this chapter.</p>
+      <p>“See the harmony page” opens the app's Harmonizing page (#/harmonizing), where the proof of the method lives. Mongolia appears only in this chapter.</p>
     </>
   );
 }

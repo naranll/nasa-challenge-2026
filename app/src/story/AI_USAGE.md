@@ -39,3 +39,6 @@ No Higgsfield tool processed any image. Nothing left the workspace.
 
 ## Chapters v2: one-page layouts (2026-11-15)
 - Claude Code (Claude Sonnet 5.5) rewrote the five scenes (`scenes/Ch1Crews` ... `Ch5Reveal`), `scenes/chapters5.css`, new strings in `scenes/kit.tsx` and the five entries in `chapters.json`, from the owner's brief: ch1 satellites sort into MODIS/VIIRS groups, ch2 mechanism + specialties + launch/stop history on one screen, ch3 retirement, mentor handover, "they are different", spark, ch4 harmonization at the centre with the steps around it, ch5 Mongolia test and the Numrug case. All text and numbers trace to existing claims; unverified items show as pink `[ verify ]`. Layouts checked by screenshot at 1440x900 and 390x844.
+
+## Chapters v3 (2026-11-15)
+- Claude Code (Claude Sonnet 5.5): ch2 detection demo redone (`scenes/DetectDemo.tsx`: satellite flies over, beam, heat rises, zoom lens shows MODIS one big pixel vs VIIRS several small pixels, three captions); ch3 rebuilt as a text-message chat (retirement, VIIRS reply, our team's fusion icon with "Let's harmonize!"; copy written from the owner's brief); ch5 reduced to the Mongolia map plus a button to the app's Harmonizing page. The fusion icon is an original SVG (two overlapping circles and a spark). Checked by screenshot at 1440x900 and 390x844.

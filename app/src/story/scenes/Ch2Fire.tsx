@@ -14,53 +14,8 @@ import { decimalYear, LIFECYCLE } from "../data/handover";
 import type { PlatformId } from "../../globe/platforms";
 import { SENSOR_OF } from "../../globe/platforms";
 import type { StageProps } from "../types";
-import { Beat, easeOut, Icon, mix, PlayPause, ramp, sceneText, SensorTag, usePlayback, win } from "./kit";
-
-const EMBER = { x: 215, y: 150 };
-const BAND_W = 74;
-
-function Triangle({ x, y, r }: { x: number; y: number; r: number }) {
-  return <path d={`M${x},${y - r} L${x + r * 0.95},${y + r * 0.78} L${x - r * 0.95},${y + r * 0.78} Z`} fill="var(--story-ember)" stroke="var(--story-viirs-bright)" strokeWidth="3" strokeLinejoin="round" />;
-}
-
-export function Field({ loop }: { loop: number }) {
-  const t1 = easeOut(ramp(loop, 0.05, 0.4));
-  const t2 = easeOut(ramp(loop, 0.45, 0.8));
-  const x1 = mix(-110, 520, t1);
-  const x2 = mix(-110, 520, t2);
-  const modisOn = ramp(x1, EMBER.x - 10, EMBER.x + 30);
-  const viirsOn = ramp(x2, EMBER.x - 10, EMBER.x + 30);
-  const fade = 1 - ramp(loop, 0.96, 1);
-  const band = (x: number, color: string, on: boolean) =>
-    on && x > -100 && x < 510 ? (
-      <g transform={`translate(${x} 0) skewX(-12)`}>
-        <rect x={-BAND_W / 2} y="-10" width={BAND_W} height="320" rx="22" fill={color} fillOpacity="0.16" stroke={color} strokeWidth="3" />
-      </g>
-    ) : null;
-  return (
-    <svg className="c2-field" viewBox="0 0 430 300" role="img" aria-label="A band sweeps a dark field. The same fire lights up as a big dot for MODIS and a small triangle for VIIRS." focusable="false">
-      <defs>
-        <clipPath id="c2-clip">
-          <rect x="2" y="2" width="426" height="296" rx="26" />
-        </clipPath>
-      </defs>
-      <rect x="2" y="2" width="426" height="296" rx="26" fill="var(--story-plate)" />
-      <g opacity={fade} clipPath="url(#c2-clip)">
-        {band(x1, "var(--story-modis)", t1 > 0 && t1 < 1)}
-        {band(x2, "var(--story-viirs-bright)", t2 > 0 && t2 < 1)}
-        <circle cx={EMBER.x} cy={EMBER.y} r="7" fill="var(--story-ember)" stroke="var(--story-ink)" strokeWidth="2" />
-        <g opacity={modisOn} transform={`translate(${EMBER.x} ${EMBER.y}) scale(${mix(0.4, 1, easeOut(modisOn))}) translate(${-EMBER.x} ${-EMBER.y})`}>
-          <circle cx={EMBER.x} cy={EMBER.y} r="52" fill="var(--story-ember)" fillOpacity="0.16" />
-          <circle cx={EMBER.x} cy={EMBER.y} r="34" fill="var(--story-ember)" stroke="var(--story-modis)" strokeWidth="3" />
-        </g>
-        <g opacity={viirsOn} transform={`translate(${EMBER.x} ${EMBER.y}) scale(${mix(0.4, 1, easeOut(viirsOn))}) translate(${-EMBER.x} ${-EMBER.y})`}>
-          <Triangle x={EMBER.x} y={EMBER.y} r={13} />
-        </g>
-      </g>
-      <rect x="2" y="2" width="426" height="296" rx="26" fill="none" stroke="var(--story-hairline)" strokeWidth="3" />
-    </svg>
-  );
-}
+import { DetectDemo } from "./DetectDemo";
+import { Beat, easeOut, Icon, PlayPause, ramp, sceneText, SensorTag, usePlayback, win } from "./kit";
 
 const MODIS_ROWS: { icon: "heat" | "pair" | "record"; text: string }[] = [
   { icon: "heat", text: "Coarser pixels, bigger dots" },
@@ -162,7 +117,7 @@ export function Ch2Fire({ progress: p, reduced, lowBandwidth, lang }: StageProps
     const v = readParam("loop");
     return v !== null && v !== "" && Number.isFinite(Number(v)) ? Math.min(1, Math.max(0, Number(v))) : null;
   }, []);
-  const pb = usePlayback({ still, active: true, seconds: 9, key: "c2", rest: 0.9, frozen });
+  const pb = usePlayback({ still, active: true, seconds: 16, key: "c2", rest: 0.74, frozen });
 
   // Wide: three parts enter in turn and stay. Narrow: one part at a time.
   const vMech = wide ? (still ? 1 : ramp(p, 0.02, 0.16)) : still ? 1 : win(p, -0.1, 0.36, 0.07);
@@ -180,7 +135,7 @@ export function Ch2Fire({ progress: p, reduced, lowBandwidth, lang }: StageProps
             <Specialty sensor="MODIS" rows={MODIS_ROWS} />
           </div>
           <div className="c2-mid" style={show(vMech)}>
-            <Field loop={pb.phase} />
+            <DetectDemo loop={pb.phase} labels={[t("c2Fly"), t("c2Heat"), t("c2BigPixel"), t("c2SmallPixels"), t("c2Alt")]} />
           </div>
           <div className="c2-right" style={show(vSpec)}>
             <Specialty sensor="VIIRS" rows={VIIRS_ROWS} />

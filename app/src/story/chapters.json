@@ -783,7 +783,7 @@
         "headline": "Terra and Aqua are retiring soon",
         "body": "Their long watch is coming to an end.",
         "caption": "Retirement dates are not shown: they are still being checked. Satellite pictures are stylized illustrations.",
-        "alt": "Terra and Aqua droop and look sad as they near retirement. Aqua passes the record to the young NOAA-21. But the two sensors see the same fire differently, a big dot against a small triangle. Then a spark grows between them."
+        "alt": "A text chat. Terra and Aqua say: We are retiring. The three VIIRS satellites answer: Wait, this early?! I don't know how to handle this alone! Then our team's fusion icon says: I have an idea. Let's harmonize!"
       },
       "mn": null
     },
@@ -895,10 +895,10 @@
         }
       ],
       "en": {
-        "headline": "We tested it on Mongolia",
-        "body": "One merged record, then one real case: Numrug.",
-        "caption": "Hotspot marks are illustrative. Numrug is shown at an approximate location. Facts about the case are still being checked.",
-        "alt": "The outline of Mongolia with one merged set of fire marks and a pin for Numrug. A card describes the test and a card describes the Numrug case. A link opens the dashboard."
+        "headline": "Tested on Mongolia's data",
+        "body": "Open the harmony page to see the proof.",
+        "caption": "Hotspot marks are illustrative, not real detection positions.",
+        "alt": "The outline of Mongolia with one merged set of fire marks and a button that opens the harmony page, where the proof is shown."
       },
       "mn": null
     }

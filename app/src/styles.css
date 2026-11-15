@@ -26,53 +26,39 @@ body {
   text-align: center;
 }
 
-.site-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #1c2233;
-}
-
-.site-title {
-  font-weight: 700;
-  margin-right: auto;
-}
-
-.site-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.75rem;
-}
-
-.site-header a {
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.site-header a.active {
-  color: var(--accent);
-}
-
-.site-header button {
-  background: none;
-  color: var(--fg);
-  border: 1px solid var(--muted);
-  border-radius: 4px;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-}
-
 main {
   padding: 1rem;
   max-width: 72rem;
   margin: 0 auto;
 }
 
-footer {
-  padding: 1rem;
-  color: var(--muted);
-  font-size: 0.875rem;
-  text-align: center;
+/* Former header options, shown in the clicked satellite's card */
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #1c2233;
+}
+
+nav.site-nav a,
+nav.site-nav button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 0.7rem;
+  border: 1px solid #2a3248;
+  border-radius: 6px;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav.site-nav a.active {
+  color: var(--accent);
+  border-color: var(--accent);
 }

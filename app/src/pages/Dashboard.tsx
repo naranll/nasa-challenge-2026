@@ -5,6 +5,7 @@ import { ViewSwitch } from "../calendar/ViewSwitch";
 import type { CalendarFile, RegionsFile } from "../data/contracts";
 import { dataOf, useDataFile } from "../data/useDataFile";
 import { useI18n } from "../i18n";
+import { WorldMapSection } from "../world/WorldMapSection";
 
 const DEFAULT_REGION = "mongolia";
 
@@ -56,6 +57,7 @@ export default function Dashboard() {
           <p className="chart-note">{t(view === "raw" ? "dash.note.raw" : "dash.note.harmonized")}</p>
         </>
       )}
+      <WorldMapSection />
     </section>
   );
 }

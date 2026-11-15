@@ -1,0 +1,75 @@
+/* Dashboard World map (#34). Товч, select-ийн загварыг calendar.css-ээс (.view-switch, .dashboard-controls) авна. */
+
+.world-section {
+  margin-top: 2.5rem;
+}
+
+.world-map {
+  position: relative;
+  width: 100%;
+  border: 1px solid #1c2233;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.world-map canvas {
+  display: block;
+  cursor: crosshair;
+}
+
+/* Hover хийсэн цэгийг тойрсон цагираг */
+.world-map-ring {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border: 1.5px solid var(--fg);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.world-map-tip {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(5, 7, 13, 0.92);
+  border: 1px solid var(--muted);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.world-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.world-legend-title {
+  color: var(--muted);
+}
+
+.world-legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.world-swatch {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.35rem;
+  border-radius: 2px;
+  vertical-align: -0.05rem;
+}

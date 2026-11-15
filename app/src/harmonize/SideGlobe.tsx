@@ -8,7 +8,7 @@ import { Color, MeshPhongMaterial } from "three";
 import { rampColor } from "../calendar/scale";
 import earthUrl from "../globe/assets/earth-day.jpg";
 import { useElementSize } from "../globe/env";
-import { MONGOLIA, MONGOLIA_CENTER } from "../globe/geo";
+import { MONGOLIA_CENTER } from "../globe/geo";
 import { useI18n } from "../i18n";
 import type { CameraSync, Side } from "./cameraSync";
 import type { GlobeCell } from "./harmonizeData";
@@ -158,11 +158,6 @@ export default function SideGlobe({ side, cells, yearIndex, max, sync, coarsePoi
           showAtmosphere={!coarsePointer}
           atmosphereColor="#7ab8ff"
           atmosphereAltitude={0.12}
-          polygonsData={MONGOLIA.features}
-          polygonCapColor={() => "rgba(255, 214, 140, 0.08)"}
-          polygonSideColor={() => "rgba(0, 0, 0, 0)"}
-          polygonStrokeColor={() => "#ffe2b0"}
-          polygonAltitude={0.002}
           pointsData={columns}
           pointLat="lat"
           pointLng="lng"

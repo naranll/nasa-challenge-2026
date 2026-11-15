@@ -108,7 +108,7 @@
   "cal.cell.harmonized": "{ym}: {n} Aqua-equivalent hotspots",
   "cal.empty.harmonized": "Harmonized counts are not ready yet: the conversion ratios between the satellites have not been computed. Switch to Raw to see each satellite's own counts.",
   "cal.empty.raw": "No hotspot counts are available for this region yet.",
-  "cal.legend.unit": "hotspots per month",
+  "cal.legend.unit": "hotspots per month (square-root scale)",
   "cal.legend.forecast": "upcoming month",
   "cal.legend.noaa20": "counted from NOAA-20",
   "cal.legend.partial": "month not finished yet",
@@ -220,5 +220,9 @@
   "world.ratio.unknown": "unknown",
   "world.ratio.fallback": "Few data on this continent, so the world ratio is used.",
   "world.ratio.fallback.D": "Few daytime data on this continent, so the world day ratio is used.",
-  "world.ratio.fallback.N": "Few night-time data on this continent, so the world night ratio is used."
+  "world.ratio.fallback.N": "Few night-time data on this continent, so the world night ratio is used.",
+  "cal.harmonized.unavailable": "not ready yet",
+  "world.globe.hint": "DRAG · ROTATE   SCROLL · ZOOM   HOVER · DETAILS",
+  "world.globe.reset": "Re-centre",
+  "world.globe.loading": "Loading hotspots…"
 }

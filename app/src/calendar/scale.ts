@@ -23,3 +23,11 @@ export function rampColor(value: number, max: number): string {
 
 /** CSS gradient of the whole ramp, for legends. */
 export const RAMP_GRADIENT = `linear-gradient(to right, ${STOPS.map((c) => `rgb(${c.join(", ")})`).join(", ")})`;
+
+/**
+ * Same ramp on a square-root scale, for the calendar: one record month would otherwise turn every
+ * other month the same dark blue. The legend marks max / 4 at the middle of the ramp.
+ */
+export function sqrtRampColor(value: number, max: number): string {
+  return rampColor(Math.sqrt(Math.max(0, value)), Math.sqrt(Math.max(0, max)));
+}

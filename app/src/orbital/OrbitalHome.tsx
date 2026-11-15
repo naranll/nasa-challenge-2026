@@ -5,9 +5,9 @@
  *
  * The scene fills the screen. Overlays are positioned inside this box (not the window).
  */
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './orbital.css'
 import Scene from './scene/Scene'
 import SensorPanel from './ui/SensorPanel'
@@ -61,6 +61,18 @@ function FireClock() {
 
 export default function OrbitalHome() {
   const drawerOpen = useAppStore((s) => s.selectedId !== null)
+  const navigate = useNavigate()
+  const [leaving, setLeaving] = useState(false)
+
+  /** Fade the globe out, then open the story, so the route change feels like one motion. */
+  const openStory = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // let ctrl/cmd/middle clicks open a new tab as usual
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+    e.preventDefault()
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return navigate(ROUTES.story)
+    setLeaving(true)
+    setTimeout(() => navigate(ROUTES.story), 450)
+  }
 
   // Esc closes the drawer and releases the camera
   useEffect(() => {
@@ -116,8 +128,16 @@ export default function OrbitalHome() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute right-4 bottom-4 z-30 sm:right-8 sm:bottom-5"
+            className="absolute right-4 bottom-4 z-30 flex items-center gap-3 sm:right-8 sm:bottom-5"
           >
+            <Link
+              to={ROUTES.story}
+              onClick={openStory}
+              style={{ color: '#F27D26' }}
+              className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full border border-[#F27D26]/60 bg-[#0B0D13]/60 px-5 font-mono text-[11px] font-medium tracking-[0.22em] text-[#F27D26] no-underline backdrop-blur transition-[background-color,transform] duration-150 hover:-translate-y-px hover:bg-[#F27D26]/15"
+            >
+              READ OUR STORY
+            </Link>
             <Link
               to={ROUTES.dashboard}
               // inline: the global `a { color }` in styles.css is unlayered and would beat the Tailwind class
@@ -132,6 +152,13 @@ export default function OrbitalHome() {
 
       <SatelliteTooltip />
       <CompareDrawer />
+
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 z-50 bg-[#0B0D13] transition-opacity duration-[450ms] ease-out ${
+          leaving ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
     </section>
   )
 }

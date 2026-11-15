@@ -12,3 +12,7 @@ Notes for the reviewer:
 - Mongolian strings in `strings/mn.json` were written by the AI and are marked `needs-native-proof`. Chapter copy has no Mongolian yet.
 - All chapter copy in `chapters.json` is a placeholder taken from the brief's beats; factual statements are tagged `[verify]`.
 - Chart numbers come only from `calendar/mongolia.json`, which is currently the SYNTHETIC fixture.
+
+## S1 design skin (2026-11-15)
+- Claude Code (Claude Sonnet 5.5) wrote `skin/**`, `story-skin.html`, `SKIN_README.md`: components, tokens, motion, SVG cartoon satellites and the TwoHands line art (original, hand-written SVG paths). Reviewed by screenshot at 1440x900 and 390x844; font Ө/Ү coverage checked with fontTools.
+- Higgsfield: NOT used. Plan was image-to-image of the five `refs/*_plate.png` into flat cyan+white cartoons. The upload host `upload.higgsfield.ai` was blocked by the sandbox network, and the request to allow it was declined, so no job was submitted (no job IDs). Fallback: five SVG satellites in `CartoonSatellite.tsx`. Date: 2026-11-15.

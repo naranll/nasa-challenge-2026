@@ -81,7 +81,9 @@ def calendar(region_id, size, seed):
     for r in rows:
         v = ref[int(r["ym"][5:])]
         r["baseline"] = dict(median=quantile_lower(v, 0.5), p25=quantile_lower(v, 0.25), p75=quantile_lower(v, 0.75))
-        if r["ym"] >= "2026-11":  # upcoming months: dashed in the UI, no observed value yet
+        if r["ym"] == "2026-11":  # the current month: only its first days are observed
+            r["flags"].append("partial_month")
+        if r["ym"] >= "2026-12":  # upcoming months: dashed in the UI, no observed value yet
             r["is_forecast"] = True
             r["harmonized"] = None
             r["raw"] = dict(terra=None, aqua=None, snpp=None, noaa20=None, noaa21=None)
@@ -134,6 +136,26 @@ def main():
     write(OUT / "hex_year" / "raw.json", raw)
     write(OUT / "hex_year" / "harm.json", harm)
     write(OUT / "pipeline_stats.json", pipeline_stats(calendars["mongolia"]))
+    write(OUT / "validation.json", validation())
+
+
+def validation():
+    """Made-up test results in the validation.json shape (PLAN D10). Test ids from contracts/README.md."""
+    rnd = random.Random(11)
+    per_year = [dict(year=y, wape=round(rnd.uniform(0.08, 0.22), 3)) for y in range(2012, 2022)]
+    tests = [
+        dict(id="aqua_loyo", name_en="Aqua rebuilt from S-NPP, leave-one-year-out", metric="WAPE",
+             value=round(sum(p["wape"] for p in per_year) / len(per_year), 3), baseline_value=0.231,
+             per_year=per_year, note=""),
+        dict(id="aqua_forward", name_en="Calibrate 2012-2018, test 2019-2021", metric="WAPE",
+             value=0.172, baseline_value=0.244, per_year=[], note=""),
+        dict(id="r2_loyo", name_en="S-NPP rebuilt from NOAA-20, leave-one-year-out", metric="WAPE",
+             value=0.064, baseline_value=None, per_year=[], note=""),
+        dict(id="year_rank_spearman", name_en="Rank of yearly totals, Spearman", metric="spearman",
+             value=0.97, baseline_value=None, per_year=[], note=""),
+    ]
+    return dict(schema_version=SCHEMA, synthetic=True, tests=tests,
+                limitations=["SYNTHETIC: made-up test results for building the site."])
 
 
 # Made-up last days: S-NPP's ends 12 days before the others, like the real FIRMS stop (PLAN §1).

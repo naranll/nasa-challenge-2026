@@ -5572,19 +5572,20 @@
   },
   {
    "ym": "2026-11",
-   "harmonized": null,
+   "harmonized": 8,
    "chain_platform": "noaa20",
    "raw": {
-    "terra": null,
-    "aqua": null,
+    "terra": 6,
+    "aqua": 7,
     "snpp": null,
-    "noaa20": null,
-    "noaa21": null
+    "noaa20": 24,
+    "noaa21": 24
    },
-   "is_forecast": true,
+   "is_forecast": false,
    "flags": [
     "noaa20_derived",
-    "chain_switch"
+    "chain_switch",
+    "partial_month"
    ],
    "baseline": {
     "median": 8,

@@ -2,11 +2,11 @@
  "schema_version": "0.1",
  "synthetic": true,
  "rows_by_platform": {
-  "terra": 61042,
-  "aqua": 63759,
+  "terra": 61206,
+  "aqua": 63953,
   "snpp": 128062,
-  "noaa20": 76288,
-  "noaa21": 36485
+  "noaa20": 76960,
+  "noaa21": 37157
  },
  "first_detection": {
   "terra": "2002-07-05",
@@ -22,7 +22,7 @@
   "noaa20": "2026-11-13",
   "noaa21": "2026-11-14"
  },
- "n_hotspots_total": 365636,
+ "n_hotspots_total": 367338,
  "years_covered": [
   2002,
   2026

@@ -1,0 +1,140 @@
+/* Calendar heatmap, Raw / Harmonized switch, Dashboard controls (#14). */
+
+.view-switch button {
+  background: none;
+  color: var(--fg);
+  border: 1px solid var(--muted);
+  border-radius: 4px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.view-switch button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Raw / Harmonized switch */
+.view-switch {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.dashboard-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+
+.dashboard-controls select {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--muted);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font: inherit;
+}
+
+.calendar {
+  margin: 0;
+  min-width: 0;
+}
+
+.calendar figcaption {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-scroll {
+  overflow-x: auto;
+}
+
+.calendar-grid {
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-size: 0.6875rem;
+  width: 100%;
+  min-width: 22rem;
+}
+
+.calendar-grid th {
+  color: var(--muted);
+  font-weight: 400;
+  text-align: center;
+}
+
+.calendar-grid tbody th {
+  text-align: right;
+  padding-right: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar-grid td {
+  height: 0.9rem;
+  border-radius: 2px;
+  background: #0e1322;
+}
+
+.calendar-grid td[data-empty] {
+  background: none;
+}
+
+.calendar-grid td[data-noaa20],
+.calendar-key[data-noaa20] {
+  outline: 1px dashed #58b8f5;
+  outline-offset: -1px;
+}
+
+.calendar-grid td[data-forecast],
+.calendar-key[data-forecast] {
+  background: none;
+  outline: 1px dashed var(--muted);
+  outline-offset: -1px;
+}
+
+.calendar-grid td[data-partial],
+.calendar-key[data-partial] {
+  background-image: linear-gradient(135deg, transparent 45%, var(--bg) 45%, var(--bg) 55%, transparent 55%);
+}
+
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.calendar-ramp {
+  width: 8rem;
+  height: 0.6rem;
+  border-radius: 2px;
+}
+
+.calendar-legend-unit {
+  margin-right: 0.75rem;
+}
+
+.calendar-key {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 2px;
+  background: #6b6f73;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

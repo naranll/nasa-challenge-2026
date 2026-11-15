@@ -125,17 +125,18 @@ No NASA logos or mission identifiers were generated or modified; keep it that wa
 
 | Link Text | Link URL |
 |---|---|
-| NASA FIRMS: Archive Download (MODIS C6.1 Terra/Aqua; VIIRS S-NPP, NOAA-20, NOAA-21 active-fire detections, Mongolia) | https://firms.modaps.eosdis.nasa.gov/download/ |
-| NASA FIRMS (project home, data description and citation) | https://firms.modaps.eosdis.nasa.gov/ |
-| NASA Earthdata: Transitioning from Suomi NPP VIIRS (what FIRMS users need to know) | https://www.earthdata.nasa.gov/news/blog/transitioning-from-suomi-npp-viirs-omps-what-firms-users-need-know |
-| MODIS C6/C6.1 Active Fire User Guide | https://earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf |
-| NASA mission pages (launch dates and status: Terra, Aqua) | https://science.nasa.gov/mission/terra/ |
-| NASA mission page: Aqua | https://science.nasa.gov/mission/aqua/ |
-| NASA NTRS: Terra orbit drift poster (20250000522) | https://ntrs.nasa.gov/citations/20250000522 |
+| NASA FIRMS Archive Download: MODIS C6.1 (Terra, Aqua) and VIIRS (Suomi NPP, NOAA-20, NOAA-21) active-fire detections for Mongolia | https://firms.modaps.eosdis.nasa.gov/download/ |
+| NASA FIRMS Area API: near-real-time hotspots for the world map (2026-11-05 to 2026-11-14) | https://firms.modaps.eosdis.nasa.gov/api/area/ |
+| NASA FIRMS home page (data description and citation) | https://firms.modaps.eosdis.nasa.gov/ |
+| NASA Earthdata: Transitioning from Suomi NPP VIIRS | https://www.earthdata.nasa.gov/news/blog/transitioning-from-suomi-npp-viirs-omps-what-firms-users-need-know |
 | NASA LAADS: MODIS to VIIRS transition | https://ladsweb.modaps.eosdis.nasa.gov/learn/modis-to-viirs-transition |
+| MODIS C6/C6.1 Active Fire User Guide | https://earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf |
+| NASA Terra mission page (launch date, status) | https://science.nasa.gov/mission/terra/ |
+| NASA Aqua mission page (launch date, status) | https://science.nasa.gov/mission/aqua/ |
 | NASA Aqua Status, March 2022 | https://aqua.nasa.gov/sites/default/files/AquaStatus_March2022.pdf |
+| NASA NTRS: Terra orbit drift poster (20250000522) | https://ntrs.nasa.gov/citations/20250000522 |
 
-*Verify each link opens publicly before submitting.* Add NASA GIBS only if the hotspot-detail imagery was actually built (PLAN lists it as MVP+, not confirmed). Add the Earth texture's source if it is a NASA image — see below.
+*Verify each link opens publicly before submitting.* If `earth-day.jpg` is a NASA image, add its exact source page here.
 
 ---
 
@@ -143,13 +144,19 @@ No NASA logos or mission identifiers were generated or modified; keep it that wa
 
 | Link Text | Link URL |
 |---|---|
-| CelesTrak GP orbital elements (TLEs for the Home globe) | https://celestrak.org/NORAD/elements/gp.php |
+| CelesTrak GP orbital elements (satellite orbits on the Home globe) | https://celestrak.org/NORAD/elements/gp.php |
 | geoBoundaries Mongolia ADM1 (province boundaries, ODbL 1.0, © OpenStreetMap contributors) | https://www.geoboundaries.org/api/current/gbOpen/MNG/ADM1/ |
+| Natural Earth 1:110m countries (world land outline and continent assignment, public domain) | https://www.naturalearthdata.com/downloads/110m-cultural-vectors/ |
 | NOAA NESDIS (NOAA-20 / NOAA-21 operational status) | https://www.nesdis.noaa.gov/ |
-| Meteomatics weather API — **only if** the weather features were actually used | https://www.meteomatics.com/en/api/getting-started/ |
 | H3 geospatial index (Uber, Apache-2.0) | https://h3geo.org/ |
-| react-globe.gl / three.js / satellite.js / React / Vite (open-source libraries, MIT) | https://github.com/vasturiano/react-globe.gl |
-| LightGBM, scikit-learn, pandas, GeoPandas (open-source libraries) | https://lightgbm.readthedocs.io/ |
+| react-globe.gl (3D globe library, MIT) | https://github.com/vasturiano/react-globe.gl |
+| satellite.js (orbit propagation, MIT) | https://github.com/shashwatak/satellite-js |
+| three.js (3D rendering, MIT) | https://github.com/mrdoob/three.js |
+| LightGBM (forecast model) | https://lightgbm.readthedocs.io/ |
+| pandas, GeoPandas, scikit-learn (data and modelling libraries) | https://pandas.pydata.org/ |
+| Earth texture `earth-day.jpg`: **[SOURCE UNKNOWN, fill in]** | **[URL]** |
+
+Meteomatics is left out on purpose: the repo only has a connection check, not weather data. Add it back only if it was really used.
 
 ---
 

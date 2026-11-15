@@ -1,0 +1,111 @@
+/*
+ * Orbital Wildfire home page styles.
+ * Tailwind is loaded WITHOUT its global reset (preflight) and only scans this folder,
+ * so the other pages keep their own look. A small reset scoped to .orbital-home stands in.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+@source './';
+
+@theme {
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --color-space: #0b0d13;
+  --color-space-2: #141824;
+  --color-modis: #e8d595;
+  --color-viirs: #98d8e8;
+  --color-fire: #f27d26;
+}
+
+/* The home page fills the screen under the header: no page padding, no max width. */
+#root:has(.orbital-home) {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+}
+#root:has(.orbital-home) > main {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+@layer base {
+  .orbital-home {
+    background: radial-gradient(ellipse 80% 70% at 50% 45%, #161b29 0%, #10131c 45%, #0b0d13 100%);
+    color: #e6e8ee;
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+  .orbital-home *,
+  .orbital-home *::before,
+  .orbital-home *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  .orbital-home button {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+  }
+  .orbital-home ul {
+    list-style: none;
+  }
+  .orbital-home table {
+    border-collapse: collapse;
+  }
+  .orbital-home h1,
+  .orbital-home h2 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  .orbital-home svg,
+  .orbital-home canvas {
+    display: block;
+  }
+}
+
+/* labels that float next to each satellite in 3D */
+.sat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  transition: opacity 0.25s;
+}
+.sat-label-num {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: 9px;
+}
+
+.glass {
+  background: rgba(18, 22, 34, 0.58);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 20px 50px -20px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid #f27d26;
+  outline-offset: 3px;
+}

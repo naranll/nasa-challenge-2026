@@ -199,30 +199,40 @@ def world():
         # хэдэн "гал"-ын бөөгнөрөл. Африкт олон: r_day/r_night fallback-гүй тив fixture-т байх (#35).
         for _ in range(14 if cid == "africa" else rnd.randint(3, 6)):
             clon, clat = rnd.uniform(w, e), rnd.uniform(s, n)
+            # #37: бөөгнөрөл бүр нэг огноо, нэг цагийн орчим (±90 мин), ингэснээр 4 match class бүгд гарна
+            cdate, cmin = wm.period_dates(wm.PERIOD)[rnd.randrange(10)], rnd.randrange(120, 1320)
             for _ in range(rnd.randint(20, 60)):
                 platform = rnd.choices(wm.PLATFORMS, weights=[1, 2, 0, 4, 4])[0]  # S-NPP 11-02-нд зогссон
                 day = rnd.random() < 0.6
                 lon = clon + rnd.gauss(0, 0.8)
-                rows.append(dict(
+                t = cmin + int(rnd.gauss(0, 90)) if rnd.random() < 0.7 else rnd.randrange(1440)
+                t = max(0, min(1439, t))
+                hhmm = lambda m: m // 60 * 100 + m % 60  # noqa: E731  өдрийн минут → FIRMS acq_time
+                modis = platform in ("terra", "aqua")
+                row = dict(
                     continent=cid, platform=platform,
                     lon=(lon + 180) % 360 - 180, lat=max(s, min(n, clat + rnd.gauss(0, 0.6))),
                     frp=round(rnd.lognormvariate(1.5, 1.0), 2), conf=rnd.choice(wm.CONF_LEVELS),
-                    date=wm.period_dates(wm.PERIOD)[rnd.randrange(10)],
-                    hhmm=rnd.randrange(24) * 100 + rnd.randrange(60), daynight="D" if day else "N"))
+                    date=cdate, hhmm=hhmm(t), daynight="D" if day else "N",
+                    scan=round(rnd.uniform(1.0, 2.0), 1) if modis else 0.4,
+                    track=round(rnd.uniform(1.0, 1.4), 1) if modis else 0.4)
+                rows.append(row)
+                if platform == "aqua" and rnd.random() < 0.5:  # ижил гал NOAA-20 дээр (R_match дотор)
+                    rows.append(dict(row, platform="noaa20", lon=round(row["lon"] + 0.003, 3),
+                                     hhmm=hhmm(max(0, t - 20)), scan=0.4, track=0.4))
     pts = pd.DataFrame(rows)
+    pts = pts.assign(match_class=wm.match_classes(pts))
     dropped = dict(antarctica=12, seven_seas=7, no_continent=3)
     units = wm.fire_units(pts)
     ratios = wm.continent_ratios(pts, units)
+    cells, match = wm.continent_cells_and_match(pts, units, ratios, wm.PERIOD, synthetic=True)
     index = wm.index_doc(pts, dropped, WORLD_BBOXES, wm.PERIOD,
                          ["VIIRS_SNPP_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT", "MODIS_NRT"], synthetic=True,
-                         ratios=ratios)
+                         ratios=ratios, match=match)
     for c in index["continents"]:
-        sub = pts[pts["continent"] == c["id"]]
         write(OUT / "world" / c["points_file"],
-              wm.points_doc(sub, c["id"], wm.PERIOD, synthetic=True), compact=True)
-        write(OUT / "world" / c["cells_file"],
-              wm.cells_doc(sub, units[units["continent"] == c["id"]], ratios["continents"][c["id"]], c["id"],
-                           wm.PERIOD, synthetic=True), compact=True)
+              wm.points_doc(pts[pts["continent"] == c["id"]], c["id"], wm.PERIOD, synthetic=True), compact=True)
+        write(OUT / "world" / c["cells_file"], cells[c["id"]], compact=True)
     write(OUT / "world" / "index.json", index, compact=True)  # бодит файлууд шиг авсаархан
 
 

@@ -12,7 +12,7 @@ export default function Starfield() {
     const palette = ['#3A2A6B', '#1F5368', '#6B2E1A', '#22305E', '#4A2350']
     let seed = 7
     const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
-    return Array.from({ length: 22 }, (_, i) => {
+    return Array.from({ length: 10 }, (_, i) => { // big additive sprites: overdraw, keep few
       const theta = rnd() * Math.PI * 2
       const phi = Math.acos(2 * rnd() - 1)
       const r = 38 + rnd() * 10
@@ -36,7 +36,8 @@ export default function Starfield() {
 
   return (
     <>
-      <Stars radius={70} depth={50} count={6000} factor={3.2} saturation={0} fade speed={0.35} />
+      {/* speed 0: stars hold still, so the only things that flicker are real fires (FirePoints) */}
+      <Stars radius={70} depth={50} count={2500} factor={3.2} saturation={0} fade speed={0} />
       <group ref={dust}>
         {clouds.map((c, i) => (
           <sprite key={i} position={c.pos} scale={c.scale}>

@@ -96,9 +96,16 @@ export default function SensorPanel() {
   const filter = useAppStore((s) => s.filter)
   const setFilter = useAppStore((s) => s.setFilter)
   const track = useAppStore((s) => s.track)
+  // the satellite drawer takes the left side while open; fade out so the two never overlap
+  const drawerOpen = useAppStore((s) => s.selectedId !== null)
 
   return (
-    <aside className="pointer-events-auto absolute top-1/2 left-4 z-20 flex w-[min(250px,calc(100%-120px))] -translate-y-1/2 flex-col gap-5 sm:left-10">
+    <aside
+      className={`absolute top-1/2 left-4 z-20 flex w-[min(250px,calc(100%-120px))] -translate-y-1/2 flex-col gap-5 transition-opacity duration-300 sm:left-10 ${
+        drawerOpen ? 'pointer-events-none opacity-0' : 'pointer-events-auto opacity-100'
+      }`}
+      aria-hidden={drawerOpen}
+    >
       <header className="mb-2">
         <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.3em] text-white/45">
           <span className="relative flex h-2 w-2">

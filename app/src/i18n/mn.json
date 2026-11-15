@@ -60,6 +60,7 @@
   "globe.loading": "3D дэлхийг ачаалж байна",
   "globe.hint.desktop": "Чирж эргүүлнэ. Дэлхий дээр дараад scroll хийж zoom хийнэ.",
   "globe.hint.touch": "Нэг хуруугаар чирж эргүүлнэ, хоёр хуруугаар zoom хийнэ.",
+  "globe.analyze": "Шинжлэх →",
   "globe.mongolia_only": "Демо зөвхөн Монголыг хамарна",
   "globe.legend.title": "Галын мэдрэгч",
   "globe.legend.modis": "MODIS",

@@ -4,12 +4,10 @@ import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 import type { ThreeEvent } from '@react-three/fiber'
 import { COLORS, type SatelliteInfo } from '../data/satellites'
-import { HOTSPOTS } from '../data/hotspots'
-import { latLonToVec3, orbitPosition, damp } from '../utils/geo'
+import { orbitPosition, damp } from '../utils/geo'
 import { makeGlowTexture, makePanelTexture } from '../utils/textures'
 import { sim, useAppStore } from '../store/useAppStore'
 
-const HOTSPOT_LOCAL = HOTSPOTS.map((h) => latLonToVec3(h.lat, h.lon, 1))
 const SCAN_COS = Math.cos((12 * Math.PI) / 180)
 const DOWN = new THREE.Vector3(0, -1, 0)
 
@@ -41,6 +39,8 @@ const _y = new THREE.Vector3()
 const _z = new THREE.Vector3()
 const _m = new THREE.Matrix4()
 const _cam = new THREE.Vector3()
+const _qi = new THREE.Quaternion()
+const _local = new THREE.Vector3()
 
 export default function Satellite({ info }: { info: SatelliteInfo }) {
   const color = COLORS[info.sensor]
@@ -152,26 +152,28 @@ export default function Satellite({ info }: { info: SatelliteInfo }) {
     haloRef.current.scale.setScalar(0.26 + 0.12 * s.hover)
     group.current.scale.setScalar(1.3 * (1 + 0.15 * s.hover))
 
-    // --- scanning beam toward a hotspot under the ground track ---
+    // --- scanning beam toward the nearest real fire (data/fires.ts) under the ground track ---
     let best = -1
     let bestDot = SCAN_COS
-    if (sim.earth) {
+    const fires = useAppStore.getState().fires
+    if (sim.earth && fires) {
       sim.earth.getWorldQuaternion(_q)
-      _dir.copy(pos).normalize()
-      for (let i = 0; i < HOTSPOT_LOCAL.length; i++) {
-        _w.copy(HOTSPOT_LOCAL[i]).applyQuaternion(_q)
-        const d = _w.dot(_dir)
+      // satellite direction in the Earth's own frame, so the fires need no per-frame transform
+      _dir.copy(pos).normalize().applyQuaternion(_qi.copy(_q).invert())
+      const p = fires.pos
+      for (let i = 0; i < fires.n; i++) {
+        const d = p[i * 3] * _dir.x + p[i * 3 + 1] * _dir.y + p[i * 3 + 2] * _dir.z
         if (d > bestDot) {
           bestDot = d
           best = i
         }
       }
     }
-    if (best >= 0 && active) {
-      _w.copy(HOTSPOT_LOCAL[best]).applyQuaternion(_q)
-      s.target.copy(_w)
-      sim.hotspotHeat[best] = 1
-    }
+    if (best >= 0 && active && fires) {
+      _local.fromArray(fires.pos, best * 3)
+      s.target.copy(_local).applyQuaternion(_q)
+      sim.scan[info.id] = (sim.scan[info.id] ?? new THREE.Vector3()).copy(_local)
+    } else sim.scan[info.id] = null
     s.beam += ((best >= 0 && active ? 1 : 0) - s.beam) * damp(4, dt)
     const b = beam.current
     b.visible = s.beam > 0.01

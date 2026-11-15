@@ -60,6 +60,7 @@
   "globe.loading": "Loading the 3D Earth",
   "globe.hint.desktop": "Drag to turn. Click the Earth, then scroll to zoom.",
   "globe.hint.touch": "Drag with one finger to turn, pinch to zoom.",
+  "globe.analyze": "Analyze →",
   "globe.mongolia_only": "The demo covers Mongolia only",
   "globe.legend.title": "Fire sensors",
   "globe.legend.modis": "MODIS",

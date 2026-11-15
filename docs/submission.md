@@ -1,4 +1,4 @@
-# Space Apps 2026 submission pack — Space Khuushuur
+# Space Apps 2026 submission pack — Fusion (motto: Together, forward)
 
 Draft text for each field of the submission form. Anything in **[BRACKETS]** is a number or link only your team can supply. Per `docs/claims.md`, every number must come from a script output. Do not fill the brackets with estimates. If a test result is bad, say so; PLAN §7 requires it.
 
@@ -8,15 +8,17 @@ Checked against the repo on 2026-11-15 (branch `8-story-page-why-this-data-matte
 
 ## Project Name
 
-**Space Khuushuur: One Fire Record from MODIS to VIIRS, for Mongolia**
+**Fusion: Together, Forward — One Fire Record from MODIS to VIIRS, for Mongolia**
 
-Short alternatives: "The Handover: Harmonizing MODIS and VIIRS Fire Detections" · "Baton Relay: 24 Years of Mongolian Fire, One Timeline"
+Motto: **Together, forward.** (MODIS and VIIRS together, the record moving forward.)
+
+Shorter: "Fusion" alone, or "Fusion: Harmonizing MODIS and VIIRS Fire Detections".
 
 ---
 
 ## Summary (≈160 words)
 
-MODIS has watched Earth's fires for more than 20 years and is being retired. VIIRS sees finer detail and keeps flying, but it flags many more small fires, so naively joining the two makes burning appear to jump overnight. We built a web app that removes that jump for Mongolia.
+MODIS has watched Earth's fires for more than 20 years and is being retired. VIIRS sees finer detail and keeps flying, but it flags many more small fires, so naively joining the two makes burning appear to jump overnight. We built Fusion, a web app that removes that jump for Mongolia. Our motto is "together, forward": two sensor generations joined into one record that keeps moving ahead.
 
 Our pipeline turns NASA FIRMS detections from Terra, Aqua, Suomi NPP and NOAA-20 into one burning-activity calendar. Only one platform counts at any moment, handed over along a chain: Aqua → Suomi NPP → NOAA-20. Conversion ratios are measured in the years when platforms flew together. We test the method by rebuilding Aqua's real counts from VIIRS alone, in years where Aqua was flying [RESULT: WAPE ___ %].
 
@@ -88,6 +90,7 @@ Informational only, not an official fire warning. Ratios are national monthly av
 - **Languages:** English and Mongolian interface.
 
 ### What's creative
+- The Fusion identity: our icon is a MODIS circle and a VIIRS circle overlapping into white light, and the story page casts Fusion as the character that steps in when the retiring satellites worry about handing over their history. Motto: together, forward.
 - The "baton relay" framing: the sensors aren't swapped, a count is handed along a single chain.
 - Showing the raw jump next to its removal, so the correction is visible rather than asserted.
 - Reconstructing a retired sensor from its successor as the test of the method.

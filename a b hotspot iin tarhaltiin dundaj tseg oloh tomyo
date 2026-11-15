@@ -1,0 +1,24 @@
+ТОМЬЁОНУУД
+
+1. 
+$$C = A \cap B = \{ (x, y) \mid (x, y) \in A \land (x, y) \in B \}$$
+
+2. 
+$$C = \{ (p_a, p_b) \in A \times B \mid \sqrt{(x_b - x_a)^2 + (y_b - y_a)^2} \le R \}$$
+
+3. 
+$$C = \left\{ (p_a, p_b) \in A \times B \;\middle|\; 2r \arcsin\left(\sqrt{\sin^2\left(\frac{\phi_b - \phi_a}{2}\right) + \cos(\phi_a)\cos(\phi_b)\sin^2\left(\frac{\lambda_b - \lambda_a}{2}\right)}\right) \le R \right\}$$
+
+4. 
+$$\text{IoU} = \frac{\text{Area}(P_A \cap P_B)}{\text{Area}(P_A \cup P_B)}$$
+
+ТАЙЛБАР
+
+* $A, B$ — Хоёр өөр төрлийн тархалтын цэгүүдийн олонлог ($p_a \in A, p_b \in B$)
+* $C$ — Давхцсан цэгүүдийн олонлог
+* $(x, y)$ — Хавтгай дээрх координат (метрээр)
+* $(\phi, \lambda)$ — Өргөрөг, уртраг (радианаар)
+* $R$ — Зөвшөөрөгдөх давхцлын радиус буюу зай (метрээр)
+* $r$ — Дэлхийн дундаж радиус ($6371000\text{ м}$)
+* $P_A, P_B$ — Цэгүүдийг хүрээлсэн тархалтын бүс буюу полигон
+* $\text{IoU}$ — Давхцлын индекс ($0$-ээс $1$-ийн хооронд утга авна)

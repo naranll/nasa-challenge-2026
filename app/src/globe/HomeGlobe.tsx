@@ -13,7 +13,6 @@ import {
   LineDashedMaterial,
   Mesh,
   MeshBasicMaterial,
-  MeshPhongMaterial,
   Points,
   PointsMaterial,
   SphereGeometry,
@@ -58,7 +57,11 @@ const FPS_WINDOW_MS = 5000; // §9.3
 const FPS_REDUCE_BELOW = 24;
 const FPS_GIVE_UP_BELOW = 15;
 const CONTEXT_RESTORE_WAIT_MS = 3000;
-const STAR_COUNT = 1500;
+const STAR_COUNT = 600;
+// Low-load rendering: a coarse sphere, an unlit material, no antialias/atmosphere, DPR 1 and a 30 fps cap.
+const GLOBE_CURVATURE_DEG = 6; // sphere facet size; 60 × 30 segments (library default is 4°)
+const MARKER_SEGMENTS: [number, number] = [8, 6];
+const FRAME_MS = 1000 / 30;
 
 interface Live {
   marker: Mesh;
@@ -91,7 +94,6 @@ export default function HomeGlobe(props: HomeGlobeProps) {
   const globe = useRef<GlobeMethods | undefined>(undefined);
   const { width, height } = useElementSize(wrap);
   const [ready, setReady] = useState(false);
-  const [atmosphere, setAtmosphere] = useState(!coarsePointer);
   const [fps, setFps] = useState<number | null>(null);
   const showFps = typeof location !== "undefined" && location.href.includes("debug=fps");
 
@@ -99,7 +101,7 @@ export default function HomeGlobe(props: HomeGlobeProps) {
   const latest = useRef({ highlighted, autoRotate, onHover, onSelect, onReady, onFallback });
   latest.current = { highlighted, autoRotate, onHover, onSelect, onReady, onFallback };
 
-  const material = useMemo(() => new MeshPhongMaterial(), []);
+  const material = useMemo(() => new MeshBasicMaterial(), []);
 
   useEffect(() => {
     const g = globe.current;
@@ -109,7 +111,13 @@ export default function HomeGlobe(props: HomeGlobeProps) {
     const controls = g.controls();
     const radius = new Vector3(...Object.values(g.getCoords(0, 0, 0))).length();
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.5 : 2));
+    renderer.setPixelRatio(1);
+    // globe.gl's own loop renders every display frame; we stop it and render at FRAME_MS from our loop.
+    g.pauseAnimation();
+    const renderOnce = () => {
+      g.resumeAnimation(); // draws one frame synchronously…
+      g.pauseAnimation(); // …and cancels the frame it scheduled
+    };
     controls.autoRotateSpeed = OPENCONTROLS_SPEED_PER_TURN / ROTATION_SECONDS;
     controls.autoRotate = latest.current.autoRotate;
     controls.minDistance = radius * MIN_DISTANCE_FACTOR;
@@ -126,7 +134,7 @@ export default function HomeGlobe(props: HomeGlobeProps) {
     for (const o of orbits) {
       if (!o.satrec) continue;
       const color = SENSOR_COLOR[o.sensor];
-      const marker = new Mesh(new SphereGeometry(radius * 0.022, 16, 12), new MeshBasicMaterial({ color }));
+      const marker = new Mesh(new SphereGeometry(radius * 0.022, ...MARKER_SEGMENTS), new MeshBasicMaterial({ color }));
       const [dash, gap] = PLATFORM_DASH[o.id];
       const track = new Line(
         new BufferGeometry(),
@@ -164,9 +172,13 @@ export default function HomeGlobe(props: HomeGlobeProps) {
     let windowStart = performance.now();
     let last = windowStart;
     let quality = 0;
+    let drawnAt = -Infinity;
     const frame = () => {
       raf = requestAnimationFrame(frame);
       if (!running) return;
+      const t0 = performance.now();
+      if (t0 - drawnAt < FRAME_MS - 2) return;
+      drawnAt = t0;
       const now = clock.now();
       const hi = latest.current.highlighted;
       for (const o of orbits) {
@@ -190,6 +202,7 @@ export default function HomeGlobe(props: HomeGlobeProps) {
         pts.forEach((p, i) => p && attr.setXYZ(i, p.x, p.y, p.z));
         attr.needsUpdate = true;
       }
+      renderOnce();
 
       const tNow = performance.now();
       if (!reported) {
@@ -204,9 +217,7 @@ export default function HomeGlobe(props: HomeGlobeProps) {
         if (showFps) setFps(Math.round(median));
         if (median < FPS_GIVE_UP_BELOW && quality > 0) latest.current.onFallback("low-fps");
         else if (median < FPS_REDUCE_BELOW && quality === 0) {
-          quality = 1; // §9.3: atmosphere off, DPR 1, fewer track points
-          setAtmosphere(false);
-          renderer.setPixelRatio(1);
+          quality = 1; // §9.3: fewer track points
           trackPoints = TRACK_POINTS_REDUCED;
         }
         frames = [];
@@ -225,8 +236,7 @@ export default function HomeGlobe(props: HomeGlobeProps) {
         last = performance.now();
         windowStart = last;
         frames = [];
-        g.resumeAnimation();
-      } else g.pauseAnimation();
+      }
     };
     const io = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
@@ -334,12 +344,11 @@ export default function HomeGlobe(props: HomeGlobeProps) {
           backgroundColor="#000004"
           globeImageUrl={earthUrl}
           globeMaterial={material}
-          showAtmosphere={atmosphere}
-          atmosphereColor="#7ab8ff"
-          atmosphereAltitude={0.15}
+          globeCurvatureResolution={GLOBE_CURVATURE_DEG}
+          showAtmosphere={false}
           animateIn={false}
           enablePointerInteraction={false}
-          rendererConfig={{ antialias: !coarsePointer, powerPreference: "high-performance" }}
+          rendererConfig={{ antialias: false, powerPreference: "low-power" }}
           onGlobeReady={() => setReady(true)}
         />
       )}

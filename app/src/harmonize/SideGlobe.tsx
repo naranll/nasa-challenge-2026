@@ -4,7 +4,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import Globe, { type GlobeMethods } from "react-globe.gl";
-import { Color, MeshPhongMaterial } from "three";
+import { Color, MeshBasicMaterial } from "three";
 import { rampColor } from "../calendar/scale";
 import earthUrl from "../globe/assets/earth-day.jpg";
 import { useElementSize } from "../globe/env";
@@ -51,7 +51,7 @@ export default function SideGlobe({ side, cells, yearIndex, max, sync, coarsePoi
   const globe = useRef<GlobeMethods | undefined>(undefined);
   const { width, height } = useElementSize(wrap);
   const [ready, setReady] = useState(false);
-  const material = useMemo(() => new MeshPhongMaterial(), []);
+  const material = useMemo(() => new MeshBasicMaterial(), []);
   const latest = useRef(onFallback);
   latest.current = onFallback;
 
@@ -70,7 +70,7 @@ export default function SideGlobe({ side, cells, yearIndex, max, sync, coarsePoi
     if (!ready || !g || !el) return;
     const renderer = g.renderer();
     const controls = g.controls();
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.5 : 2));
+    renderer.setPixelRatio(1);
     material.color = new Color(DIM_EARTH);
     controls.autoRotate = false;
     controls.enableZoom = coarsePointer;
@@ -155,9 +155,8 @@ export default function SideGlobe({ side, cells, yearIndex, max, sync, coarsePoi
           backgroundColor="#000004"
           globeImageUrl={earthUrl}
           globeMaterial={material}
-          showAtmosphere={!coarsePointer}
-          atmosphereColor="#7ab8ff"
-          atmosphereAltitude={0.12}
+          globeCurvatureResolution={6}
+          showAtmosphere={false}
           pointsData={columns}
           pointLat="lat"
           pointLng="lng"
@@ -169,7 +168,7 @@ export default function SideGlobe({ side, cells, yearIndex, max, sync, coarsePoi
           animateIn={false}
           enablePointerInteraction={false}
           onZoom={(pov) => sync.moved(side, pov)}
-          rendererConfig={{ antialias: !coarsePointer, powerPreference: "high-performance" }}
+          rendererConfig={{ antialias: false, powerPreference: "low-power" }}
           onGlobeReady={() => setReady(true)}
         />
       )}

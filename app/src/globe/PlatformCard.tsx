@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { SiteNav } from "../components/SiteNav";
 import { useI18n, type MessageKey } from "../i18n";
 import { formatDate, formatNumber } from "./format";
 import { cardStats, type PipelineStats } from "./homeData";
@@ -70,6 +71,7 @@ export function PlatformCard({ orbit, stats, clock, locked, onClose }: Props) {
       {s.notInData && <p className="globe-card-note">{t("globe.card.not_in_data")}</p>}
       {orbit.tle?.kind === "aging" && <p className="globe-card-note">{t("globe.tle.stale_age", { days: orbit.tle.days })}</p>}
       {orbit.tle?.kind === "stale" && <p className="globe-card-note">{t("globe.tle.stale_hidden")}</p>}
+      {locked && <SiteNav />}
       {locked && (
         <button type="button" className="globe-card-close" onClick={onClose}>
           {t("globe.card.close")}

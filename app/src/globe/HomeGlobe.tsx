@@ -7,7 +7,6 @@ import Globe, { type GlobeMethods } from "react-globe.gl";
 import {
   BufferAttribute,
   BufferGeometry,
-  Color,
   Group,
   Line,
   LineBasicMaterial,
@@ -23,7 +22,7 @@ import {
 import { useI18n } from "../i18n";
 import earthUrl from "./assets/earth-day.jpg";
 import { useElementSize, type SimClock } from "./env";
-import { EARTH_RADIUS_KM, MONGOLIA, MONGOLIA_CENTER } from "./geo";
+import { EARTH_RADIUS_KM, MONGOLIA_CENTER } from "./geo";
 import { groundTrack, periodMinutes, positionAt } from "./orbit";
 import { PLATFORM_DASH, platformsOf, SENSOR_COLOR, SENSORS, type PlatformId } from "./platforms";
 import type { Orbit } from "./useHomeData";
@@ -60,7 +59,6 @@ const FPS_REDUCE_BELOW = 24;
 const FPS_GIVE_UP_BELOW = 15;
 const CONTEXT_RESTORE_WAIT_MS = 3000;
 const STAR_COUNT = 1500;
-const DIM_EARTH = 0x4a4a4a; // texture × this colour: everything but Mongolia looks dimmer (D6)
 
 interface Live {
   marker: Mesh;
@@ -102,7 +100,6 @@ export default function HomeGlobe(props: HomeGlobeProps) {
   latest.current = { highlighted, autoRotate, onHover, onSelect, onReady, onFallback };
 
   const material = useMemo(() => new MeshPhongMaterial(), []);
-  const polygons = useMemo(() => MONGOLIA.features, []);
 
   useEffect(() => {
     const g = globe.current;
@@ -113,8 +110,6 @@ export default function HomeGlobe(props: HomeGlobeProps) {
     const radius = new Vector3(...Object.values(g.getCoords(0, 0, 0))).length();
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.5 : 2));
-    // three-globe clears the colour when the texture loads, so dim it once the globe is ready.
-    material.color = new Color(DIM_EARTH);
     controls.autoRotateSpeed = OPENCONTROLS_SPEED_PER_TURN / ROTATION_SECONDS;
     controls.autoRotate = latest.current.autoRotate;
     controls.minDistance = radius * MIN_DISTANCE_FACTOR;
@@ -342,11 +337,6 @@ export default function HomeGlobe(props: HomeGlobeProps) {
           showAtmosphere={atmosphere}
           atmosphereColor="#7ab8ff"
           atmosphereAltitude={0.15}
-          polygonsData={polygons}
-          polygonCapColor={() => "rgba(255, 214, 140, 0.45)"}
-          polygonSideColor={() => "rgba(0, 0, 0, 0)"}
-          polygonStrokeColor={() => "#ffe2b0"}
-          polygonAltitude={0.006}
           animateIn={false}
           enablePointerInteraction={false}
           rendererConfig={{ antialias: !coarsePointer, powerPreference: "high-performance" }}

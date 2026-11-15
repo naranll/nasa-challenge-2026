@@ -1,0 +1,65 @@
+.raw-view {
+  max-width: 960px;
+}
+
+.raw-section {
+  margin: 2rem 0;
+}
+
+.raw-section h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.75rem;
+}
+
+.raw-table-wrap {
+  overflow-x: auto;
+}
+
+.raw-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.raw-table th,
+.raw-table td {
+  text-align: left;
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  border-bottom: 1px solid #1c2233;
+  white-space: nowrap;
+}
+
+.raw-table thead th {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.raw-table tbody th {
+  font-weight: 600;
+}
+
+.raw-table .num {
+  text-align: right;
+}
+
+.raw-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
+
+.raw-empty {
+  padding: 1.5rem 1rem;
+  border: 1px dashed #2a3247;
+  border-radius: 8px;
+}
+
+.raw-viirs-mark {
+  stroke: var(--muted);
+  stroke-dasharray: 3 3;
+}
+
+.raw-viirs-label {
+  fill: var(--fg);
+}

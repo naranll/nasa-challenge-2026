@@ -1,11 +1,11 @@
 /**
  * The no-WebGL picture (spec §11.1, agreed: SVG built from data instead of a screenshot).
- * Earth seen from above Mongolia, land, Mongolia, and each platform's ground track and position
+ * Earth seen from above Mongolia, land, and each platform's ground track and position
  * at page-open time, from the same TLE snapshot. Also the placeholder while the 3D chunk loads.
  */
 import { useEffect, useMemo, useState } from "react";
 import { useI18n } from "../i18n";
-import { EARTH_RADIUS_KM, MONGOLIA, MONGOLIA_CENTER, orthographic, rings, type Outline } from "./geo";
+import { EARTH_RADIUS_KM, MONGOLIA_CENTER, orthographic, rings, type Outline } from "./geo";
 import { groundTrack, positionAt, type GeoPoint } from "./orbit";
 import { PLATFORM_DASH, SENSOR_COLOR, type PlatformId } from "./platforms";
 import type { Orbit } from "./useHomeData";
@@ -73,7 +73,6 @@ export function StaticGlobe({ orbits, at, highlighted = null, onSelect, loading 
   }, []);
 
   const landPaths = useMemo(() => (land ? rings(land).map(ringPath) : []), [land]);
-  const mongoliaPath = useMemo(() => rings(MONGOLIA).map(ringPath).join(""), []);
   const sats = useMemo(
     () =>
       orbits.flatMap((o) => {
@@ -107,7 +106,6 @@ export function StaticGlobe({ orbits, at, highlighted = null, onSelect, loading 
           <path key={i} d={d} />
         ))}
       </g>
-      <path d={mongoliaPath} fill="#c9a55a" fillOpacity={0.55} stroke="#ffe2b0" strokeWidth={1} />
       {sats.map(({ o, track }) => (
         <path
           key={`t-${o.id}`}

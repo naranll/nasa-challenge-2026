@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { CalendarFile, CalendarMonth } from "../data/contracts";
-import { calendarGrid, sharedMax } from "./calendarData";
+import { calendarGrid, hasValues, sharedMax } from "./calendarData";
 
 const m = (ym: string, over: Partial<CalendarMonth>): CalendarMonth => ({
   ym, harmonized: null, chain_platform: "aqua", raw: {}, is_forecast: false, flags: [], ...over,
@@ -39,5 +39,18 @@ describe("sharedMax", () => {
   it("is the largest known value across all grids, so two calendars side by side use one colour scale", () => {
     expect(sharedMax([calendarGrid(cal, "raw"), calendarGrid(cal, "harmonized")])).toBe(150);
     expect(sharedMax([])).toBe(0);
+  });
+});
+
+describe("hasValues", () => {
+  it("is false when every harmonized month is null (real data before the ratios exist), so the UI shows a sentence", () => {
+    const noHarm: CalendarFile = { ...cal, months: cal.months.map((x) => ({ ...x, harmonized: null })) };
+    expect(hasValues(calendarGrid(noHarm, "harmonized"))).toBe(false);
+    expect(hasValues(calendarGrid(noHarm, "raw"))).toBe(true);
+  });
+
+  it("is true when one month is a real 0", () => {
+    const zero: CalendarFile = { ...cal, months: [m("2012-03", { harmonized: 0 })] };
+    expect(hasValues(calendarGrid(zero, "harmonized"))).toBe(true);
   });
 });

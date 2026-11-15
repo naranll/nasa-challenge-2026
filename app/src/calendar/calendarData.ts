@@ -46,6 +46,11 @@ export function calendarGrid(calendar: CalendarFile, view: CalendarView): Calend
   }));
 }
 
+/** true if any cell has a known value. A grid without one is shown as a sentence, never as an empty chart. */
+export function hasValues(rows: CalendarRow[]): boolean {
+  return rows.some((r) => r.cells.some((c) => c.value !== null));
+}
+
 /** The largest known value in any of the grids: side-by-side calendars share one colour scale. */
 export function sharedMax(grids: CalendarRow[][]): number {
   let max = 0;

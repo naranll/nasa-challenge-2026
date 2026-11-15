@@ -3,8 +3,11 @@
 export interface Region {
   region_id: string;
   name_en: string;
-  name_mn: string;
+  /** null = no Mongolian name in the source data; show name_en. */
+  name_mn: string | null;
   kind: "country" | "aimag" | "capital";
+  /** ISO 3166-2 code from the boundary file (real data only). */
+  iso?: string;
 }
 
 export interface RegionsFile {

@@ -5,7 +5,7 @@
  */
 import { lazy, Suspense, useCallback, useMemo, useState } from "react";
 import { CalendarHeatmap, CalendarLegend } from "../calendar/CalendarHeatmap";
-import { calendarGrid, sharedMax, type CalendarRow, type CalendarView } from "../calendar/calendarData";
+import { calendarGrid, hasValues, sharedMax, type CalendarRow, type CalendarView } from "../calendar/calendarData";
 import { ViewSwitch } from "../calendar/ViewSwitch";
 import type { CalendarFile, HexYearHarmFile, HexYearRawFile, ValidationFile } from "../data/contracts";
 import { dataOf, useDataFile } from "../data/useDataFile";
@@ -92,7 +92,9 @@ export function HarmonizeView() {
             <ViewSwitch value={view} onChange={setView} />
           </div>
           <MonthlyChart raw={grids.raw} harmonized={grids.harm} view={view} label={t(view === "raw" ? "harm.monthly.a11y_raw" : "harm.monthly.a11y_harm")} />
-          <p className="chart-note">{t(view === "raw" ? "harm.monthly.note_raw" : "harm.monthly.note_harm")}</p>
+          <p className="chart-note">
+            {t(view === "raw" ? "harm.monthly.note_raw" : hasValues(grids.harm) ? "harm.monthly.note_harm" : "cal.empty.harmonized")}
+          </p>
         </section>
       )}
 

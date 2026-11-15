@@ -36,6 +36,7 @@ Shapes for `case_study`, `matches_summary` and `satellites` are added by their o
   "regions": [ { "region_id": "mongolia", "name_en": "Mongolia", "name_mn": "Монгол", "kind": "country" } ] }
 // kind: country | aimag | capital   (22 units: 21 aimags + Ulaanbaatar, D6/D11)
 ```
+Real file (`etl/export_contracts.py`, additive): `name_mn` may be `null` (the boundary file has no Mongolian names; the UI shows `name_en`), and aimags carry `"iso": "MN-046"` from the geojson. `region_id` = `shapeName` lower-cased, accents removed.
 
 ## `calendar/{region_id}.json`
 
@@ -58,7 +59,9 @@ Shapes for `case_study`, `matches_summary` and `satellites` are added by their o
   ]
 }
 ```
-`raw.*` is each platform's own uncorrected count (VIIRS = raw pixels, D12). `chain_switch` marks a month that contains a hand-over between platforms. `noaa20_derived` applies from 2026-11-02.
+`raw.*` is each platform's own uncorrected count (VIIRS = raw pixels, D12). In real files a platform is `null` in months outside its first..last month in the Mongolia data, and `0` inside that range when no hotspot fell in the region.
+`chain_platform` in a month that contains a hand-over is the D3 platform that covers most of its days (2012-01 = aqua, 2026-11 = noaa20).
+**Flag `not_harmonized` (additive):** `harmonized` and `baseline` are `null` because the D7 ratios on D9 fire units are not computed yet. Raw view works; Harmonized view stays empty. `chain_switch` marks a month that contains a hand-over between platforms. `noaa20_derived` applies from 2026-11-02.
 
 ## `hex_year/{raw,harm}.json` (globes)
 
@@ -79,6 +82,7 @@ Shapes for `case_study`, `matches_summary` and `satellites` are added by their o
   "first_detection": { "aqua": "YYYY-MM-DD" }, "last_detection": { "aqua": "YYYY-MM-DD" },   // satellite hover (§4)
   "n_hotspots_total": 0, "years_covered": [2002, 2026] }
 ```
+Real file (additive): `"aimag_assignment": { "inside": 0, "nearest_within_deg": 0, "unassigned": 0, "max_deg": 0.1 }`: how hotspots were put into aimags (inside a simplified polygon, else the nearest one within 0.1°). Unassigned hotspots still count in `calendar/mongolia.json`.
 
 ## `satellites.json` (P3, home globe)
 

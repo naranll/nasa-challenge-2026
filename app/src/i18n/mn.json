@@ -107,6 +107,8 @@
   "cal.cell.unknown": "{ym}: өгөгдөл байхгүй",
   "cal.cell.raw": "{ym}: {platform}-ийн {n} түүхий hotspot",
   "cal.cell.harmonized": "{ym}: Aqua-тай тэнцэх {n} hotspot",
+  "cal.empty.harmonized": "Уялдуулсан тоо хараахан бэлэн болоогүй: хиймэл дагуулуудын хоорондын хөрвүүлэх харьцааг тооцоогүй байна. Хиймэл дагуул бүрийн өөрийн тоог харахын тулд Түүхий рүү шилжинэ үү.",
+  "cal.empty.raw": "Энэ бүсийн hotspot-ын тоо хараахан байхгүй байна.",
   "cal.legend.unit": "сард ногдох hotspot",
   "cal.legend.forecast": "ирэх сар",
   "cal.legend.noaa20": "NOAA-20-оор тоолсон",

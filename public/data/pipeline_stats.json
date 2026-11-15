@@ -1,0 +1,36 @@
+{
+ "schema_version": "0.1",
+ "synthetic": false,
+ "rows_by_platform": {
+  "terra": 53194,
+  "aqua": 47857,
+  "snpp": 178434,
+  "noaa20": 50796,
+  "noaa21": 29310
+ },
+ "first_detection": {
+  "terra": "2001-03-17",
+  "aqua": "2002-07-05",
+  "snpp": "2012-02-17",
+  "noaa20": "2018-04-04",
+  "noaa21": "2023-03-04"
+ },
+ "last_detection": {
+  "terra": "2026-11-11",
+  "aqua": "2026-11-14",
+  "snpp": "2026-11-02",
+  "noaa20": "2026-11-13",
+  "noaa21": "2026-11-14"
+ },
+ "n_hotspots_total": 359591,
+ "years_covered": [
+  2001,
+  2026
+ ],
+ "aimag_assignment": {
+  "inside": 357289,
+  "nearest_within_deg": 2302,
+  "unassigned": 0,
+  "max_deg": 0.1
+ }
+}

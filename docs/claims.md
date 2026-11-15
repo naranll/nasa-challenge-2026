@@ -18,3 +18,6 @@ Every number or claim shown in the demo, pitch, deck or UI maps to a script and 
 | Raw monthly hotspots per platform, 22 aimags/capital | from data; aimags sum to Mongolia | `etl/export_contracts.py` | `public/data/calendar/{region_id}.json` `raw.*` | 58823e3 |
 | Raw hotspots per H3 res 5 cell per year, 2003–2025 | 2,356 cells | `etl/export_contracts.py` | `public/data/hex_year/raw.json` | 58823e3 |
 | Harmonized (Aqua-equivalent) monthly counts, baseline, ratios, validation | **not available**: `null` + flag `not_harmonized`; files not written | — (needs D7 r₁/r₂ on D9 fire units, D10 tests) | — | — |
+| World map: NRT hotspots 2026-11-05 – 11-14 (UTC), assigned to a continent | 1,202,279 (of 1,204,456; 2,177 > 1° from any country, counted in `dropped`) | `etl/fetch_world_nrt.py` → `etl/build_world_map.py` | `public/data/world/index.json` | 740986b |
+| World Aqua / NOAA-20 fire-unit ratio | day 0.2128, night 0.0613 | `etl/build_world_map.py` | `public/data/world/index.json` `world_ratio` | 740986b |
+| Continent ratio r_day / r_night | Africa 0.166 / 0.0416 · Asia 0.2923 / 0.0363 · Europe 0.1945 / 0.0155 · North America 0.2195 / 0.0247 · South America 0.3797 / 0.072 · Oceania 0.2213 / 0.1188 (no fallback) | `etl/build_world_map.py` | `public/data/world/index.json` | 740986b |

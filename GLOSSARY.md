@@ -66,7 +66,7 @@ The calendar showing each platform's own uncorrected hotspot counts, so the jump
 A MODIS hotspot and a VIIRS hotspot judged to be the same fire because they are close in both space and time.
 
 **Match class**:
-The label every hotspot in the overlap period gets: _MODIS only_, _VIIRS only_ or _Both_. No hotspot is discarded for being seen by only one sensor. The share of _Both_ is a sanity check on the ratio, not independent proof.
+The label every hotspot in the overlap period gets: _MODIS only_, _VIIRS only_, _Both_ or _Not comparable_ (the other sensor saw no hotspot nearby in the time window, so it probably did not look; PLAN D8). No hotspot is discarded for being seen by only one sensor. The share of _Both_ is a sanity check on the ratio, not independent proof.
 
 **Baton relay**:
 The product's story of harmonization: MODIS supplies the long-term memory (the historical baseline), VIIRS continues the record with finer detail after MODIS retires.

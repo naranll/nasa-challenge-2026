@@ -1,0 +1,166 @@
+{
+ "schema_version": "0.1",
+ "synthetic": false,
+ "regions": [
+  {
+   "region_id": "mongolia",
+   "name_en": "Mongolia",
+   "name_mn": null,
+   "kind": "country"
+  },
+  {
+   "region_id": "arkhangai",
+   "name_en": "Arkhangai",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-073"
+  },
+  {
+   "region_id": "bayan-olgii",
+   "name_en": "Bayan-Ölgii",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-071"
+  },
+  {
+   "region_id": "bayankhongor",
+   "name_en": "Bayankhongor",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-069"
+  },
+  {
+   "region_id": "bulgan",
+   "name_en": "Bulgan",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-067"
+  },
+  {
+   "region_id": "darkhan-uul",
+   "name_en": "Darkhan-Uul",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-037"
+  },
+  {
+   "region_id": "dornod",
+   "name_en": "Dornod",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-061"
+  },
+  {
+   "region_id": "dornogovi",
+   "name_en": "Dornogovi",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-063"
+  },
+  {
+   "region_id": "dundgovi",
+   "name_en": "Dundgovi",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-059"
+  },
+  {
+   "region_id": "govi-altai",
+   "name_en": "Govi-Altai",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-065"
+  },
+  {
+   "region_id": "govisumber",
+   "name_en": "Govisumber",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-064"
+  },
+  {
+   "region_id": "hovsgel",
+   "name_en": "Hovsgel",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-041"
+  },
+  {
+   "region_id": "khentii",
+   "name_en": "Khentii",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-039"
+  },
+  {
+   "region_id": "khovd",
+   "name_en": "Khovd",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-043"
+  },
+  {
+   "region_id": "orkhon",
+   "name_en": "Orkhon",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-035"
+  },
+  {
+   "region_id": "selenge",
+   "name_en": "Selenge",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-049"
+  },
+  {
+   "region_id": "sukhbaatar",
+   "name_en": "Sükhbaatar",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-051"
+  },
+  {
+   "region_id": "tov",
+   "name_en": "Töv",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-047"
+  },
+  {
+   "region_id": "ulaanbaatar",
+   "name_en": "Ulaanbaatar",
+   "name_mn": null,
+   "kind": "capital",
+   "iso": "MN-1"
+  },
+  {
+   "region_id": "uvs",
+   "name_en": "Uvs",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-046"
+  },
+  {
+   "region_id": "zavkhan",
+   "name_en": "Zavkhan",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-057"
+  },
+  {
+   "region_id": "omnogovi",
+   "name_en": "Ömnögovi",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-053"
+  },
+  {
+   "region_id": "ovorkhangai",
+   "name_en": "Övörkhangai",
+   "name_mn": null,
+   "kind": "aimag",
+   "iso": "MN-055"
+  }
+ ]
+}

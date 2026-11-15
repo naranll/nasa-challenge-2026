@@ -12,19 +12,32 @@
     "tle": "node ../scripts/tle/fetch_tle.ts"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "d3-geo": "^3.1.2",
+    "framer-motion": "^12.43.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-globe.gl": "^2.38.0",
     "react-router-dom": "^7.18.5",
     "satellite.js": "^7.2.0",
-    "three": "^0.187.0"
+    "three": "^0.187.0",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2",
+    "zustand": "^5.1.0"
   },
   "devDependencies": {
+    "@emnapi/core": "2.0.0-beta.2",
+    "@emnapi/runtime": "2.0.0-beta.2",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/d3-geo": "^3.1.1",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.187.0",
+    "@types/topojson-client": "^3.1.5",
     "@vitejs/plugin-react": "^6.3.0",
+    "tailwindcss": "^4.3.5",
     "typescript": "^7.0.2",
     "vite": "^8.3.8",
     "vitest": "^5.1.0"

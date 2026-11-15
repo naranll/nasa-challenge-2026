@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, type ReactNode } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { makeEarthTextures } from '../utils/textures'
@@ -29,11 +29,19 @@ const atmosphereFrag = /* glsl */ `
   }
 `
 
-export default function Earth() {
-  const spin = useRef<THREE.Group>(null!)
+interface BodyProps {
+  /** Glow strength of the land outlines. The dashboard globe dims it so data dots stand out. */
+  emissiveIntensity?: number
+  children?: ReactNode
+}
+
+/**
+ * The stylised Earth itself: terracotta land on a dark ocean, a thin rim light and a soft halo.
+ * Unit radius, lat/lon placed with utils/geo latLonToVec3. No tilt or spin, so other pages can reuse it.
+ */
+export function EarthBody({ emissiveIntensity = 0.75, children }: BodyProps) {
   const gl = useThree((s) => s.gl)
   const { map, emissive } = useMemo(() => makeEarthTextures(gl.capabilities.getMaxAnisotropy()), [gl])
-
   const rimMat = useMemo(
     () =>
       new THREE.ShaderMaterial({
@@ -73,6 +81,33 @@ export default function Earth() {
       }),
     [],
   )
+  return (
+    <group>
+      <mesh>
+        <sphereGeometry args={[1, 128, 128]} />
+        <meshStandardMaterial
+          map={map}
+          emissiveMap={emissive}
+          emissive="#FF7A33"
+          emissiveIntensity={emissiveIntensity}
+          roughness={0.82}
+          metalness={0.05}
+        />
+      </mesh>
+      {children}
+      {/* thin rim light + soft outer halo (raycast disabled: hover must hit the sphere, not the shell) */}
+      <mesh scale={1.004} material={rimMat} raycast={() => null}>
+        <sphereGeometry args={[1, 96, 96]} />
+      </mesh>
+      <mesh scale={1.075} material={haloMat} raycast={() => null}>
+        <sphereGeometry args={[1, 96, 96]} />
+      </mesh>
+    </group>
+  )
+}
+
+export default function Earth() {
+  const spin = useRef<THREE.Group>(null!)
 
   useFrame((_, dt) => {
     spin.current.rotation.y += dt * 0.035
@@ -83,26 +118,10 @@ export default function Earth() {
     // axial tilt
     <group rotation={[0, 0, (23.4 * Math.PI) / 180]}>
       <group ref={spin} rotation={[0, -1.2, 0]}>
-        <mesh>
-          <sphereGeometry args={[1, 128, 128]} />
-          <meshStandardMaterial
-            map={map}
-            emissiveMap={emissive}
-            emissive="#FF7A33"
-            emissiveIntensity={0.75}
-            roughness={0.82}
-            metalness={0.05}
-          />
-        </mesh>
-        <Hotspots />
+        <EarthBody>
+          <Hotspots />
+        </EarthBody>
       </group>
-      {/* thin rim light + soft outer halo */}
-      <mesh scale={1.004} material={rimMat}>
-        <sphereGeometry args={[1, 96, 96]} />
-      </mesh>
-      <mesh scale={1.075} material={haloMat}>
-        <sphereGeometry args={[1, 96, 96]} />
-      </mesh>
     </group>
   )
 }

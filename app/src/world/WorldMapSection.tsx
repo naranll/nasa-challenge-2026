@@ -1,5 +1,5 @@
 /**
- * Dashboard-ийн World map хэсэг (#31, #34, #36): тив сонгох, VIIRS | MODIS сэлгэх, түүхий hotspot-ын canvas map,
+ * Dashboard-ийн World map хэсэг (#31, #34, #36): тив сонгох, VIIRS | MODIS сэлгэх, түүхий hotspot-ын 3D globe,
  * Harmonize товчоор H3 res 5 hexagon (Aqua-equivalent, хоёр дэлгэц нэг шкалтай), тивийн r мөр.
  * index.json-ийг эхэнд, тивийн points эсвэл cells файлыг зөвхөн тэр тив, тэр горимыг сонгосон үед ачаална.
  */
@@ -12,8 +12,11 @@ import { platformsOf, type Sensor } from "../globe/platforms";
 import { useI18n, type MessageKey } from "../i18n";
 import "../calendar/calendar.css";
 import { cellValue, drawnOn, harmMax, NO_RATIO_COLOR } from "./cellsData";
-import { WorldMapCanvas, type WorldLayer } from "./WorldMapCanvas";
+import { WorldGlobe } from "./WorldGlobe";
 import { PLATFORM_COLOR } from "./worldData";
+
+/** Globe дээр юу зурах вэ: түүхий цэгүүд эсвэл Harmonize-ийн hexagon-ууд (`max` = хоёр дэлгэцийн нэг max). */
+export type WorldLayer = { kind: "points"; file: WorldPointsFile } | { kind: "cells"; file: WorldCellsFile; max: number };
 import "./world.css";
 
 /** Монголын баг тул анхдагч нь Ази. Файлд байхгүй бол эхний тив. */
@@ -57,9 +60,9 @@ export function WorldMapSection() {
   const dropped = index ? Object.values(index.dropped).reduce((a, b) => a + b, 0) : 0;
 
   return (
-    <section className="world-section" aria-labelledby="world-title">
+    <section className="panel world-section" aria-labelledby="world-title">
       <h2 id="world-title">{t("world.title", period)}</h2>
-      <p>{t("world.lead")}</p>
+      <p className="panel-lead">{t("world.lead")}</p>
       {indexFile.status === "error" ? (
         <p role="alert">{t("data.error")}</p>
       ) : index === null || continent === null ? (
@@ -67,8 +70,8 @@ export function WorldMapSection() {
       ) : (
         <>
           <div className="dashboard-controls">
-            <label>
-              {t("world.continent")}{" "}
+            <label className="field">
+              <span className="field-label">{t("world.continent")}</span>
               <select value={continent.id} onChange={(e) => setContinentId(e.target.value as WorldContinentId)}>
                 {index.continents.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -84,31 +87,27 @@ export function WorldMapSection() {
                 </button>
               ))}
             </div>
-            <div className="view-switch">
+            <div className="view-switch view-switch-harm">
               <button type="button" aria-pressed={harm} disabled={!canHarmonize} onClick={() => setHarmonize((h) => !h)}>
                 {t("world.harm.button")}
               </button>
             </div>
           </div>
           <RatioRow continent={continent} />
-          {/* Тивийн файл ачаалж/алдаа гарч байхад ч сонголтууд үлдэнэ, ингэснээр өөр тив рүү шилжиж болно. */}
-          {loaded.status === "error" ? (
-            <p role="alert">{t("data.error")}</p>
-          ) : layer === null ? (
-            <p aria-busy="true">{t("data.loading")}</p>
-          ) : (
-            <WorldMapCanvas
-              continent={continent}
-              layer={layer}
-              sensor={sensor}
-              label={t(harm ? "world.harm.map.aria" : "world.map.aria", {
-                continent: continentName,
-                sensor: sensorName,
-                n: formatNumber(harm ? shownCells : shown, lang),
-                ...period,
-              })}
-            />
-          )}
+          {/* Тивийн файл ачаалж/алдаа гарч байхад ч globe ба сонголтууд үлдэнэ, ингэснээр өөр тив рүү шилжиж болно. */}
+          {loaded.status === "error" && <p role="alert">{t("data.error")}</p>}
+          <WorldGlobe
+            continent={continent}
+            layer={layer}
+            sensor={sensor}
+            loadingText={loaded.status === "error" || layer !== null ? null : t("world.globe.loading")}
+            label={t(harm ? "world.harm.map.aria" : "world.map.aria", {
+              continent: continentName,
+              sensor: sensorName,
+              n: formatNumber(harm ? shownCells : shown, lang),
+              ...period,
+            })}
+          />
           {harm ? (
             cells !== null && (
               <>

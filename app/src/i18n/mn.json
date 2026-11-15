@@ -108,7 +108,7 @@
   "cal.cell.harmonized": "{ym}: Aqua-тай тэнцэх {n} hotspot",
   "cal.empty.harmonized": "Уялдуулсан тоо хараахан бэлэн болоогүй: хиймэл дагуулуудын хоорондын хөрвүүлэх харьцааг тооцоогүй байна. Хиймэл дагуул бүрийн өөрийн тоог харахын тулд Түүхий рүү шилжинэ үү.",
   "cal.empty.raw": "Энэ бүсийн hotspot-ын тоо хараахан байхгүй байна.",
-  "cal.legend.unit": "сард ногдох hotspot",
+  "cal.legend.unit": "сард ногдох hotspot (квадрат язгуур шкал)",
   "cal.legend.forecast": "ирэх сар",
   "cal.legend.noaa20": "NOAA-20-оор тоолсон",
   "cal.legend.partial": "дуусаагүй сар",
@@ -220,5 +220,9 @@
   "world.ratio.unknown": "тодорхойгүй",
   "world.ratio.fallback": "Энэ тивд data цөөн тул дэлхийн харьцааг ашигласан.",
   "world.ratio.fallback.D": "Энэ тивд өдрийн data цөөн тул дэлхийн өдрийн харьцааг ашигласан.",
-  "world.ratio.fallback.N": "Энэ тивд шөнийн data цөөн тул дэлхийн шөнийн харьцааг ашигласан."
+  "world.ratio.fallback.N": "Энэ тивд шөнийн data цөөн тул дэлхийн шөнийн харьцааг ашигласан.",
+  "cal.harmonized.unavailable": "бэлэн болоогүй",
+  "world.globe.hint": "ЧИРЭХ · ЭРГҮҮЛЭХ   ГҮЙЛГЭХ · ОЙРТУУЛАХ   ЗААХ · ДЭЛГЭРЭНГҮЙ",
+  "world.globe.reset": "Төвд буцаах",
+  "world.globe.loading": "Hotspot ачаалж байна…"
 }

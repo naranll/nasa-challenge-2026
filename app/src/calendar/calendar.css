@@ -4,17 +4,22 @@
 .dashboard {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1.25rem;
-  padding: 1.5rem 0 3rem;
+  gap: 1.5rem;
+  padding: 0.5rem 0 3rem;
+}
+
+.dash-hero {
+  padding-bottom: 0.5rem;
 }
 
 .dash-hero h1 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.1;
 }
 
 .dash-lead {
-  margin: 0.4rem 0 0;
+  margin: 0.75rem 0 0;
   color: var(--muted);
   max-width: 46rem;
 }

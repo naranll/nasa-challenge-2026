@@ -25,7 +25,6 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <header className="dash-hero">
-        <p className="eyebrow">{t("app.title")}</p>
         <h1>{t("nav.dashboard")}</h1>
         <p className="dash-lead">{t("page.dashboard.lead")}</p>
       </header>

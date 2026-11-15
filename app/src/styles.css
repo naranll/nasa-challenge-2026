@@ -204,14 +204,27 @@ nav.site-nav a.active {
 .back-home {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
   min-height: 44px;
-  color: var(--muted);
+  margin: 0.5rem 0 0.75rem;
+  padding: 0 1.1rem 0 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--fg);
+  font-size: 0.95rem;
   text-decoration: none;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .back-home:hover,
 .back-home:focus-visible {
   color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 @media (prefers-reduced-motion: reduce) {

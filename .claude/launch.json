@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "app-real-data",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "set VITE_MOCK=false&& npm --prefix app run dev -- --port 5180 --strictPort"],
+      "port": 5180
+    }
+  ]
+}

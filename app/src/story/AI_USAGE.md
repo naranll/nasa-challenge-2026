@@ -36,3 +36,6 @@ The existing file was not visible from this session, so these entries are a stan
 | 2026-11-15 | Claude | Wrote `SatelliteShot` component, its data file and `chapters/_REGISTER.md` | n/a | See `components/SatelliteShot/` | Done |
 
 No Higgsfield tool processed any image. Nothing left the workspace.
+
+## Chapters v2: one-page layouts (2026-11-15)
+- Claude Code (Claude Sonnet 5.5) rewrote the five scenes (`scenes/Ch1Crews` ... `Ch5Reveal`), `scenes/chapters5.css`, new strings in `scenes/kit.tsx` and the five entries in `chapters.json`, from the owner's brief: ch1 satellites sort into MODIS/VIIRS groups, ch2 mechanism + specialties + launch/stop history on one screen, ch3 retirement, mentor handover, "they are different", spark, ch4 harmonization at the centre with the steps around it, ch5 Mongolia test and the Numrug case. All text and numbers trace to existing claims; unverified items show as pink `[ verify ]`. Layouts checked by screenshot at 1440x900 and 390x844.

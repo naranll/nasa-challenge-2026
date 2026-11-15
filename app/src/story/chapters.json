@@ -7,9 +7,42 @@
       "data": [],
       "claims": [],
       "keyframes": [
-        { "globe": { "focus": "world", "altitude": 3.4, "brightness": 0.25 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.4, "brightness": 0.45 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 1.6, "brightness": 0.6 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } }
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3.4,
+            "brightness": 0.25
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 0,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.4,
+            "brightness": 0.45
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 0,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.6,
+            "brightness": 0.6
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 0,
+            "harmonize": 0
+          }
+        }
       ],
       "en": {
         "headline": "8 October",
@@ -22,12 +55,49 @@
     {
       "id": "ch1-burning",
       "lengthVh": 240,
-      "data": ["calendar/mongolia.json"],
-      "claims": ["S-C01"],
+      "data": [
+        "calendar/mongolia.json"
+      ],
+      "claims": [
+        "S-C01"
+      ],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 1.6, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.2, "brightness": 0.3 }, "chart": { "visible": 1, "reveal": 0.5, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.2, "brightness": 0.3 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.6,
+            "brightness": 0.5
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 0,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.2,
+            "brightness": 0.3
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 0.5,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.2,
+            "brightness": 0.3
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
       ],
       "en": {
         "headline": "A burning country",
@@ -43,9 +113,42 @@
       "data": [],
       "claims": [],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.2, "brightness": 0.3 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 1.8, "brightness": 0.4 }, "chart": { "visible": 0.3, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 1.8, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.2,
+            "brightness": 0.3
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.8,
+            "brightness": 0.4
+          },
+          "chart": {
+            "visible": 0.3,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.8,
+            "brightness": 0.4
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
       ],
       "en": {
         "headline": "Eyes that don't blink",
@@ -59,12 +162,47 @@
       "id": "ch3-crews",
       "lengthVh": 220,
       "scene": "crews",
-      "data": ["hex_year/raw.json"],
+      "data": [
+        "hex_year/raw.json"
+      ],
       "claims": [],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
       ],
       "en": {
         "headline": "The two crews",
@@ -80,9 +218,42 @@
       "data": [],
       "claims": [],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.55 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 1.7, "brightness": 0.55 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.6,
+            "brightness": 0.5
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.0,
+            "brightness": 0.55
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.7,
+            "brightness": 0.55
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
       ],
       "en": {
         "headline": "The sharper newcomers",
@@ -98,9 +269,42 @@
       "data": [],
       "claims": [],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 1.7, "brightness": 0.55 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 3.0, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 3.0, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.7,
+            "brightness": 0.55
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 3.0,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 3.0,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
       ],
       "en": {
         "headline": "How a satellite feels fire",
@@ -113,12 +317,49 @@
     {
       "id": "ch6-record",
       "lengthVh": 220,
-      "data": ["calendar/mongolia.json"],
-      "claims": ["S-C01"],
+      "data": [
+        "calendar/mongolia.json"
+      ],
+      "claims": [
+        "S-C01"
+      ],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 3.0, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.25 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.25 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 3.0,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.6,
+            "brightness": 0.25
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.6,
+            "brightness": 0.25
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
       ],
       "en": {
         "headline": "The record",
@@ -150,9 +391,45 @@
         "S-C15"
       ],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0, "steps": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 0,
+            "steps": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1,
+            "steps": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1,
+            "steps": 0
+          }
+        }
       ],
       "en": {
         "headline": "The handover",
@@ -183,9 +460,45 @@
         "S-C16"
       ],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1,
+            "steps": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1,
+            "steps": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1,
+            "steps": 0
+          }
+        }
       ],
       "en": {
         "headline": "How we harmonize",
@@ -207,9 +520,42 @@
       "data": [],
       "claims": [],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.4 }, "chart": { "visible": 0.2, "reveal": 1, "harmonize": 1 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 1 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.8,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.0,
+            "brightness": 0.4
+          },
+          "chart": {
+            "visible": 0.2,
+            "reveal": 1,
+            "harmonize": 1
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.0,
+            "brightness": 0.4
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 1
+          }
+        }
       ],
       "en": {
         "headline": "What it gives Mongolia",
@@ -222,12 +568,49 @@
     {
       "id": "ch10-back",
       "lengthVh": 260,
-      "data": ["calendar/mongolia.json"],
-      "claims": ["S-C02"],
+      "data": [
+        "calendar/mongolia.json"
+      ],
+      "claims": [
+        "S-C02"
+      ],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 1 } },
-        { "globe": { "focus": "mongolia", "altitude": 1.6, "brightness": 0.55 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } },
-        { "globe": { "focus": "mongolia", "altitude": 1.5, "brightness": 0.6 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } }
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 2.0,
+            "brightness": 0.4
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 1
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.6,
+            "brightness": 0.55
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1
+          }
+        },
+        {
+          "globe": {
+            "focus": "mongolia",
+            "altitude": 1.5,
+            "brightness": 0.6
+          },
+          "chart": {
+            "visible": 1,
+            "reveal": 1,
+            "harmonize": 1
+          }
+        }
       ],
       "en": {
         "headline": "Back to Numrug",
@@ -239,7 +622,7 @@
     },
     {
       "id": "ch1-crews",
-      "lengthVh": 640,
+      "lengthVh": 380,
       "data": [],
       "claims": [],
       "own": true,
@@ -283,69 +666,16 @@
         }
       ],
       "en": {
-        "headline": "Meet the crews",
-        "body": "Five satellites watch Earth's heat from space.",
+        "headline": "Five satellites, two kinds of eyes",
+        "body": "Scroll to sort them by the sensor they carry.",
         "caption": "Satellite pictures are stylized illustrations. Nicknames come from the project brief.",
-        "alt": "A dark globe made of dots with orange hotspots on the left. Five satellites arrive one at a time on the right: Terra, Aqua, Suomi NPP, NOAA-20 and NOAA-21. Then each gets a short explainer: how it feels heat and what its data is used for."
+        "alt": "Five satellites float apart on a dark page. As you scroll they sort into two groups: Terra and Aqua carry MODIS, and Suomi NPP, NOAA-20 and NOAA-21 carry VIIRS."
       },
       "mn": null
     },
     {
       "id": "ch2-fire",
-      "lengthVh": 340,
-      "data": [],
-      "claims": [],
-      "own": true,
-      "chartHeightDvh": 0,
-      "keyframes": [
-        {
-          "globe": {
-            "focus": "world",
-            "altitude": 3,
-            "brightness": 0.2
-          },
-          "chart": {
-            "visible": 0,
-            "reveal": 1,
-            "harmonize": 0
-          }
-        },
-        {
-          "globe": {
-            "focus": "world",
-            "altitude": 3,
-            "brightness": 0.2
-          },
-          "chart": {
-            "visible": 0,
-            "reveal": 1,
-            "harmonize": 0
-          }
-        },
-        {
-          "globe": {
-            "focus": "world",
-            "altitude": 3,
-            "brightness": 0.2
-          },
-          "chart": {
-            "visible": 0,
-            "reveal": 1,
-            "harmonize": 0
-          }
-        }
-      ],
-      "en": {
-        "headline": "Satellites feel heat from above",
-        "body": "A swath sweeps the ground and flags hot spots.",
-        "caption": "Simplified illustration of how the two sensors report the same fire.",
-        "alt": "A single ember on a dark field. A band sweeps across it and the same fire appears as a large dot for MODIS and a small triangle for VIIRS."
-      },
-      "mn": null
-    },
-    {
-      "id": "ch3-handover",
-      "lengthVh": 420,
+      "lengthVh": 300,
       "data": [
         "satellites.json"
       ],
@@ -393,16 +723,73 @@
         }
       ],
       "en": {
-        "headline": "Five satellites, years of watching",
-        "body": "Each bar shows how long a satellite has worked.",
-        "caption": "Launch years come from the real satellites.json. Retirement and start-of-FIRMS dates are not shown on screen because they are not yet verified.",
-        "alt": "Five bars, one per satellite, showing launch year and how long each has worked. Terra and Aqua are marked retiring. NOAA-21, the youngest, is highlighted as taking over."
+        "headline": "How satellites feel fire",
+        "body": "A sensor sweeps the ground and flags the hot spots.",
+        "caption": "Simplified illustration. Launch years come from the satellite list; retirement dates are not shown until checked.",
+        "alt": "On one screen: a sweep that turns one fire into a big MODIS dot and a small VIIRS triangle in the middle, what each sensor is good at on the left and right, and a timeline below showing when each of five satellites launched and where it stops working."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch3-handover",
+      "lengthVh": 460,
+      "data": [
+        "satellites.json"
+      ],
+      "claims": [
+        "S-C10"
+      ],
+      "own": true,
+      "chartHeightDvh": 0,
+      "keyframes": [
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
+      ],
+      "en": {
+        "headline": "Terra and Aqua are retiring soon",
+        "body": "Their long watch is coming to an end.",
+        "caption": "Retirement dates are not shown: they are still being checked. Satellite pictures are stylized illustrations.",
+        "alt": "Terra and Aqua droop and look sad as they near retirement. Aqua passes the record to the young NOAA-21. But the two sensors see the same fire differently, a big dot against a small triangle. Then a spark grows between them."
       },
       "mn": null
     },
     {
       "id": "ch4-harmonize",
-      "lengthVh": 480,
+      "lengthVh": 360,
       "data": [
         "calendar/mongolia.json"
       ],
@@ -451,16 +838,16 @@
         }
       ],
       "en": {
-        "headline": "Two sensors, one record",
-        "body": "They see fire differently. We bring them together.",
-        "caption": "Hands are an original line-art homage; the chart is a simplified illustration on fixture data.",
-        "alt": "Two line-art hands reach toward each other, one teal for MODIS and one indigo for VIIRS. Warm light streams from the gap and becomes a five-step workflow: collect, align, clean, calibrate, verify. A jagged raw line turns into one smooth line with a band."
+        "headline": "Our harmonization, step by step",
+        "body": "Raw counts become one smooth, comparable record.",
+        "caption": "Simplified illustration of the method. The band is illustrative, not a measured uncertainty.",
+        "alt": "A chart in the centre: a jagged raw line becomes one smooth line with a band. Five steps are written around it: collect, align, calibrate, chain and verify."
       },
       "mn": null
     },
     {
       "id": "ch5-reveal",
-      "lengthVh": 360,
+      "lengthVh": 340,
       "data": [
         "hex_year/harm.json"
       ],
@@ -508,10 +895,10 @@
         }
       ],
       "en": {
-        "headline": "One record. One Mongolia.",
-        "body": "Every sensor, merged into a single set of fires.",
-        "caption": "Hotspot marks are illustrative, drawn inside the real border; one mark stands for several detections.",
-        "alt": "The outline of Mongolia draws itself, then one merged set of orange hotspots lights up inside it. A link leads on to the app."
+        "headline": "We tested it on Mongolia",
+        "body": "One merged record, then one real case: Numrug.",
+        "caption": "Hotspot marks are illustrative. Numrug is shown at an approximate location. Facts about the case are still being checked.",
+        "alt": "The outline of Mongolia with one merged set of fire marks and a pin for Numrug. A card describes the test and a card describes the Numrug case. A link opens the dashboard."
       },
       "mn": null
     }

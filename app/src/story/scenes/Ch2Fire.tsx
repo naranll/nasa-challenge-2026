@@ -1,24 +1,29 @@
 /**
- * Chapter 2, "How a satellite feels fire". A bare dark field: no globe, no map, one ember. At most two graphics:
- *  1. A swath sweeps the field (teal = MODIS, then indigo = VIIRS); the same ember lights up as a big MODIS dot and a
- *     small VIIRS triangle. Time-based loop with pause/play.
- *  2. "Same fire, two views": the two marks side by side, each in the size of ground cell that sensor reports.
- * Simplified illustration; no numbers. Reduced motion / ?lite=1: graphic 2 as a still picture.
+ * Chapter 2. How satellites feel fire, on ONE screen. Middle: the mechanism (a swath sweeps the ground and the same
+ * fire lights up as a big MODIS dot and a small VIIRS triangle). Left and right: what each sensor is good at. Below:
+ * a history line per satellite: launch year (real data, claim S-C10) and where it stops working (no retirement dates
+ * are printed, they are still [verify]). Wide screens show everything at once, entering in turn; phones show the three
+ * parts one at a time as you scroll. Reduced motion / ?lite=1: the finished picture (everything on wide screens).
  */
+import { useMemo, useRef } from "react";
+import { useElementSize } from "../../globe/env";
 import { readParam } from "../engine/env";
-import { useMemo } from "react";
-import { Beat, easeOut, mix, PlayPause, ramp, sceneText, SensorTag, usePlayback, win } from "./kit";
+import { Claimed } from "../components/Claimed";
+import { useLaunchDates } from "../data/adapters";
+import { decimalYear, LIFECYCLE } from "../data/handover";
+import type { PlatformId } from "../../globe/platforms";
+import { SENSOR_OF } from "../../globe/platforms";
 import type { StageProps } from "../types";
+import { Beat, easeOut, Icon, mix, PlayPause, ramp, sceneText, SensorTag, usePlayback, win } from "./kit";
 
 const EMBER = { x: 215, y: 150 };
-const LOOP_SECONDS = 9;
 const BAND_W = 74;
 
 function Triangle({ x, y, r }: { x: number; y: number; r: number }) {
   return <path d={`M${x},${y - r} L${x + r * 0.95},${y + r * 0.78} L${x - r * 0.95},${y + r * 0.78} Z`} fill="var(--story-ember)" stroke="var(--story-viirs-bright)" strokeWidth="3" strokeLinejoin="round" />;
 }
 
-function Field({ loop }: { loop: number }) {
+export function Field({ loop }: { loop: number }) {
   const t1 = easeOut(ramp(loop, 0.05, 0.4));
   const t2 = easeOut(ramp(loop, 0.45, 0.8));
   const x1 = mix(-110, 520, t1);
@@ -33,17 +38,16 @@ function Field({ loop }: { loop: number }) {
       </g>
     ) : null;
   return (
-    <svg className="s2-field" viewBox="0 0 430 300" role="img" aria-label="A band sweeps a dark field. The same fire lights up as a big dot for MODIS and a small triangle for VIIRS." focusable="false">
+    <svg className="c2-field" viewBox="0 0 430 300" role="img" aria-label="A band sweeps a dark field. The same fire lights up as a big dot for MODIS and a small triangle for VIIRS." focusable="false">
       <defs>
-        <clipPath id="s2-clip">
+        <clipPath id="c2-clip">
           <rect x="2" y="2" width="426" height="296" rx="26" />
         </clipPath>
       </defs>
       <rect x="2" y="2" width="426" height="296" rx="26" fill="var(--story-plate)" />
-      <g opacity={fade} clipPath="url(#s2-clip)">
+      <g opacity={fade} clipPath="url(#c2-clip)">
         {band(x1, "var(--story-modis)", t1 > 0 && t1 < 1)}
         {band(x2, "var(--story-viirs-bright)", t2 > 0 && t2 < 1)}
-        {/* the same fire: a small ember, then the two marks it becomes */}
         <circle cx={EMBER.x} cy={EMBER.y} r="7" fill="var(--story-ember)" stroke="var(--story-ink)" strokeWidth="2" />
         <g opacity={modisOn} transform={`translate(${EMBER.x} ${EMBER.y}) scale(${mix(0.4, 1, easeOut(modisOn))}) translate(${-EMBER.x} ${-EMBER.y})`}>
           <circle cx={EMBER.x} cy={EMBER.y} r="52" fill="var(--story-ember)" fillOpacity="0.16" />
@@ -58,59 +62,135 @@ function Field({ loop }: { loop: number }) {
   );
 }
 
-/** Graphic 2: the same fire as each sensor reports it: a big cell and dot, a small cell and triangle, at one scale. */
-function TwoViews({ t }: { t: (k: "fireModis" | "fireViirs") => string }) {
+const MODIS_ROWS: { icon: "heat" | "pair" | "record"; text: string }[] = [
+  { icon: "heat", text: "Coarser pixels, bigger dots" },
+  { icon: "pair", text: "Two satellites: Terra and Aqua" },
+  { icon: "record", text: "A long, steady record" },
+];
+const VIIRS_ROWS: { icon: "heat" | "pair" | "record"; text: string }[] = [
+  { icon: "heat", text: "Finer pixels, smaller dots" },
+  { icon: "pair", text: "Three satellites fly it" },
+  { icon: "record", text: "Newest eyes, still flying" },
+];
+
+function Specialty({ sensor, rows }: { sensor: "MODIS" | "VIIRS"; rows: typeof MODIS_ROWS }) {
   return (
-    <div className="s2-views">
-      <figure>
-        <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-          <rect x="22" y="22" width="156" height="156" rx="22" fill="var(--story-modis-deep)" fillOpacity="0.3" stroke="var(--story-modis)" strokeWidth="3" />
-          <circle cx="100" cy="100" r="46" fill="var(--story-ember)" stroke="var(--story-modis)" strokeWidth="3" />
-        </svg>
-        <figcaption>
-          <SensorTag sensor="MODIS" />
-          <span>{t("fireModis").split(" · ")[1]}</span>
-        </figcaption>
-      </figure>
-      <figure>
-        <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-          <rect x="22" y="22" width="156" height="156" rx="22" fill="none" stroke="var(--story-faint)" strokeWidth="2" strokeDasharray="2 8" strokeLinecap="round" />
-          <rect x="78" y="78" width="44" height="44" rx="8" fill="var(--story-viirs-deep)" fillOpacity="0.3" stroke="var(--story-viirs-bright)" strokeWidth="3" />
-          <Triangle x={100} y={100} r={15} />
-        </svg>
-        <figcaption>
-          <SensorTag sensor="VIIRS" />
-          <span>{t("fireViirs").split(" · ")[1]}</span>
-        </figcaption>
-      </figure>
-    </div>
+    <section className={`c2-card c2-card-${sensor.toLowerCase()}`}>
+      <SensorTag sensor={sensor} />
+      <ul>
+        {rows.map((r) => (
+          <li key={r.text}>
+            <Icon name={r.icon} />
+            <span>{r.text}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+const ORDER: { platform: PlatformId; name: string }[] = [
+  { platform: "terra", name: "Terra" },
+  { platform: "aqua", name: "Aqua" },
+  { platform: "snpp", name: "Suomi NPP" },
+  { platform: "noaa20", name: "NOAA-20" },
+  { platform: "noaa21", name: "NOAA-21" },
+];
+const AX = { from: 1998, to: 2029 };
+const place = (year: number) => ((year - AX.from) / (AX.to - AX.from)) * 100;
+
+/** Launch to stop for each satellite. Stop positions are drawn from the story's lifecycle file but never printed. */
+function History({ t, draw }: { t: (k: "c2History" | "c2Launch" | "c2Stop" | "c2RetireSoon" | "c2Ended" | "c2Going") => string; draw: number }) {
+  const launches = useLaunchDates();
+  const launch = launches.status === "ok" ? launches.data : {};
+  const end = (id: PlatformId): { at: number | null; label: "c2RetireSoon" | "c2Ended" | "c2Going" } => {
+    const e = (LIFECYCLE.platforms as Record<string, { end?: string; endKind?: string }>)[id];
+    if (e?.end) return { at: decimalYear(e.end), label: e.endKind === "planned" ? "c2RetireSoon" : "c2Ended" };
+    return { at: null, label: "c2Going" };
+  };
+  return (
+    <section className="c2-history" aria-label={t("c2History")}>
+      <ol>
+        {ORDER.map((r, i) => {
+          const y = launch[r.platform] ? decimalYear(launch[r.platform].slice(0, 10)) : null;
+          const e = end(r.platform);
+          const stop = e.at ?? AX.to - 0.5;
+          const vis = easeOut(ramp(draw, i * 0.1, 0.5 + i * 0.1));
+          const sensor = SENSOR_OF[r.platform].toLowerCase();
+          return (
+            <li key={r.platform} className={`c2-row c2-${sensor}`}>
+              <span className="c2-name">{r.name}</span>
+              <span className="c2-track">
+                {y !== null && (
+                  <>
+                    <span className="c2-line" style={{ left: `${place(y)}%`, width: `${(place(stop) - place(y)) * vis}%` }} />
+                    <span className="c2-dot c2-dot-start" style={{ left: `${place(y)}%`, opacity: vis }} />
+                    {vis > 0.9 && <span className={`c2-dot c2-dot-stop${e.at === null ? " is-going" : ""}`} style={{ left: `${place(stop)}%` }} />}
+                  </>
+                )}
+              </span>
+              <span className="c2-note">
+                {y !== null && (
+                  <>
+                    {t("c2Launch")} <Claimed id="S-C10">{Math.floor(y)}</Claimed> ·{" "}
+                  </>
+                )}
+                {t(e.label)}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+      <div className="c2-axis" aria-hidden="true">
+        {[2000, 2010, 2020].map((yr) => (
+          <span key={yr} style={{ left: `${place(yr)}%` }}>
+            {yr}
+          </span>
+        ))}
+      </div>
+    </section>
   );
 }
 
 export function Ch2Fire({ progress: p, reduced, lowBandwidth, lang }: StageProps) {
   const t = sceneText(lang);
   const still = reduced || lowBandwidth;
+  const box = useRef<HTMLDivElement>(null);
+  const { width: w } = useElementSize(box);
+  const wide = w >= 900;
   const frozen = useMemo(() => {
     const v = readParam("loop");
     return v !== null && v !== "" && Number.isFinite(Number(v)) ? Math.min(1, Math.max(0, Number(v))) : null;
   }, []);
-  const inA = p < 0.52;
-  const pb = usePlayback({ still, active: inA, seconds: LOOP_SECONDS, key: "ch2", rest: 0.9, frozen });
+  const pb = usePlayback({ still, active: true, seconds: 9, key: "c2", rest: 0.9, frozen });
 
-  const A = still ? 0 : win(p, -0.1, 0.52, 0.07);
-  const B = still ? 1 : ramp(p, 0.5, 0.6);
+  // Wide: three parts enter in turn and stay. Narrow: one part at a time.
+  const vMech = wide ? (still ? 1 : ramp(p, 0.02, 0.16)) : still ? 1 : win(p, -0.1, 0.36, 0.07);
+  const vSpec = wide ? (still ? 1 : ramp(p, 0.18, 0.34)) : still ? 0 : win(p, 0.33, 0.69, 0.07);
+  const vHist = wide ? (still ? 1 : ramp(p, 0.36, 0.52)) : still ? 0 : ramp(p, 0.66, 0.76);
+  const draw = still ? 1 : wide ? ramp(p, 0.4, 0.75) : ramp(p, 0.68, 0.95);
+  const show = (v: number) => ({ opacity: v, visibility: v > 0.01 ? ("visible" as const) : ("hidden" as const), transform: `translateY(${(1 - easeOut(v)) * 18}px)` });
 
   return (
-    <div className="s2">
-      <Beat v={A} headline={t("fireHeadA")} line={t("fireLineA")} />
-      <Beat v={B} headline={t("fireHeadB")} line={t("fireLineB")} />
-      <div className="s2-g1" style={{ opacity: A, visibility: A > 0.01 ? "visible" : "hidden", transform: `translateY(${(1 - A) * 18}px)` }}>
-        <Field loop={pb.phase} />
+    <div className={`c c2${wide ? " is-wide" : ""}`}>
+      <Beat v={still ? 1 : win(p, -0.1, 1.1, 0.06)} headline={t("c2Head")} line={t("c2Line")} />
+      <div className="c-body c2-body" ref={box}>
+        <div className="c2-top">
+          <div className="c2-left" style={show(vSpec)}>
+            <Specialty sensor="MODIS" rows={MODIS_ROWS} />
+          </div>
+          <div className="c2-mid" style={show(vMech)}>
+            <Field loop={pb.phase} />
+          </div>
+          <div className="c2-right" style={show(vSpec)}>
+            <Specialty sensor="VIIRS" rows={VIIRS_ROWS} />
+          </div>
+        </div>
+        <div className="c2-bottom" style={show(vHist)}>
+          <History t={t} draw={draw} />
+        </div>
       </div>
-      <div className="s2-g2" style={{ opacity: B, visibility: B > 0.01 ? "visible" : "hidden", transform: `translateY(${(1 - easeOut(B)) * 22}px)` }}>
-        <TwoViews t={t} />
-      </div>
-      {A > 0.3 && pb.canPause && <PlayPause paused={pb.paused} onToggle={pb.toggle} label={pb.paused ? t("play") : t("pause")} />}
+      {vMech > 0.3 && pb.canPause && <PlayPause paused={pb.paused} onToggle={pb.toggle} label={pb.paused ? t("play") : t("pause")} />}
     </div>
   );
 }

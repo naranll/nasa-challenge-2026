@@ -7,6 +7,7 @@ import "./story.css";
 import "./skin/skin.css";
 import "./skin/story-skin.css";
 import "./scenes/scenes.css";
+import "./scenes/chapters5.css";
 
 export default function StoryPage() {
   return (

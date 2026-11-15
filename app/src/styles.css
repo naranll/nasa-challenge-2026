@@ -66,6 +66,10 @@ main {
   margin: 0 auto;
 }
 
+main.main-bleed {
+  padding: 0;
+}
+
 /* ---- Shared building blocks (home-page look) ---- */
 
 /* Frosted card, same recipe as .glass on the home page. */

@@ -17,8 +17,9 @@ export default function Layout() {
           {t("banner.synthetic")}
         </div>
       )}
-      <main>
-        {pathname !== ROUTES.home && (
+      {/* The story is full-bleed and has its own "Skip story" link, so it gets no back link or padding. */}
+      <main className={pathname === ROUTES.story ? "main-bleed" : undefined}>
+        {pathname !== ROUTES.home && pathname !== ROUTES.story && (
           <Link to={ROUTES.home} className="back-home">
             {t("nav.back_home")}
           </Link>

@@ -4,7 +4,7 @@
  * browser has it. With reduced motion, both directions are a short crossfade.
  */
 import type { MouseEvent, ReactNode } from "react";
-import { useI18n } from "../../i18n";
+import { GradientOrb, GrainOverlay, HairlineFrame } from "../skin";
 import { useStoryMotion } from "../engine/env";
 import { useStoryText } from "../strings";
 
@@ -17,7 +17,6 @@ const nextFrames = (n: number) =>
   });
 
 export function SlideShell({ children }: { children: ReactNode }) {
-  const { lang, setLang, t } = useI18n();
   const s = useStoryText();
   const reduced = useStoryMotion();
 
@@ -37,14 +36,20 @@ export function SlideShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className={`story-root${reduced ? " is-reduced" : ""}`} lang={lang}>
+    <div className={`story-root sk-skin${reduced ? " is-reduced" : ""}`} lang="en">
+      <div className="sk-skin-decor" aria-hidden="true">
+        <div className="sk-skin-orb">
+          <GradientOrb size="min(36vw, 400px)" intensity={0.42} blur={34} spark />
+        </div>
+        <HairlineFrame corners={false} coords={[undefined, undefined, "47.92°N · 106.92°E", "MODIS · VIIRS"]} barcode="space-khuushuur" inset={18} />
+      </div>
+      <GrainOverlay position="fixed" opacity={0.09} />
       <div className="story-topbar">
         <a className="story-skip" href={APP_HOME} onClick={skip} aria-label={s("skip.aria")}>
           {s("skip")}
         </a>
-        <button type="button" className="story-lang" onClick={() => setLang(lang === "en" ? "mn" : "en")}>
-          {t("lang.switch")}
-        </button>
+        {/* The engine puts its "Sources & notes" button here. */}
+        <div id="story-topbar-slot" className="story-topbar-slot" />
       </div>
       <h1 className="story-sr-only">{s("story.title")}</h1>
       {children}

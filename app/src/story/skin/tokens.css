@@ -1,0 +1,71 @@
+/*
+ * Story skin tokens. Everything is prefixed --sk- so nothing here can clash with the app's
+ * styles.css (--bg --fg --muted --accent). design/tokens.json does not exist in this repo yet:
+ * when it lands, it wins; edit the values here to match it.
+ *
+ * Fonts (all verified to contain Ө ө Ү ү, see SKIN_README.md): Oswald (display), JetBrains Mono
+ * (captions), Inter (body). The @import must stay first in this file.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;700&display=swap&subset=cyrillic-ext");
+
+:root {
+  /* ground and text */
+  --sk-ink: #07080c;
+  --sk-cobalt: #1f3fbf;
+  --sk-cream: #f3e6c8;
+  --sk-cream-dim: rgb(243 230 200 / 0.62);
+  --sk-hair: rgb(243 230 200 / 0.22); /* hairlines */
+  --sk-hair-faint: rgb(243 230 200 / 0.09); /* faint grid */
+
+  /* meaning colours: never decorative */
+  --sk-fire: #ff5a1f; /* fire only */
+  --sk-modis: #19c3b1; /* teal */
+  --sk-viirs: #5b5bf0; /* indigo */
+  --sk-harmony: #ffffff; /* where teal and indigo overlap */
+  /* small accents */
+  --sk-lime: #d7ff3a;
+  --sk-pink: #ff4fa3;
+  --sk-magenta: #d62b8f; /* orb mid-stop only */
+
+  /* type */
+  --sk-font-display: "Oswald", "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
+  --sk-font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --sk-font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sk-text-micro: 0.625rem; /* 10 */
+  --sk-text-caption: 0.75rem; /* 12 */
+  --sk-text-body: 1rem;
+  --sk-text-lede: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  --sk-text-headline: clamp(2.5rem, 1.4rem + 5.5vw, 6.5rem);
+  --sk-text-numeral: clamp(7rem, 3rem + 22vw, 22rem); /* huge numerals as graphic elements */
+  --sk-track-caption: 0.28em;
+  --sk-track-wide: 0.42em;
+
+  /* spacing (4px base, with a few big steps for negative space) */
+  --sk-s1: 4px;
+  --sk-s2: 8px;
+  --sk-s3: 12px;
+  --sk-s4: 16px;
+  --sk-s5: 24px;
+  --sk-s6: 40px;
+  --sk-s7: 64px;
+  --sk-s8: 112px;
+  --sk-gutter: clamp(16px, 4vw, 56px);
+
+  /* motion */
+  --sk-dur-fast: 180ms;
+  --sk-dur-base: 520ms;
+  --sk-dur-slow: 1100ms;
+  --sk-dur-drift: 26s; /* orb drift loop */
+  --sk-ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* soft expo-out */
+  --sk-ease-spring: cubic-bezier(0.34, 1.32, 0.64, 1); /* gentle spring-like overshoot */
+  --sk-ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* z-layers */
+  --sk-z-stars: 0;
+  --sk-z-orb: 1;
+  --sk-z-art: 2;
+  --sk-z-chrome: 3; /* hairlines, glyphs, coordinates */
+  --sk-z-text: 4;
+  --sk-z-grain: 5; /* above everything, pointer-events none */
+  --sk-z-nav: 6;
+}

@@ -1,5 +1,5 @@
-import { HomeView } from "../globe";
+import OrbitalHome from "../orbital/OrbitalHome";
 
 export default function Home() {
-  return <HomeView />;
+  return <OrbitalHome />;
 }

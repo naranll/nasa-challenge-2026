@@ -1,0 +1,153 @@
+/* Dashboard World map globe (#34). Buttons and selects: calendar.css + styles.css. */
+
+.world-section h2 {
+  margin-top: 0;
+}
+
+/* The globe: same deep-space backdrop as the home page. */
+.world-globe {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 72vh, 760px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: radial-gradient(ellipse 80% 70% at 50% 45%, #161b29 0%, #10131c 45%, #0b0d13 100%);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.world-globe:active {
+  cursor: grabbing;
+}
+
+.world-globe canvas {
+  display: block;
+}
+
+.world-globe-hint {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.8rem;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.32);
+  white-space: pre;
+  max-width: calc(100% - 2rem);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.world-globe-loading {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(14, 17, 27, 0.8);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.world-globe-reset {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  min-height: 32px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(14, 17, 27, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.world-globe-reset:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.world-map-tip {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.world-map-tip strong {
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.world-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+}
+
+.world-legend-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.world-legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.world-swatch {
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  vertical-align: -0.02rem;
+}
+
+/* Continent ratio row (#36) */
+.world-ratio {
+  margin: -0.4rem 0 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.world-ratio-fallback {
+  display: block;
+  color: var(--fg);
+}
+
+@media (max-width: 640px) {
+  .world-globe-hint {
+    display: none;
+  }
+}

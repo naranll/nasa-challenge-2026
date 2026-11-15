@@ -11,3 +11,11 @@
 - **`STORY_STRICT=1` in CI** once copy is sourced, so `[verify]` tags fail the build.
 - **Share image / OG card** with the `canvas-design` skill, after ch 7 and 8.
 - **Placeholder progress readout** shows a raw number without a claim ID; it is dev UI and disappears as chapters are built.
+
+## From the five-chapter pass
+- **Mongolian copy for the scenes** (`scenes/kit.tsx` MN table is empty, so English shows). Needs native-proofed strings for the five scenes.
+- **Spoken-style explainers per crew** (ch 1) use generic phrases with no numbers. Add pixel size / swath / overpass time only with sourced claim IDs.
+- **Real data for ch 5**: marks come from the synthetic hex_year fixture; swap in the real file when it lands, badge turns to "illustrative".
+- **Uncertainty band** in ch 4 is drawn, not measured. Replace with the pipeline's real interval when P2 delivers it.
+- **"See it in Mongolia" target**: points at `#/dashboard`; confirm that is the intended proof section.
+- **Test-runner note**: `vitest run` fails with "Cannot read properties of undefined (reading 'config')" while a Vite dev server for this app is running; stop the dev server first.

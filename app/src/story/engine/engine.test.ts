@@ -6,7 +6,7 @@ import { blend, ease, FLY_IN, lerpLng, resolveFocus, sampleKeyframes, stageAt } 
 
 const target = (lat: number, harmonize = 0): StageTarget => ({
   globe: { lat, lng: 0, altitude: 2, brightness: 0.5 },
-  chart: { visible: 1, reveal: 1, harmonize },
+  chart: { visible: 1, reveal: 1, harmonize, steps: 0 },
 });
 const kf = (a: number, b: number, c: number): [StageTarget, StageTarget, StageTarget] => [target(a), target(b), target(c)];
 

@@ -14,6 +14,62 @@
       "field": "months[].harmonized",
       "script": "Job 2 pipeline (#23)",
       "status": "fixture (synthetic) until the real calendar file exists"
+    },
+    "S-C10": {
+      "what": "Launch date of each platform (Terra, Aqua, Suomi NPP, NOAA-20, NOAA-21), used as the start of each lifespan bar.",
+      "file": "satellites.json (public/data, real)",
+      "field": "platforms[].launch_date, with launch_source_url",
+      "script": "scripts/tle/fetch_tle.ts via scripts/tle/platforms.json",
+      "status": "real file; sources recorded in docs/claims.md"
+    },
+    "S-C11": {
+      "what": "Planned end of service: Terra MODIS about Jan 2027, Aqua about Sep 2027. Drawn as where each bar fades.",
+      "file": "data/lifecycle.json",
+      "field": "platforms.terra.end, platforms.aqua.end",
+      "script": "none (taken from the project brief)",
+      "status": "[verify] against NASA notices before showing as fact"
+    },
+    "S-C12": {
+      "what": "Suomi NPP production in FIRMS ended 2 Nov 2026 (also where the NOAA-20-derived months begin).",
+      "file": "data/lifecycle.json",
+      "field": "platforms.snpp.end",
+      "script": "none (taken from the project brief); contracts/README.md flag noaa20_derived from 2026-11-02",
+      "status": "[verify] against the FIRMS / Earthdata notice"
+    },
+    "S-C13": {
+      "what": "NOAA-21 available in FIRMS since Jan 2024. Drawn as where its bar lights up.",
+      "file": "data/lifecycle.json",
+      "field": "platforms.noaa21.firmsStart",
+      "script": "none (taken from the project brief)",
+      "status": "[verify] against the FIRMS notice. The synthetic pipeline_stats fixture lists a different first detection, so this must be checked."
+    },
+    "S-C14": {
+      "what": "Step dates in the record: 2002-07 (calendar starts, Aqua era), 2012 (VIIRS on Suomi NPP), 2018-04 (NOAA-20 window starts).",
+      "file": "data/lifecycle.json; contracts/README.md (D4, ratios windows); calendar/mongolia.json months[0]",
+      "field": "steps[].at",
+      "script": "Job 2 pipeline (#23)",
+      "status": "[verify] against the real pipeline_stats first_detection"
+    },
+    "S-C15": {
+      "what": "Ratio of VIIRS (Suomi NPP) to MODIS (Aqua) raw yearly hotspot sums over the full years both have.",
+      "file": "calendar/mongolia.json",
+      "field": "months[].raw.snpp / months[].raw.aqua, summed by year",
+      "script": "computed in the browser (data/handover.ts overlapRatio)",
+      "status": "fixture (synthetic) until the real calendar file exists"
+    },
+    "S-C16": {
+      "what": "Seam Slider series: yearly raw counts of the reference-chain platform as recorded, against yearly harmonized (Aqua-equivalent) counts; the seam year is where the chain changes sensor family.",
+      "file": "calendar/mongolia.json",
+      "field": "months[].chain_platform, months[].raw, months[].harmonized",
+      "script": "computed in the browser (data/handover.ts chainRawYearly). A seam/seam_demo.json (P1-10) is not in the repo, so this is derived from the calendar.",
+      "status": "fixture (synthetic) until the real calendar file exists"
+    },
+    "S-C17": {
+      "what": "Illustrative hotspot marks on the Mongolia map in the closing scene: each mark is drawn at a seeded random spot inside a cell of the harmonized hex grid and stands for several detections. Not detection positions.",
+      "file": "hex_year/harm.json (and hex_year/raw.json)",
+      "field": "cells[].counts",
+      "script": "fixtures/make_fixtures.py (synthetic); Job 2 pipeline when real",
+      "status": "fixture (synthetic) until the real hex_year files exist; always labelled illustrative"
     }
   }
 }

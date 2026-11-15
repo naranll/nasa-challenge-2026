@@ -34,6 +34,18 @@ export function locate(ranges: Range[], scrolledVh: number): { index: number; pr
   return { index, progress: clamp01((scrolledVh - start) / (end - start)) };
 }
 
+/** "ch7-handover" -> "07". Chapters are numbered from their id, as in the brief (ch0 ... ch10). */
+export function chapterNumber(id: string): string {
+  const n = /^ch(\d+)/.exec(id)?.[1];
+  return n === undefined ? "--" : n.padStart(2, "0");
+}
+
+/** How much of the 3D globe shows (1) versus the flat Earth limb of the backdrop (0), from globe brightness. */
+export function presence(brightness: number): number {
+  const t = clamp01((brightness - 0.3) / 0.25);
+  return t * t * (3 - 2 * t);
+}
+
 /** How far the top of the story has scrolled above the top of the viewport, in vh. */
 export function scrolledVh(containerTop: number, viewportHeight: number): number {
   return viewportHeight > 0 ? -containerTop / (viewportHeight / 100) : 0;

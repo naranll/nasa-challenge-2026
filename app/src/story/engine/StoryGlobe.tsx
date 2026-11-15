@@ -55,7 +55,8 @@ export default function StoryGlobe({ targetRef, onFallback }: Props) {
       last = key;
       g.pointOfView({ lat: t.lat, lng: t.lng, altitude: fitAltitude(t.altitude, width, height) }, 0);
       // three-globe nulls the colour when the texture loads, so assign a fresh one instead of mutating.
-      material.color = new Color().setScalar(MIN_LIGHT + LIGHT_SPAN * t.brightness);
+      const light = MIN_LIGHT + LIGHT_SPAN * t.brightness;
+      material.color = new Color(light * 0.55, light * 0.88, light); // cool teal cast, so Earth sits in the plates' palette
     };
     raf = requestAnimationFrame(frame);
 
@@ -83,16 +84,14 @@ export default function StoryGlobe({ targetRef, onFallback }: Props) {
           ref={globe}
           width={width}
           height={height}
-          backgroundColor="#000004"
+          backgroundColor="rgba(0,0,0,0)"
           globeImageUrl={earthUrl}
           globeMaterial={material}
-          showAtmosphere={!coarse}
-          atmosphereColor="#7ab8ff"
-          atmosphereAltitude={0.15}
+          showAtmosphere={false} // no limb glow: the only glow on the page is a hotspot's
           polygonsData={polygons}
-          polygonCapColor={() => "rgba(255, 214, 140, 0.35)"}
+          polygonCapColor={() => "rgba(0, 0, 0, 0)"} // outline only; ember is reserved for hotspots
           polygonSideColor={() => "rgba(0, 0, 0, 0)"}
-          polygonStrokeColor={() => "#ffe2b0"}
+          polygonStrokeColor={() => "#68696a"}
           polygonAltitude={0.006}
           animateIn={false}
           enablePointerInteraction={false}

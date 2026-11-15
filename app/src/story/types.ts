@@ -22,6 +22,8 @@ export interface ChartTarget {
   reveal: number;
   /** 0 = every platform's own raw count, 1 = the single harmonized line. */
   harmonize: number;
+  /** 0..1 opacity of the numbered step markers (dates where the record changes). */
+  steps: number;
 }
 
 export interface StageTarget {
@@ -34,7 +36,8 @@ export type GlobeFocus = "mongolia" | "world" | { lat: number; lng: number };
 
 export interface KeyframeSpec {
   globe: { focus: GlobeFocus; altitude: number; brightness: number };
-  chart: ChartTarget;
+  /** `steps` may be left out (= 0), so chapters written before it existed keep working. */
+  chart: Omit<ChartTarget, "steps"> & { steps?: number };
 }
 
 export interface StageProps {
@@ -58,6 +61,16 @@ export type ChapterDef = {
   lengthVh: number;
   copy: (lang: Lang) => ChapterCopy;
   alt: (lang: Lang) => string;
+  /** Height of the persistent chart in viewport heights; 0 hides its row. Default: the stylesheet's size. */
+  chartHeightDvh?: number;
+  /** "bare" = the chart shows only its line: no title, legend, ticks or note. */
+  chartStyle?: "bare";
+  /** A hero-layer scene (Mongolia outline + hotspots). Without one the hero layer is hidden for this chapter. */
+  scene?: "crews" | "handover" | "harmonize";
+  /** The stage draws the whole screen itself: no engine head, hero map, chart or 3D globe (the five-chapter story). */
+  own?: boolean;
+  /** Extra material for the "Sources & notes" panel (keys, ratios, long figures). */
+  Notes?: FC;
   /** Persistent-stage targets at chapter progress 0, 0.5 and 1. */
   keyframes: [StageTarget, StageTarget, StageTarget];
   Stage: FC<StageProps>;

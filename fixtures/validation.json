@@ -1,0 +1,86 @@
+{
+ "schema_version": "0.1",
+ "synthetic": true,
+ "tests": [
+  {
+   "id": "aqua_loyo",
+   "name_en": "Aqua rebuilt from S-NPP, leave-one-year-out",
+   "metric": "WAPE",
+   "value": 0.159,
+   "baseline_value": 0.231,
+   "per_year": [
+    {
+     "year": 2012,
+     "wape": 0.143
+    },
+    {
+     "year": 2013,
+     "wape": 0.158
+    },
+    {
+     "year": 2014,
+     "wape": 0.209
+    },
+    {
+     "year": 2015,
+     "wape": 0.145
+    },
+    {
+     "year": 2016,
+     "wape": 0.151
+    },
+    {
+     "year": 2017,
+     "wape": 0.162
+    },
+    {
+     "year": 2018,
+     "wape": 0.106
+    },
+    {
+     "year": 2019,
+     "wape": 0.152
+    },
+    {
+     "year": 2020,
+     "wape": 0.168
+    },
+    {
+     "year": 2021,
+     "wape": 0.191
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "aqua_forward",
+   "name_en": "Calibrate 2012-2018, test 2019-2021",
+   "metric": "WAPE",
+   "value": 0.172,
+   "baseline_value": 0.244,
+   "per_year": [],
+   "note": ""
+  },
+  {
+   "id": "r2_loyo",
+   "name_en": "S-NPP rebuilt from NOAA-20, leave-one-year-out",
+   "metric": "WAPE",
+   "value": 0.064,
+   "baseline_value": null,
+   "per_year": [],
+   "note": ""
+  },
+  {
+   "id": "year_rank_spearman",
+   "name_en": "Rank of yearly totals, Spearman",
+   "metric": "spearman",
+   "value": 0.97,
+   "baseline_value": null,
+   "per_year": [],
+   "note": ""
+  }
+ ],
+ "limitations": [
+  "SYNTHETIC: made-up test results for building the site."
+ ]
+}

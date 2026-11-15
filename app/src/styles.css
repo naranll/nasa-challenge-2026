@@ -1,12 +1,27 @@
+/*
+ * Site-wide theme, matching the Orbital home page (orbital/orbital.css): deep-space background,
+ * Space Grotesk + JetBrains Mono, glass panels, fire-orange accent, VIIRS cyan / MODIS sand.
+ */
 :root {
   color-scheme: dark;
-  --bg: #05070d;
-  --fg: #e8ecf4;
-  --muted: #9aa4b8;
-  --accent: #f2994a;
+  --bg: #0b0d13;
+  --bg-2: #141824;
+  --fg: #e6e8ee;
+  --muted: #8d95a8;
+  --faint: rgba(255, 255, 255, 0.32);
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --accent: #f27d26;
+  --accent-soft: rgba(242, 125, 38, 0.14);
+  --viirs: #98d8e8;
+  --modis: #e8d595;
   --warn-bg: #5a1d1d;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --glass: rgba(18, 22, 34, 0.58);
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-family: var(--font-sans);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -15,8 +30,27 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100svh;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, #161b29 0%, #10131c 45%, var(--bg) 100%) fixed,
+    var(--bg);
   color: var(--fg);
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+a {
+  color: var(--accent);
+}
+
+::selection {
+  background: var(--accent-soft);
 }
 
 .synthetic-banner {
@@ -26,53 +60,146 @@ body {
   text-align: center;
 }
 
-.site-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #1c2233;
-}
-
-.site-title {
-  font-weight: 700;
-  margin-right: auto;
-}
-
-.site-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.75rem;
-}
-
-.site-header a {
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.site-header a.active {
-  color: var(--accent);
-}
-
-.site-header button {
-  background: none;
-  color: var(--fg);
-  border: 1px solid var(--muted);
-  border-radius: 4px;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-}
-
 main {
   padding: 1rem;
   max-width: 72rem;
   margin: 0 auto;
 }
 
-footer {
-  padding: 1rem;
+/* ---- Shared building blocks (home-page look) ---- */
+
+/* Frosted card, same recipe as .glass on the home page. */
+.panel {
+  background: var(--glass);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 50px -20px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 1.25rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+}
+
+.panel-lead {
+  margin: 0 0 1rem;
   color: var(--muted);
-  font-size: 0.875rem;
-  text-align: center;
+}
+
+.panel-loading {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Small monospace label, like the home page's "DRAG · ORBIT" line. */
+.eyebrow {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.chart-note {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.glass-tip {
+  background: rgba(14, 17, 27, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.9);
+  color: var(--fg);
+}
+
+/* ---- Form controls ---- */
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+select {
+  appearance: none;
+  min-height: 36px;
+  padding: 0 2.1rem 0 0.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23e6e8ee' stroke-width='1.5'/%3E%3C/svg%3E")
+      no-repeat right 0.85rem center,
+    rgba(255, 255, 255, 0.04);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+select:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+select option {
+  background: var(--bg-2);
+  color: var(--fg);
+}
+
+:where(button, select, a, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Former header options, shown in the clicked satellite's card */
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #1c2233;
+}
+
+nav.site-nav a,
+nav.site-nav button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 0.7rem;
+  border: 1px solid #2a3248;
+  border-radius: 6px;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav.site-nav a.active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

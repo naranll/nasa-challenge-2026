@@ -1,0 +1,116 @@
+@import "./tokens.css";
+
+.sk-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---- stage ---------------------------------------------------------------------------------- */
+.sk-stage { position: relative; overflow: hidden; isolation: isolate; color: var(--sk-cream); font-family: var(--sk-font-body); }
+.sk-stage--ink { background: var(--sk-ink); }
+.sk-stage--cobalt { background: var(--sk-cobalt); }
+.sk-stars { position: absolute; inset: 0; z-index: var(--sk-z-stars); pointer-events: none; }
+
+/* ---- GradientOrb: ONE blurred layer (.body) + an un-blurred core ------------------------------ */
+.sk-orb { position: absolute; width: var(--o-size); aspect-ratio: 1; z-index: var(--sk-z-orb); pointer-events: none; opacity: var(--o-int); }
+.sk-orb__body {
+  position: absolute; inset: 0; border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 34%, var(--o-from) 0%, var(--o-from) 12%, var(--o-mid) 42%, var(--o-to) 72%, transparent 74%);
+  filter: blur(var(--o-blur));
+}
+.sk-orb__core {
+  position: absolute; left: 22%; top: 20%; width: 34%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 244 214 / 0.85), transparent 68%);
+  mix-blend-mode: screen;
+}
+.sk-orb__spark { position: absolute; left: 14%; top: 12%; translate: -25% -25%; }
+.sk-orb.is-drifting { animation: sk-drift var(--sk-dur-drift) var(--sk-ease-inout) infinite alternate; }
+@keyframes sk-drift {
+  0%   { transform: translate3d(calc(var(--o-drift) * -1), calc(var(--o-drift) * 0.6), 0) scale(1); }
+  50%  { transform: translate3d(calc(var(--o-drift) * 0.5), calc(var(--o-drift) * -0.8), 0) scale(1.03); }
+  100% { transform: translate3d(var(--o-drift), calc(var(--o-drift) * 0.4), 0) scale(0.98); }
+}
+.sk-spark { display: block; overflow: visible; }
+.sk-spark.is-twinkling { animation: sk-twinkle 5.5s var(--sk-ease-inout) infinite alternate; }
+@keyframes sk-twinkle { from { opacity: 0.65; scale: 0.94; } to { opacity: 1; scale: 1.04; } }
+
+/* ---- grain ----------------------------------------------------------------------------------- */
+.sk-grain { inset: 0; z-index: var(--sk-z-grain); pointer-events: none; background-size: 180px 180px; mix-blend-mode: overlay; }
+
+/* ---- TrackedCaption --------------------------------------------------------------------------- */
+.sk-cap { font-family: var(--sk-font-mono); font-weight: 400; text-transform: uppercase; letter-spacing: var(--sk-track-caption); line-height: 1.6; color: var(--sk-cream); }
+.sk-cap--micro { font-size: var(--sk-text-micro); }
+.sk-cap--caption { font-size: var(--sk-text-caption); }
+.sk-cap--dim { color: var(--sk-cream-dim); }
+.sk-cap--pink { color: var(--sk-pink); }
+.sk-cap--lime { color: var(--sk-lime); }
+.sk-cap.is-wide { letter-spacing: var(--sk-track-wide); }
+.sk-cap.is-long { text-transform: none; letter-spacing: 0.02em; }
+
+/* ---- GlyphTile -------------------------------------------------------------------------------- */
+.sk-glyph { display: inline-grid; place-items: center; border: 1px solid currentColor; font-family: var(--sk-font-mono); line-height: 1; color: var(--sk-cream); opacity: 0.85; }
+.sk-glyph--modis { color: var(--sk-modis); }
+.sk-glyph--viirs { color: var(--sk-viirs); }
+.sk-glyph--fire { color: var(--sk-fire); }
+.sk-glyph--lime { color: var(--sk-lime); }
+.sk-glyph--pink { color: var(--sk-pink); }
+
+/* ---- HairlineFrame ---------------------------------------------------------------------------- */
+.sk-frame { position: absolute; inset: 0; z-index: var(--sk-z-chrome); pointer-events: none; color: var(--sk-cream); font-family: var(--sk-font-mono); font-size: var(--sk-text-micro); letter-spacing: 0.2em; text-transform: uppercase; }
+.sk-frame.has-grid { background-image: linear-gradient(var(--sk-hair-faint) 1px, transparent 1px), linear-gradient(90deg, var(--sk-hair-faint) 1px, transparent 1px); background-size: var(--hf-grid) var(--hf-grid); }
+.sk-frame__diag { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--sk-hair); stroke-width: 1; fill: none; }
+.sk-frame__dot { position: absolute; width: 9px; height: 9px; border: 1px solid var(--sk-cream); border-radius: 50%; opacity: 0.7; }
+.sk-frame__dot.tl { left: var(--hf-inset); top: var(--hf-inset); } .sk-frame__dot.tr { right: var(--hf-inset); top: var(--hf-inset); }
+.sk-frame__dot.bl { left: var(--hf-inset); bottom: var(--hf-inset); } .sk-frame__dot.br { right: var(--hf-inset); bottom: var(--hf-inset); }
+.sk-frame__coord { position: absolute; opacity: 0.6; white-space: nowrap; }
+.sk-frame__coord.tl { left: calc(var(--hf-inset) + 20px); top: calc(var(--hf-inset) - 3px); }
+.sk-frame__coord.tr { right: calc(var(--hf-inset) + 20px); top: calc(var(--hf-inset) - 3px); }
+.sk-frame__coord.bl { left: calc(var(--hf-inset) + 20px); bottom: calc(var(--hf-inset) - 3px); }
+.sk-frame__coord.br { right: calc(var(--hf-inset) + 20px); bottom: calc(var(--hf-inset) - 3px); }
+.sk-frame__barcode { position: absolute; left: 50%; translate: -50% 0; bottom: var(--hf-inset); display: flex; gap: 2px; height: 14px; align-items: stretch; opacity: 0.55; }
+.sk-frame__barcode b { background: var(--sk-cream); display: block; }
+
+/* ---- reveal ------------------------------------------------------------------------------------ */
+.sk-reveal { transition: opacity var(--sk-dur-slow) var(--sk-ease-expo) var(--sk-delay, 0ms), transform var(--sk-dur-slow) var(--sk-ease-expo) var(--sk-delay, 0ms); }
+.sk-reveal[data-shown="false"] { opacity: 0; transform: translate3d(0, var(--sk-rise, 18px), 0); }
+.sk-reveal[data-shown="true"] { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .sk-reveal { transition: none; } .sk-orb, .sk-spark { animation: none !important; } }
+
+/* parallax target: apply to any element that has a useParallax ref */
+.sk-parallax { transform: translate3d(var(--sk-px, 0), calc(var(--sk-py, 0px) + var(--sk-sy, 0px)), 0); will-change: transform; }
+
+/* ---- SpectrumTimeline ---------------------------------------------------------------------------- */
+.sk-timeline { position: relative; margin: 0; color: var(--sk-cream); font-family: var(--sk-font-mono); }
+.sk-timeline__bar { position: absolute; border-radius: 2px; background: linear-gradient(var(--tl-dir, 180deg), var(--sk-modis) 0%, var(--sk-modis) 18%, #bff3ee 36%, #fff 46%, #cfcfff 56%, var(--sk-viirs) 74%, var(--sk-viirs) 100%); opacity: 0.9; }
+.sk-timeline__grid { position: absolute; inset: 0; background-image: repeating-linear-gradient(var(--tl-grid-dir, 180deg), rgb(7 8 12 / 0.35) 0 1px, transparent 1px 28px); }
+.sk-timeline--vertical { width: 100%; height: var(--tl-length); }
+.sk-timeline--vertical .sk-timeline__bar { left: 8px; top: 0; bottom: 0; width: 10px; }
+.sk-timeline--vertical .sk-timeline__events { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; }
+.sk-timeline--vertical .sk-tl-event { position: absolute; top: var(--t); left: 0; display: flex; align-items: center; gap: 14px; translate: 0 -50%; }
+.sk-timeline--vertical .sk-tl-mark { margin-left: 6px; }
+.sk-timeline--horizontal { height: 112px; }
+.sk-timeline--horizontal { --tl-dir: 90deg; --tl-grid-dir: 90deg; }
+.sk-timeline--horizontal .sk-timeline__bar { left: 0; right: 0; top: 4px; height: 10px; }
+.sk-timeline--horizontal .sk-timeline__events { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; }
+.sk-timeline--horizontal .sk-tl-event { position: absolute; left: var(--t); top: 0; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.sk-timeline--horizontal .sk-tl-event .sk-tl-mark { margin-top: 0; translate: 0 -2px; }
+.sk-tl-mark { flex: none; fill: currentColor; stroke: currentColor; stroke-width: 1.5; }
+.sk-tl-event--modis { color: var(--sk-modis); } .sk-tl-event--viirs { color: var(--sk-viirs); }
+.sk-tl-event.retire .sk-tl-mark { fill: var(--sk-ink); }
+.sk-tl-text { display: grid; gap: 1px; font-size: var(--sk-text-micro); letter-spacing: 0.22em; text-transform: uppercase; color: var(--sk-cream); }
+.sk-tl-name { font-size: var(--sk-text-caption); }
+.sk-tl-kind { opacity: 0.55; }
+.sk-tl-year { font-family: var(--sk-font-display); font-size: 1.25rem; letter-spacing: 0.06em; }
+.sk-tl-verify { color: var(--sk-pink); }
+
+/* ---- CartoonSatellite --------------------------------------------------------------------------- */
+.sk-sat { margin: 0; position: relative; max-width: 100%; }
+.sk-sat__stage { position: relative; aspect-ratio: 11 / 10; }
+.sk-sat__img, .sk-sat__art { width: 100%; height: 100%; object-fit: contain; display: block; }
+.sk-sat__bubble { position: absolute; right: -4%; top: -34%; margin: 0; max-width: 11em; padding: 8px 12px; border: 3px solid #f4f1e8; border-radius: 16px 16px 16px 2px; background: var(--sk-ink); color: #f4f1e8; font: 500 0.8125rem/1.35 var(--sk-font-body); z-index: var(--sk-z-text); }
+.sk-sat__inset { position: absolute; left: -6%; bottom: -4%; width: 34%; aspect-ratio: 1; border: 3px solid #19d9ee; border-radius: 50%; background: var(--sk-ink); display: grid; place-items: center; overflow: hidden; z-index: var(--sk-z-text); }
+.sk-sat__cap { margin-top: 10px; font: 400 var(--sk-text-micro)/1.5 var(--sk-font-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--sk-cream-dim); }
+
+/* ---- TwoHands ------------------------------------------------------------------------------------- */
+.sk-hands { position: relative; max-width: 100%; aspect-ratio: 640 / 250; }
+.sk-hands__svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.sk-hands__slot { position: absolute; left: 50%; top: 40%; translate: -50% -50%; display: grid; place-items: center; }
+.sk-orb.is-lite .sk-orb__body { filter: none; }

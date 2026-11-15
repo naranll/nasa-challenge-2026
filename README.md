@@ -57,8 +57,8 @@ npm run build      # production build in app/dist
 ```
 
 The app reads contract JSON through one helper, `loadData()` in `app/src/data/`.
-By default it serves the **SYNTHETIC** files from `fixtures/` and shows a red "SYNTHETIC" banner.
-To use the real pipeline output in `public/data/`, set `VITE_MOCK=false` (in `app/.env.local` or the environment). In that mode any file that says `"synthetic": true` is refused.
+By default it serves the real pipeline output in `public/data/`; a real build refuses any file that says `"synthetic": true`.
+To use the **SYNTHETIC** files in `fixtures/` instead (red "SYNTHETIC" banner), set `VITE_MOCK=true` (in `app/.env.local` or the environment).
 
 Public address (after a repo admin sets Settings → Pages → Source: GitHub Actions): https://naranll.github.io/nasa-challenge-2026/, deployed from `main` by `.github/workflows/deploy.yml`. It shows SYNTHETIC fixtures until the repo variable `VITE_MOCK` is set to `false`.
 

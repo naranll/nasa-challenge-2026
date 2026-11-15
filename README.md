@@ -1,4 +1,4 @@
-# MODIS ↔ VIIRS Hotspot Harmonization
+# Fusion: MODIS ↔ VIIRS Hotspot Harmonization
 
 **NASA Space Apps Challenge 2026** · Challenge: [Harmonization of MODIS and VIIRS Hot Spots](https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) · Team **Space Khuushuur** (Mongolia)
 

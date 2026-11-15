@@ -2,8 +2,8 @@ import { createDataLoader } from "./loader";
 
 export { DataLoadError } from "./loader";
 
-/** true while we build with fixtures (SYNTHETIC). Set VITE_MOCK=false to use public/data/. */
-export const MOCK = import.meta.env.VITE_MOCK !== "false";
+/** Real data from public/data/ by default. Set VITE_MOCK=true to use the SYNTHETIC fixtures/. */
+export const MOCK = import.meta.env.VITE_MOCK === "true";
 
 /** The app's one way to read contract JSON (contracts/README.md). */
 export const loadData = createDataLoader({

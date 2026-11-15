@@ -1,8 +1,8 @@
 {
   "_status": "needs-native-proof",
   "story.title": "Дамжуулалт",
-  "skip": "Алгасах",
-  "skip.aria": "Түүхийг алгасаад апп нээх",
+  "skip": "Нүүр",
+  "skip.aria": "Нүүр хуудас руу буцах",
   "nav.label": "Түүхийн бүлгүүд",
   "nav.goto": "{n}-р бүлэг: {title}",
   "chapter.counter": "{total} бүлгийн {n}-р бүлэг",

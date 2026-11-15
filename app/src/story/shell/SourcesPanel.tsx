@@ -3,8 +3,7 @@
  * the data files, claim IDs, status, the chapter's long caption, and its keys and figures. A native <dialog>, so
  * focus is trapped, Esc closes it, and focus returns to the button.
  */
-import { useEffect, useRef, useState, type FC } from "react";
-import { createPortal } from "react-dom";
+import { useRef, type FC } from "react";
 import { useStoryText, type StoryKey } from "../strings";
 
 export interface SourcesProps {
@@ -16,14 +15,9 @@ export interface SourcesProps {
   Notes?: FC;
 }
 
-const SLOT_ID = "story-topbar-slot";
-
 export function SourcesPanel({ caption, data, claims, synthetic, Notes }: SourcesProps) {
   const s = useStoryText();
   const dialog = useRef<HTMLDialogElement>(null);
-  const [slot, setSlot] = useState<HTMLElement | null>(null);
-  const [open, setOpen] = useState(false);
-  useEffect(() => setSlot(document.getElementById(SLOT_ID)), []);
 
   const close = () => dialog.current?.close();
   const status: StoryKey = synthetic === null ? "status.none" : synthetic ? "status.synthetic" : "status.real";
@@ -33,36 +27,12 @@ export function SourcesPanel({ caption, data, claims, synthetic, Notes }: Source
     ["row.status", s(status)],
   ];
 
-  const button = (
-    <button
-      type="button"
-      className="story-skip story-sources-btn"
-      onClick={() => {
-        dialog.current?.showModal();
-        setOpen(true);
-      }}
-      aria-label={s("sources.button")}
-      title={s("sources.button")}
-      aria-haspopup="dialog"
-      aria-expanded={open}
-    >
-      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-        <circle cx="13" cy="13" r="10" />
-        <path d="M13,12 V19" />
-        <circle cx="13" cy="8" r="0.6" fill="currentColor" />
-      </svg>
-      <span className="story-sr-only">{s("sources.button")}</span>
-    </button>
-  );
-
   return (
     <>
-      {slot ? createPortal(button, slot) : null}
       <dialog
         ref={dialog}
         className="story-sources"
         aria-label={s("sources.title")}
-        onClose={() => setOpen(false)}
         onClick={(e) => {
           if (e.target === dialog.current) close(); // a click on the backdrop
         }}

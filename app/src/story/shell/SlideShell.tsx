@@ -48,8 +48,6 @@ export function SlideShell({ children }: { children: ReactNode }) {
         <a className="story-skip" href={APP_HOME} onClick={skip} aria-label={s("skip.aria")}>
           {s("skip")}
         </a>
-        {/* The engine puts its "Sources & notes" button here. */}
-        <div id="story-topbar-slot" className="story-topbar-slot" />
       </div>
       <h1 className="story-sr-only">{s("story.title")}</h1>
       {children}

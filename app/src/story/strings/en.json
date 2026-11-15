@@ -1,8 +1,8 @@
 {
   "_status": "source language",
   "story.title": "The Handover",
-  "skip": "Skip",
-  "skip.aria": "Skip the story and open the app",
+  "skip": "Home",
+  "skip.aria": "Back to the home page",
   "nav.label": "Story chapters",
   "nav.goto": "Chapter {n}: {title}",
   "chapter.counter": "Chapter {n} of {total}",

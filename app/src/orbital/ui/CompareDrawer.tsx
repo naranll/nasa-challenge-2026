@@ -41,19 +41,26 @@ export default function CompareDrawer() {
   const trackedId = useAppStore((s) => s.trackedId)
   const select = useAppStore((s) => s.select)
   const track = useAppStore((s) => s.track)
-  const sat = getSat(selectedId)
+  // Opened from the scene: bottom left. Tracked from the sensor list: beside the satellite, which the camera centres.
+  const fromList = selectedId === null && trackedId !== null
+  const sat = getSat(selectedId ?? trackedId)
+  const close = () => (fromList ? track(null) : select(null))
 
   return (
     <AnimatePresence>
       {sat && (
         <motion.section
           key={sat.id}
-          initial={{ opacity: 0, x: -40 }}
+          initial={{ opacity: 0, x: fromList ? 40 : -40 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -40 }}
+          exit={{ opacity: 0, x: fromList ? 40 : -40 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           // bottom left; CameraRig holds the satellite itself at the top right, apart from this
-          className="glass pointer-events-auto absolute bottom-3 left-3 z-30 max-h-[calc(100%-24px)] w-[min(560px,calc(100%-24px))] overflow-y-auto rounded-2xl p-5 sm:bottom-5 sm:left-10"
+          className={`glass pointer-events-auto absolute z-30 max-h-[calc(100%-24px)] overflow-y-auto rounded-2xl p-5 ${
+            fromList
+              ? 'bottom-3 left-3 w-[min(560px,calc(100%-24px))] md:top-1/2 md:bottom-auto md:left-[calc(50%+110px)] md:w-[min(540px,calc(50%-190px))] md:-translate-y-1/2'
+              : 'bottom-3 left-3 w-[min(560px,calc(100%-24px))] sm:bottom-5 sm:left-10'
+          }`}
           role="dialog"
           aria-label={`${sat.name} thermal band comparison`}
         >
@@ -79,7 +86,7 @@ export default function CompareDrawer() {
               </p>
             </div>
             <button
-              onClick={() => select(null)}
+              onClick={close}
               className="focus-ring -mt-1 -mr-1 grid h-8 w-8 place-items-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white"
               aria-label="Close"
             >

@@ -1,0 +1,21 @@
+.pv-flags { position: fixed; left: 50%; translate: -50% 0; top: 6px; z-index: 20; }
+.pv-board { padding: clamp(28px, 6vw, 72px) var(--sk-gutter); min-height: 100vh; }
+.pv-hero { position: relative; min-height: min(60vh, 520px); display: grid; align-content: end; padding-bottom: var(--sk-s6); }
+.pv-orbwrap { position: absolute; right: -6%; top: 0; width: min(78vw, 560px); aspect-ratio: 1; }
+.pv-orbwrap .sk-orb { position: relative; }
+.pv-numeral { position: absolute; left: -0.04em; top: 8%; font: 700 var(--sk-text-numeral)/0.8 var(--sk-font-display); color: transparent; -webkit-text-stroke: 1px var(--sk-hair); z-index: var(--sk-z-art); }
+.pv-numeral small { font-size: 0.28em; letter-spacing: 0.06em; margin-left: 0.2em; -webkit-text-stroke: 0; color: var(--sk-cream-dim); }
+.pv-copy { position: relative; z-index: var(--sk-z-text); max-width: 34rem; display: grid; gap: var(--sk-s3); }
+.pv-copy h2 { margin: 0; font: 700 var(--sk-text-headline)/0.95 var(--sk-font-display); text-transform: uppercase; letter-spacing: 0.01em; }
+.pv-copy p { margin: 0; font: 400 var(--sk-text-lede)/1.5 var(--sk-font-body); color: var(--sk-cream); max-width: 28ch; }
+.pv-row { position: relative; z-index: var(--sk-z-text); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--sk-s6) var(--sk-s6); padding-block: var(--sk-s7); }
+.pv-row--wide { grid-template-columns: minmax(220px, 300px) 1fr; }
+.pv-cell { display: grid; gap: var(--sk-s4); align-content: start; }
+.pv-grow { gap: var(--sk-s5); }
+.pv-inline { display: flex; flex-wrap: wrap; gap: var(--sk-s3); align-items: center; }
+.pv-orbrow { display: flex; gap: var(--sk-s4); flex-wrap: wrap; }
+.pv-orbbox { position: relative; width: 104px; height: 104px; }
+.pv-orbbox .sk-orb { position: relative; }
+.pv-sats { display: flex; flex-wrap: wrap; gap: var(--sk-s6) var(--sk-s5); padding: var(--sk-s5) var(--sk-s5) 0 0; }
+.pv-hands { position: relative; z-index: var(--sk-z-text); display: grid; justify-items: center; gap: var(--sk-s4); padding-block: var(--sk-s7) var(--sk-s8); }
+@media (max-width: 640px) { .pv-hz { display: none; } .pv-hero { min-height: 70vh; } .pv-row--wide { grid-template-columns: 1fr; } .pv-orbwrap { right: -22%; } }

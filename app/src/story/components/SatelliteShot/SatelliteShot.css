@@ -1,0 +1,41 @@
+/* SatelliteShot: no new colours or fonts. It inherits text colour and uses the display font
+   token if one is defined (--font-display), otherwise the surrounding font. */
+
+.sat-shot {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.sat-shot__img {
+  display: block;
+  width: min(100%, 1200px);
+  height: auto;
+  max-height: 72vh;
+  object-fit: contain;
+  user-select: none;
+}
+
+.sat-shot__caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5em;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(0.95rem, 3.6vw, 1.6rem);
+  line-height: 1.2;
+  color: inherit;
+}
+
+.sat-shot__nick {
+  font-style: italic;
+  opacity: 0.72;
+}
+
+.sat-shot__sep {
+  opacity: 0.4;
+}

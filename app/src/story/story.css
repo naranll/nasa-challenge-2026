@@ -1,0 +1,968 @@
+/*
+ * /story. Field journal meets mission control, in the grammar of the satellite plates (refs/):
+ * near-black ink, hairline rules, mono captions, cream type. Colours come from theme/tokens.css.
+ * Ember is for fire / Mongolia only. Text is always real HTML or SVG text.
+ */
+
+/* ---- frame --------------------------------------------------------------------------------------- */
+.story-root {
+  position: relative;
+  /* Break out of <main>'s 72rem column. `clip` (not hidden) so position: sticky keeps working. */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  overflow-x: clip;
+  background: var(--story-ink);
+  color: var(--story-cream);
+  font-family: var(--story-body);
+  animation: story-slide-in 360ms cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+@keyframes story-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes story-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-root {
+    animation: story-fade-in 160ms linear;
+  }
+}
+.story-root.is-reduced {
+  animation: story-fade-in 160ms linear;
+}
+
+/* View Transitions: leaving the story slides it out to the right. The class exists only during the transition. */
+@keyframes story-slide-out {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes story-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+html.story-leaving::view-transition-old(root) {
+  animation: story-slide-out 320ms cubic-bezier(0.5, 0, 0.9, 0.4) both;
+}
+html.story-leaving::view-transition-new(root) {
+  animation: none;
+}
+html.story-leaving.story-reduced::view-transition-old(root) {
+  animation: story-fade-out 160ms linear both;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.story-leaving::view-transition-old(root) {
+    animation: story-fade-out 160ms linear both;
+  }
+}
+
+.story-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.story-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  height: 44px;
+  margin-bottom: -44px;
+  padding: 0 16px;
+  pointer-events: none;
+}
+.story-topbar > * {
+  pointer-events: auto;
+}
+.story-skip,
+.story-lang {
+  font: 500 0.7rem var(--story-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--story-cream);
+  background: color-mix(in srgb, var(--story-ink) 82%, transparent);
+  border: 1px solid var(--story-orbit);
+  border-radius: 2px;
+  padding: 0.4rem 0.65rem;
+  min-height: 32px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.story-skip:hover,
+.story-lang:hover {
+  border-color: var(--story-cream);
+}
+.story-skip:focus-visible,
+.story-lang:focus-visible,
+.story-dot:focus-visible,
+.story-chart svg:focus-visible {
+  outline: 2px solid var(--story-cream);
+  outline-offset: 2px;
+}
+
+/* ---- stage --------------------------------------------------------------------------------------- */
+.story-scroller {
+  position: relative;
+}
+.story-stage {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 100dvh;
+  margin-bottom: -100dvh; /* the chapter sections below start at the top of the scroller */
+  overflow: hidden;
+  background: var(--story-ink);
+  --globe-presence: 1;
+}
+.story-section {
+  position: relative;
+}
+
+/* persistent backdrop: plain stars only (no limb, no glow, no orbit lines) */
+.story-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.story-backdrop .twinkle {
+  animation: story-twinkle 5s ease-in-out infinite;
+}
+@keyframes story-twinkle {
+  50% {
+    opacity: 0.15;
+  }
+}
+
+/* persistent hero layer: Mongolia's outline and its hotspots (the only glow on the page). It fades with the scene. */
+.story-hero-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.story-hero-wrap[data-on] {
+  opacity: 1;
+}
+.story-hero {
+  position: absolute;
+  inset: 0;
+}
+.story-hero svg {
+  display: block;
+}
+.story-hero-outline,
+.story-hero-marks {
+  transition: opacity 160ms linear;
+}
+.story-hero-label {
+  fill: var(--story-muted);
+  font: 500 10.5px var(--story-mono);
+  letter-spacing: 0.02em;
+  transition: fill 200ms linear;
+}
+.story-hero-label.is-on {
+  fill: var(--story-cream);
+}
+@media (min-width: 900px) {
+  .story-hero-label {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-hero-wrap,
+  .story-hero-outline,
+  .story-hero-marks,
+  .story-hero-label {
+    transition: none;
+  }
+}
+
+.story-globe-wrap,
+.story-globe,
+.story-globe-canvas {
+  position: absolute;
+  inset: 0;
+}
+.story-globe-wrap {
+  opacity: var(--globe-presence);
+  pointer-events: none;
+}
+.story-globe {
+  pointer-events: none; /* touch and wheel scroll the page, never the globe */
+}
+.story-globe-static {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 3.5rem 1rem 1rem;
+  filter: brightness(var(--globe-b, 0.6));
+}
+.story-globe-static .globe-static {
+  max-height: 100%;
+  width: min(100%, 70dvh);
+}
+.story-lite-note {
+  position: absolute;
+  left: 16px;
+  bottom: 6px;
+}
+
+.story-ui {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+  padding: 50px 34px 12px 16px;
+  pointer-events: none;
+}
+.story-ui > * {
+  pointer-events: auto;
+  min-width: 0;
+}
+
+/* ---- chapter head: eyebrow, serif-style headline, italic subtitle, hairline rows ------------------- */
+.story-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 32rem;
+}
+.story-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0;
+  font: 500 0.66rem var(--story-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--story-modis-text);
+}
+.story-eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--story-hairline);
+}
+.story-head h2 {
+  margin: 0.25rem 0 0.15rem;
+  font-family: var(--story-display);
+  font-weight: 300;
+  font-size: clamp(2.3rem, 10.5vw, 3.3rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--story-cream);
+  text-shadow: 0 0 18px var(--story-ink);
+}
+.story-subtitle {
+  margin: 0;
+  font-family: var(--story-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--story-muted);
+  text-shadow: 0 0 10px var(--story-ink);
+}
+.story-note {
+  margin: 0.2rem 0 0;
+  font: 0.62rem var(--story-mono);
+  letter-spacing: 0.04em;
+  color: var(--story-muted);
+}
+.story-rows {
+  margin: auto 0 0;
+  border-bottom: 1px solid var(--story-hairline);
+}
+.story-rows > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  border-top: 1px solid var(--story-hairline);
+}
+.story-rows dt {
+  font: 0.58rem var(--story-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--story-faint);
+}
+.story-rows dd {
+  margin: 0;
+  font: 0.62rem var(--story-mono);
+  letter-spacing: 0.04em;
+  text-align: right;
+  color: var(--story-cream);
+}
+.story-rows dd.is-synthetic,
+.story-synthetic {
+  background: var(--warn-bg);
+  padding: 0 0.35rem;
+}
+/* The "illustrative" badge: a hairline tag in cream, never ember (ember is for hotspots only). */
+.story-badge {
+  display: inline-block;
+  width: fit-content;
+  margin: 0.5rem 0 0;
+  padding: 0.12rem 0.4rem;
+  font: 500 0.58rem var(--story-mono);
+  letter-spacing: 0.08em;
+  color: var(--story-muted);
+  border: 1px solid var(--story-orbit);
+  border-radius: 2px;
+}
+
+.story-chapter-stage {
+  min-height: 0;
+  display: grid;
+  align-content: start;
+}
+.story-placeholder {
+  max-width: 24rem;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(in srgb, var(--story-ink) 70%, transparent);
+  border: 1px dashed var(--story-orbit);
+  font-size: 0.8rem;
+}
+.story-placeholder p {
+  margin: 0.2rem 0;
+}
+.story-mono {
+  font: 0.66rem var(--story-mono);
+  letter-spacing: 0.05em;
+  color: var(--story-muted);
+}
+.story-placeholder-bar {
+  height: 2px;
+  background: var(--story-hairline);
+}
+.story-placeholder-bar span {
+  display: block;
+  height: 100%;
+  background: var(--story-cream);
+}
+
+/* ---- persistent chart: thin lines, mono ticks ------------------------------------------------------- */
+.story-chart {
+  display: flex;
+  flex-direction: column;
+  height: var(--chart-h, clamp(190px, 30dvh, 250px));
+  padding: 0.45rem 0.6rem 0.35rem;
+  background: color-mix(in srgb, var(--story-ink) 80%, transparent);
+  border-top: 1px solid var(--story-orbit);
+  transition: opacity 120ms linear;
+}
+.story-chart-head h3 {
+  margin: 0;
+  font: 500 0.66rem var(--story-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--story-cream);
+}
+.story-chart-head .story-synthetic {
+  margin-left: 0.5rem;
+  font: 500 0.58rem var(--story-mono);
+  letter-spacing: 0.06em;
+  vertical-align: 1px;
+}
+.story-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.9rem;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font: 0.6rem var(--story-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--story-muted);
+}
+.story-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.story-chart-plot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.story-chart-plot svg {
+  display: block;
+  touch-action: pan-y;
+}
+.story-grid {
+  stroke: var(--story-hairline);
+  stroke-width: 1;
+}
+.story-tick {
+  fill: var(--story-muted);
+  font: 9px var(--story-mono);
+}
+.story-label {
+  fill: var(--story-cream);
+  font: 9.5px var(--story-mono);
+}
+.story-crosshair {
+  stroke: var(--story-faint);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+.story-tooltip {
+  position: absolute;
+  top: 0;
+  left: 44px;
+  padding: 0.3rem 0.5rem;
+  background: var(--story-ink);
+  border: 1px solid var(--story-orbit);
+  font: 0.64rem var(--story-mono);
+  pointer-events: none;
+}
+.story-tooltip ul {
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.story-tooltip li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.story-tooltip li span {
+  margin-right: auto;
+  padding-right: 0.8rem;
+}
+
+/* ---- chapter dots -------------------------------------------------------------------------------- */
+.story-nav {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  z-index: 3;
+  transform: translateY(-50%);
+}
+.story-nav ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.story-dot {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.story-dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--story-faint);
+  border-radius: 50%;
+  background: transparent;
+  transition: width 120ms, height 120ms, background 120ms;
+}
+.story-dot[aria-current="step"]::before {
+  width: 10px;
+  height: 10px;
+  background: var(--story-cream);
+  border-color: var(--story-cream);
+}
+
+/* ---- wide screens: head + rows | chapter stage | chart ------------------------------------------- */
+@media (min-width: 900px) {
+  .story-ui {
+    grid-template-columns: minmax(19rem, 28rem) minmax(0, 1fr) minmax(26rem, 44rem);
+    grid-template-rows: 1fr;
+    align-items: stretch;
+    padding: 64px 44px 36px 40px;
+    gap: 28px;
+  }
+  .story-left {
+    min-height: 0;
+  }
+  .story-head h2 {
+    font-size: clamp(3rem, 5.4vw, 5rem);
+  }
+  .story-subtitle {
+    font-size: 1.15rem;
+  }
+  .story-rows dt {
+    font-size: 0.62rem;
+  }
+  .story-rows dd {
+    font-size: 0.68rem;
+  }
+  .story-chart {
+    align-self: center;
+    height: var(--chart-h, min(58dvh, 420px));
+  }
+  .story-chapter-stage {
+    align-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-chart,
+  .story-dot::before {
+    transition: none;
+  }
+}
+
+/* ---- chapter 7: lifespan timeline, steps, ratio; persistent chart as the hero ------------------------ */
+.story-chart {
+  transition: opacity 120ms linear, height 200ms ease;
+}
+.story-ui[data-collapsed] .story-chart {
+  display: none;
+}
+.story-eyebrow-sm {
+  margin: 0 0 0.2rem;
+  font: 500 0.62rem var(--story-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--story-cream);
+}
+.story-timeline,
+.story-slider,
+.story-figure {
+  margin: 0;
+}
+.story-timeline-plot,
+.story-slider-plot {
+  position: relative;
+  min-width: 0;
+}
+.story-step-line {
+  stroke: var(--story-faint);
+  stroke-width: 1;
+  stroke-dasharray: 1 3;
+  pointer-events: none;
+}
+.story-step-dot {
+  fill: var(--story-ink);
+  stroke: var(--story-cream);
+  stroke-width: 1;
+}
+.story-step-n {
+  fill: var(--story-cream);
+  font: 500 8px var(--story-mono);
+}
+.story-cursor {
+  stroke: var(--story-cream);
+  stroke-width: 1;
+  opacity: 0.7;
+}
+.story-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.15rem 0.8rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+  font: 0.58rem var(--story-mono);
+  letter-spacing: 0.03em;
+  color: var(--story-muted);
+}
+.story-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.story-step-badge {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--story-cream);
+  border-radius: 50%;
+  color: var(--story-cream);
+  font-size: 0.5rem;
+}
+.story-steps-date {
+  color: var(--story-cream);
+}
+.story-ratio {
+  margin: 0.4rem 0 0;
+  font: 0.7rem/1.35 var(--story-body);
+  color: var(--story-cream);
+  text-shadow: 0 0 10px var(--story-ink);
+}
+.story-ratio strong {
+  font-family: var(--story-mono);
+}
+.story-ch7 {
+  max-width: 34rem;
+}
+
+/* ---- chapter 8: Figure 1 on a light plate, then the Seam Slider ------------------------------------- */
+.story-ch8 {
+  display: grid;
+  min-width: 0;
+}
+.story-ch8-layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+  transition: opacity 120ms linear;
+}
+.story-figure-plate {
+  background: var(--story-cream);
+  border: 1px solid var(--story-hairline);
+}
+.story-figure-plate svg {
+  display: block;
+}
+.fig-node {
+  fill: none;
+  stroke: var(--story-ink);
+  stroke-width: 1.1;
+}
+.fig-out {
+  stroke-width: 2;
+}
+.fig-edge {
+  fill: none;
+  stroke: var(--story-ink);
+  stroke-width: 1.1;
+}
+.fig-n {
+  fill: var(--story-ink);
+  font: 500 8px var(--story-mono);
+  opacity: 0.6;
+}
+.fig-label {
+  fill: var(--story-ink);
+  font: 9.5px var(--story-mono);
+}
+.story-figure-caption {
+  margin: 0;
+  padding: 0.5rem 0.7rem 0.6rem;
+  background: var(--story-cream);
+  border: 1px solid var(--story-hairline);
+  border-top: 0;
+  color: var(--story-ink);
+  font: 0.72rem/1.4 var(--story-display);
+}
+.story-slider {
+  padding: 0.45rem 0.6rem 0.4rem;
+  background: color-mix(in srgb, var(--story-ink) 80%, transparent);
+  border-top: 1px solid var(--story-orbit);
+}
+.story-slider-plot {
+  height: clamp(190px, 34dvh, 300px);
+}
+.story-slider-plot svg {
+  display: block;
+  touch-action: pan-y;
+  cursor: ew-resize;
+}
+.story-range {
+  width: 100%;
+  margin: 0.25rem 0 0;
+  accent-color: var(--story-cream);
+  cursor: pointer;
+}
+.story-readout {
+  margin: 0.1rem 0 0;
+  font: 0.64rem var(--story-mono);
+  letter-spacing: 0.03em;
+  color: var(--story-cream);
+}
+
+@media (min-width: 900px) {
+  .story-steps {
+    grid-template-columns: 1fr;
+  }
+  .story-slider-plot {
+    height: clamp(220px, 44dvh, 380px);
+  }
+}
+
+.story-halo {
+  paint-order: stroke fill;
+  stroke: var(--story-ink);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.story-steps-date {
+  white-space: nowrap;
+}
+
+/* ---- scene chapters (two crews, handover, harmonize): headline + one line, the hero map behind ----------------
+   The hero map (engine/hero.ts heroLayout) sits in fixed fractions of the stage; these rules keep text, pictures and
+   chart out of its way. Phones: head on top, map, pictures, chart at the bottom. Wide: head left, the rest right. */
+.story-pause {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  min-height: 32px;
+  padding: 0.35rem 0.65rem;
+  font: 500 0.68rem var(--story-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--story-cream);
+  background: color-mix(in srgb, var(--story-ink) 82%, transparent);
+  border: 1px solid var(--story-orbit);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.story-pause:hover {
+  border-color: var(--story-cream);
+}
+.story-pause:focus-visible,
+.story-sources-btn:focus-visible {
+  outline: 2px solid var(--story-cream);
+  outline-offset: 2px;
+}
+
+.story-ui[data-scene] .story-chapter-stage {
+  align-content: end;
+}
+.story-chart.is-bare {
+  background: transparent;
+  border-top: 0;
+  padding-top: 0;
+}
+.story-ui[data-scene] .story-chart {
+  align-self: end;
+}
+
+/* satellite pictures */
+.story-sat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  transition: opacity 200ms linear, filter 200ms linear;
+}
+.story-sat img,
+.story-sat-ph {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: 16 / 10;
+}
+.story-sat img {
+  object-fit: contain;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+}
+.story-sat-ph {
+  display: grid;
+  place-content: center;
+  gap: 0.2rem;
+  padding: 0.4rem;
+  text-align: center;
+  border: 1px dashed var(--story-modis-limb);
+  background: color-mix(in srgb, var(--story-plate) 85%, transparent);
+  font: 0.6rem var(--story-mono);
+  letter-spacing: 0.04em;
+  color: var(--story-muted);
+}
+.story-sat-ph small {
+  font-size: 0.54rem;
+  color: var(--story-faint);
+  overflow-wrap: anywhere;
+}
+.story-sat[data-sensor="VIIRS"] .story-sat-ph {
+  border-color: var(--story-viirs-limb);
+}
+.story-sat figcaption {
+  font: 500 0.7rem var(--story-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--story-cream);
+}
+.story-sat figcaption span {
+  color: var(--story-muted);
+  font-size: 0.6rem;
+}
+.story-crews {
+  display: grid;
+}
+.story-crew {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 0.6rem;
+  transition: opacity 160ms linear;
+}
+.story-crew .story-sat img,
+.story-crew .story-sat-ph {
+  aspect-ratio: 3 / 5;
+}
+.story-handover {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+/* "Sources & notes" */
+.story-topbar-slot {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+.story-sources-btn {
+  white-space: nowrap;
+}
+.story-sources {
+  width: min(36rem, calc(100vw - 24px));
+  max-height: min(86dvh, 52rem);
+  padding: 0;
+  color: var(--story-cream);
+  background: var(--story-plate);
+  border: 1px solid var(--story-orbit);
+  border-radius: 2px;
+  font-family: var(--story-body);
+}
+.story-sources::backdrop {
+  background: color-mix(in srgb, var(--story-ink) 78%, transparent);
+}
+.story-sources-body {
+  max-height: inherit;
+  overflow-y: auto;
+  padding: 0.9rem 1rem 1rem;
+}
+.story-sources header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+.story-sources h3 {
+  margin: 0;
+  font-family: var(--story-display);
+  font-weight: 300;
+  font-size: 1.5rem;
+}
+.story-sources h4 {
+  margin: 1.1rem 0 0.35rem;
+  font: 500 0.64rem var(--story-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--story-modis-text);
+}
+.story-sources p {
+  margin: 0.35rem 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--story-muted);
+}
+.story-sources .story-rows {
+  margin-top: 1.2rem;
+}
+.story-notes-list,
+.story-key {
+  margin: 0.2rem 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.story-key li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.2rem 0;
+}
+.story-key svg {
+  flex: none;
+}
+.story-sources .story-steps {
+  grid-template-columns: 1fr;
+  font-size: 0.7rem;
+}
+.story-sources .story-figure {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 900px) {
+  .story-ui[data-scene] {
+    grid-template-columns: minmax(20rem, 30rem) minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    gap: 0 28px;
+    padding-bottom: 28px;
+  }
+  .story-ui[data-scene] .story-left {
+    display: contents;
+  }
+  .story-ui[data-scene] .story-head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .story-ui[data-scene] .story-pause {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: end;
+    justify-self: start;
+  }
+  .story-ui[data-scene] .story-chapter-stage {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+  /* two crews: big pictures along the bottom, in front of the map */
+  .story-ui[data-scene="crews"] .story-crews {
+    height: 36dvh;
+  }
+  .story-ui[data-scene="crews"] .story-crew {
+    gap: 1.4rem;
+    padding: 0 2rem;
+  }
+  .story-ui[data-scene="crews"] .story-crew .story-sat img,
+  .story-ui[data-scene="crews"] .story-crew .story-sat-ph {
+    aspect-ratio: auto;
+  }
+  /* handover: map and three pictures on the left, the ember line large on the right */
+  .story-ui[data-scene="handover"] .story-chapter-stage {
+    grid-column: 1;
+  }
+  .story-ui[data-scene="handover"] .story-chart {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: center;
+    height: 52dvh;
+  }
+  /* harmonize: map, pipeline and the smooth line on the right */
+  .story-ui[data-scene="harmonize"] .story-chart {
+    grid-column: 2;
+    grid-row: 3;
+    height: 30dvh;
+  }
+}

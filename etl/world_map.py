@@ -15,6 +15,7 @@ import geopandas as gpd
 import h3
 import numpy as np
 import pandas as pd
+from sklearn.neighbors import BallTree
 
 # FIRMS source → platform. MODIS-ийг `satellite` баганаас тодорхойлно.
 VIIRS_SOURCES = {"VIIRS_SNPP_NRT": "snpp", "VIIRS_NOAA20_NRT": "noaa20", "VIIRS_NOAA21_NRT": "noaa21"}
@@ -184,18 +185,22 @@ def points_doc(points, continent_id, period, synthetic=False):
         "date": p["date"].map(day).tolist(),
         "hhmm": p["hhmm"].astype(int).tolist(),
         "daynight": p["daynight"].tolist(),
-        "match_class": [None] * len(p),  # #37 (match) хүртэл null
+        # #37: match_classes()-ийн гаралт; Terra, S-NPP, NOAA-21 (эсвэл баганагүй бол бүгд) null
+        "match_class": [None if pd.isna(m) else MATCH_CLASSES.index(m) for m in p["match_class"]]
+        if "match_class" in p else [None] * len(p),
     }
     return dict(schema_version=SCHEMA, synthetic=synthetic, continent=continent_id, n=len(p),
                 codes=dict(platform=PLATFORMS, conf=CONF_LEVELS, match_class=MATCH_CLASSES),
                 dates=dates, columns=cols)
 
 
-def index_doc(points, dropped, bboxes, period, sources, synthetic=False, ratios=None):
+def index_doc(points, dropped, bboxes, period, sources, synthetic=False, ratios=None, match=None):
     """`index.json`: хугацаа, эх сурвалж, хасагдсан тоо, тивүүдийн жагсаалт.
 
     ratios (continent_ratios()-ийн гаралт) өгвөл тив бүрт r_day, r_night, n, flags, fallback, cells_file,
     дээд түвшинд world_ratio, harmonization нэмнэ (#35, additive).
+    match ({тив: {"iou", "at_window", "at_sensitivity"}}, match_stats()-ийн гаралт) өгвөл тив бүрт iou, p_v_given_m,
+    p_m_given_v, not_comparable_share, match_counts, sensitivity_180, дээд түвшинд match нэмнэ (#37, additive).
     """
     continents = []
     for c in CONTINENTS:
@@ -211,6 +216,11 @@ def index_doc(points, dropped, bboxes, period, sources, synthetic=False, ratios=
             cr = ratios["continents"][c.id]
             continents[-1].update(r_day=round_r(cr["r_day"]), r_night=round_r(cr["r_night"]), n=cr["n"],
                                   fallback=cr["fallback"], flags=list(cr["flags"]), cells_file=f"cells_{c.id}.json")
+        if match is not None:
+            cm = match[c.id]
+            continents[-1].update(iou=round_r(cm["iou"]), **_probabilities(cm["at_window"]),
+                                  match_counts=cm["at_window"]["counts"],
+                                  sensitivity_180=_probabilities(cm["at_sensitivity"]))
     doc = dict(schema_version=SCHEMA, synthetic=synthetic,
                period=dict(start=period[0], end=period[1]), time_zone="UTC",
                sources=list(sources), dropped=dict(dropped), continents=continents)
@@ -219,7 +229,19 @@ def index_doc(points, dropped, bboxes, period, sources, synthetic=False, ratios=
         doc["world_ratio"] = dict(D=round_r(w["D"]), N=round_r(w["N"]), n=w["n"])
         doc["harmonization"] = dict(fire_unit="h3_res8_x_overpass", overpass_gap_min=OVERPASS_GAP_MIN,
                                     min_n=MIN_N, cell_resolution=CELL_RES, noaa20_vs="aqua")
+    if match is not None:
+        doc["match"] = dict(pair="noaa20_vs_aqua", window_min=MATCH_WINDOW_MIN,
+                            sensitivity_window_min=SENSITIVITY_WINDOW_MIN, earth_radius_m=EARTH_R_M,
+                            r_match=f"0.5*sqrt(scan^2+track^2)+{VIIRS_HALF_PIXEL_KM} km", not_comparable_km=NOT_COMPARABLE_KM,
+                            iou_cell_resolution=CELL_RES)
     return doc
+
+
+def _probabilities(stats):
+    """match_stats()-аас файлд бичих магадлалууд, 4 оронтой (null хэвээр)."""
+    nc = stats["not_comparable_share"]
+    return dict(p_v_given_m=round_r(stats["p_v_given_m"]), p_m_given_v=round_r(stats["p_m_given_v"]),
+                not_comparable_share={k: round_r(v) for k, v in nc.items()})
 
 
 def round_r(r):
@@ -240,20 +262,28 @@ def fire_units(points):
     зай > OVERPASS_GAP_MIN минут бол шинэ overpass (яг 10 мин = ижил overpass).
     Буцаана: unit бүр нэг мөр — continent, date, h8, daynight (unit-ийн эхний hotspot-оос), lat, lon (эхний hotspot), n_pixels.
     """
-    v = points[points["platform"] == "noaa20"].copy()
     cols = ["continent", "date", "h8", "daynight", "lat", "lon", "n_pixels"]
+    v = _labelled_units(points)
     if len(v) == 0:
         return pd.DataFrame(columns=cols)
+    g = v.groupby("unit", sort=True)
+    out = g.first()[["continent", "date", "h8", "daynight", "lat", "lon"]]
+    out["n_pixels"] = g.size()
+    return out.reset_index(drop=True)[cols]
+
+
+def _labelled_units(points):
+    """NOAA-20 мөрүүд, `h8` болон `unit` (fire unit-ийн дугаар) баганатай, unit-ээр эрэмбэлсэн."""
+    v = points[points["platform"] == "noaa20"].copy()
+    if len(v) == 0:
+        return v.assign(h8=pd.Series(dtype=object), unit=pd.Series(dtype=np.int64))
     v["h8"] = [h3.latlng_to_cell(la, lo, FIRE_UNIT_RES) for la, lo in zip(v["lat"], v["lon"])]
     v["min"] = minutes(v["hhmm"]).to_numpy()
     key = ["continent", "date", "h8"]
     v = v.sort_values(key + ["min"], kind="stable")
     gap = v.groupby(key)["min"].diff()  # бүлгийн эхний цаг → NaN
     v["unit"] = (gap.isna() | (gap > OVERPASS_GAP_MIN)).cumsum()
-    g = v.groupby("unit", sort=True)
-    out = g.first()[["continent", "date", "h8", "daynight", "lat", "lon"]]
-    out["n_pixels"] = g.size()
-    return out.reset_index(drop=True)[cols]
+    return v
 
 
 def continent_ratios(points, units, min_n=MIN_N):
@@ -315,3 +345,152 @@ def cells_doc(points, units, ratios, continent_id, period, synthetic=False):
     return dict(schema_version=SCHEMA, synthetic=synthetic, continent=continent_id, resolution=CELL_RES,
                 unit="aqua_equivalent_hotspots", period=dict(start=period[0], end=period[1]),
                 n=len(out), cells=out)
+
+
+# #37: NOAA-20 ↔ Aqua match (D8, томьёоны файлын 3-р томьёо). 1-р (яг ижил координат), 2-р (хавтгайн зай)
+# томьёог ашиглахгүй: хоёр sensor-ын пикселийн төв хэзээ ч давхцахгүй, тивийн хэмжээнд хавтгай метр гажуудна.
+EARTH_R_M = 6371000
+MATCH_WINDOW_MIN = 60
+SENSITIVITY_WINDOW_MIN = 180
+NOT_COMPARABLE_KM = 300
+VIIRS_HALF_PIXEL_KM = 0.1875  # VIIRS 375 м пикселийн хагас
+
+
+def haversine_km(lon1, lat1, lon2, lat2):
+    """Бөмбөрцөг дээрх зай (км), r = 6371000 м. numpy массив ч авна."""
+    p1, p2 = np.radians(lat1), np.radians(lat2)
+    a = np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(np.radians(np.subtract(lon2, lon1)) / 2) ** 2
+    return 2 * EARTH_R_M / 1000 * np.arcsin(np.sqrt(a))
+
+
+def r_match_km(scan, track):
+    """R_match = 0.5·√(scan² + track²) + 0.1875 км (MODIS цэгийн scan/track, км).
+
+    D8-ын "MODIS пикселийн дотор + buffer" дүрмийг тойргоор ойролцоолсон хэлбэр: тэгш өнцөгтийн оронд түүнийг
+    хүрээлэх тойрог (хагас диагональ), buffer = VIIRS пикселийн хагас.
+    """
+    return 0.5 * np.hypot(scan, track) + VIIRS_HALF_PIXEL_KM
+
+
+def _abs_minutes(points):
+    """UTC огноо + hhmm → 1970-01-01-ээс хойш минут (өдрийн хил дамнасан Δt зөв гарна)."""
+    days = pd.to_datetime(points["date"]).to_numpy().astype("datetime64[D]").astype(np.int64)
+    return days * 1440 + minutes(points["hhmm"]).to_numpy()
+
+
+def _near(src, dst, radius_km, window_min, same_daynight):
+    """src цэг бүрд: haversine ≤ radius_km, |Δt| ≤ window_min (same_daynight бол D/N ижил) dst-ийн индексүүд.
+
+    src, dst: {"t", "lon", "lat", "dn"} numpy массивууд. radius_km: тоо эсвэл src бүрд нэг.
+    Цагийг 60 минутын хэсгүүдэд хувааж, хэсэг бүрд зөвхөн цонхонд орох dst цэгүүдээр BallTree (haversine) байгуулна.
+    """
+    out = [np.empty(0, dtype=np.int64)] * len(src["t"])
+    if len(src["t"]) == 0 or len(dst["t"]) == 0:
+        return out
+    radius = np.broadcast_to(np.asarray(radius_km, dtype=float), src["t"].shape) / (EARTH_R_M / 1000)
+    order = np.argsort(dst["t"], kind="stable")
+    t_sorted = dst["t"][order]
+    bins = src["t"] // 60
+    for b in np.unique(bins):
+        si = np.nonzero(bins == b)[0]
+        lo = np.searchsorted(t_sorted, b * 60 - window_min, "left")
+        hi = np.searchsorted(t_sorted, b * 60 + 59 + window_min, "right")
+        if lo == hi:
+            continue
+        di = order[lo:hi]
+        tree = BallTree(np.radians(np.c_[dst["lat"][di], dst["lon"][di]]), metric="haversine")
+        found = tree.query_radius(np.radians(np.c_[src["lat"][si], src["lon"][si]]), r=radius[si])
+        for k, i in enumerate(si):
+            j = di[found[k]]
+            keep = np.abs(dst["t"][j] - src["t"][i]) <= window_min
+            if same_daynight:
+                keep &= dst["dn"][j] == src["dn"][i]
+            out[i] = j[keep]
+    return out
+
+
+def match_classes(points, window_min=MATCH_WINDOW_MIN):
+    """Aqua болон NOAA-20 hotspot бүрийн match class (D8, 3-р томьёо). Бусад platform → None. Цэг устгахгүй.
+
+    Нэг гал: haversine ≤ R_match (Aqua цэгийн scan/track), |Δt| ≤ window_min, D/N ижил → хоёр талд "both".
+    Үгүй бол нөгөө platform ±window_min-д 300 км дотор нэг ч hotspot илрүүлээгүй → "not_comparable"
+    (нөгөө хиймэл дагуул тэр газрыг тэр үед хараагүй байх магадлалтай), бусад → "modis_only" / "viirs_only".
+    Буцаана: points.index-тэй ижил Series.
+    """
+    plat = points["platform"].to_numpy()
+    t, lon, lat = _abs_minutes(points), points["lon"].to_numpy(float), points["lat"].to_numpy(float)
+    dn = points["daynight"].to_numpy()
+    a, v = np.nonzero(plat == "aqua")[0], np.nonzero(plat == "noaa20")[0]
+
+    def side(idx):
+        return dict(t=t[idx], lon=lon[idx], lat=lat[idx], dn=dn[idx])
+
+    scan, track = points["scan"].to_numpy(float)[a], points["track"].to_numpy(float)[a]
+    if np.isnan(scan).any() or np.isnan(track).any():  # NaN R_match чимээгүй "match биш" болохоос сэргийлнэ
+        raise ValueError("Aqua hotspot-д scan/track байхгүй: R_match тооцох боломжгүй")
+    r = r_match_km(scan, track)
+    pairs = _near(side(a), side(v), r, window_min, same_daynight=True)
+    a_both = np.array([len(j) > 0 for j in pairs], dtype=bool)
+    v_both = np.zeros(len(v), dtype=bool)
+    if pairs:
+        v_both[np.concatenate(pairs)] = True
+    a_seen = np.array([len(j) > 0 for j in _near(side(a), side(v), NOT_COMPARABLE_KM, window_min, False)], dtype=bool)
+    v_seen = np.array([len(j) > 0 for j in _near(side(v), side(a), NOT_COMPARABLE_KM, window_min, False)], dtype=bool)
+
+    out = np.full(len(points), None, dtype=object)
+    out[a] = np.where(a_both, "both", np.where(a_seen, "modis_only", "not_comparable"))
+    out[v] = np.where(v_both, "both", np.where(v_seen, "viirs_only", "not_comparable"))
+    return pd.Series(out, index=points.index, dtype=object)
+
+
+def _share(num, den):
+    return num / den if den else None
+
+
+def match_stats(points):
+    """Нэг тивийн match тоо (`match_class` баганатай points-оос).
+
+    P(V|M) = Both / (Both + MODIS only), Aqua пикселээр. P(M|V) = Both / (Both + VIIRS only), NOAA-20 fire unit-ээр:
+    unit-ийн аль нэг пиксел Both бол unit Both, үгүй бол аль нэг нь VIIRS only бол VIIRS only, бусад нь Not comparable.
+    Not comparable хуваарьт орохгүй; эзлэх хувийг (`not_comparable_share`) тал бүрт тусад нь өгнө. Хуваах тоо 0 бол null.
+    """
+    aqua = points.loc[points["platform"] == "aqua", "match_class"].value_counts()
+    a = {c: int(aqua.get(c, 0)) for c in ("both", "modis_only", "not_comparable")}
+
+    v = _labelled_units(points)
+    rank = {"both": 0, "viirs_only": 1, "not_comparable": 2}
+    unit_class = v["match_class"].map(rank).groupby(v["unit"]).min() if len(v) else pd.Series(dtype=float)
+    u = {c: int((unit_class == k).sum()) for c, k in rank.items()}
+
+    return dict(
+        p_v_given_m=_share(a["both"], a["both"] + a["modis_only"]),
+        p_m_given_v=_share(u["both"], u["both"] + u["viirs_only"]),
+        not_comparable_share=dict(aqua=_share(a["not_comparable"], sum(a.values())),
+                                  noaa20_units=_share(u["not_comparable"], sum(u.values()))),
+        counts=dict(aqua=a, noaa20_units=u))
+
+
+def iou_cells(cells):
+    """IoU (4-р томьёо) H3 res 5 нүдээр: |aqua > 0 ∧ noaa20 > 0| / |aqua > 0 ∨ noaa20 > 0|. Нүдгүй бол null.
+
+    Polygon-ы оронд нүд: "тархалтын бүс"-ийг хоёр sensor-т ижил торон дээр тодорхойлно.
+    """
+    seen = [(c["aqua"] > 0, c["noaa20_units"]["D"] + c["noaa20_units"]["N"] > 0) for c in cells]
+    return _share(sum(a and v for a, v in seen), sum(a or v for a, v in seen))
+
+
+def continent_cells_and_match(points, units, ratios, period, synthetic=False):
+    """Тив бүрийн cells_doc болон index_doc(match=...)-ийн оролт: IoU, ±60 мин ба ±180 мин match_stats.
+
+    points: `match_class` (±60 мин) баганатай бүх тивийн цэгүүд. ±180 минутын ангиллыг энд дахин тооцно.
+    Буцаана: ({тив: cells_doc}, {тив: {"iou", "at_window", "at_sensitivity"}}).
+    """
+    wide = points.assign(match_class=match_classes(points, window_min=SENSITIVITY_WINDOW_MIN))
+    cells, match = {}, {}
+    for c in CONTINENTS:
+        pts = points[points["continent"] == c.id]
+        cells[c.id] = cells_doc(pts, units[units["continent"] == c.id], ratios["continents"][c.id], c.id, period,
+                                synthetic=synthetic)
+        match[c.id] = dict(iou=iou_cells(cells[c.id]["cells"]), at_window=match_stats(pts),
+                           at_sensitivity=match_stats(wide[wide["continent"] == c.id]))
+    return cells, match

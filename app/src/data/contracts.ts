@@ -109,6 +109,31 @@ export interface WorldContinent {
   flags?: string[];
   /** #35: cells_{continent}.json */
   cells_file?: string;
+  /** #37: H3 res 5 cells seen by both / cells seen by either (Aqua vs NOAA-20). null = no cells. */
+  iou?: number | null;
+  /** #37: P(VIIRS | MODIS) = both / (both + modis_only), Aqua pixels, ±60 min. null = nothing to divide. */
+  p_v_given_m?: number | null;
+  /** #37: P(MODIS | VIIRS) = both / (both + viirs_only), NOAA-20 fire units, ±60 min. */
+  p_m_given_v?: number | null;
+  /** #37: share of Not comparable on each side (left out of the probabilities). */
+  not_comparable_share?: WorldNotComparableShare;
+  /** #37: class counts behind the probabilities. */
+  match_counts?: {
+    aqua: { both: number; modis_only: number; not_comparable: number };
+    noaa20_units: { both: number; viirs_only: number; not_comparable: number };
+  };
+  /** #37: the same numbers with a ±180 min window (Aqua drift). Data only, not shown in the UI. */
+  sensitivity_180?: {
+    p_v_given_m: number | null;
+    p_m_given_v: number | null;
+    not_comparable_share: WorldNotComparableShare;
+  };
+}
+
+/** #37: Not comparable / all, Aqua pixels and NOAA-20 fire units. null = none on that side. */
+export interface WorldNotComparableShare {
+  aqua: number | null;
+  noaa20_units: number | null;
 }
 
 /** #35: Σ Aqua pixels and Σ NOAA-20 fire units, day and night. */
@@ -137,6 +162,16 @@ export interface WorldIndexFile {
     cell_resolution: number;
     noaa20_vs: "aqua";
   };
+  /** #37: match method constants. */
+  match?: {
+    pair: "noaa20_vs_aqua";
+    window_min: number;
+    sensitivity_window_min: number;
+    earth_radius_m: number;
+    r_match: string;
+    not_comparable_km: number;
+    iou_cell_resolution: number;
+  };
 }
 
 export type WorldConfLevel = "low" | "nominal" | "high";
@@ -162,7 +197,7 @@ export interface WorldPointsFile {
     /** UTC time as FIRMS acq_time: 342 = 03:42. */
     hhmm: number[];
     daynight: ("D" | "N")[];
-    /** null = not matched (Terra, NOAA-21, or before #37). */
+    /** #37: null = not in the match (Terra, S-NPP, NOAA-21). */
     match_class: (number | null)[];
   };
 }

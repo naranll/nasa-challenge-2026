@@ -8,4 +8,4 @@ geopandas>=1.0,<2
 requests>=2.31,<3
 h3>=4,<5            # PLAN D9: H3 res 5/8 (world_map.py fire units + cells, #35; not the v0 prototype)
 lightgbm>=4,<5      # PLAN D15: next-month forecast model
-scikit-learn>=1.4,<2  # PLAN D15: Ridge fallback, metrics
+scikit-learn>=1.4,<2  # PLAN D15: Ridge fallback, metrics; world_map.py BallTree match (#37)

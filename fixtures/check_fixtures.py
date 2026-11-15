@@ -61,6 +61,29 @@ if WORLD.exists():
         for name, ok in checks.items():
             if not all(ok(v) for v in cols[name]):
                 errors.append(f"world/{path.name}: column {name} has a value out of range")
+        # #37: match_class null зөвхөн Aqua, NOAA-20 биш цэгт (Terra, S-NPP, NOAA-21)
+        if "match" in index:
+            matched = {codes["platform"].index(p) for p in ("aqua", "noaa20")}
+            if any((m is None) == (p in matched) for p, m in zip(cols["platform"], cols["match_class"])):
+                errors.append(f"world/{path.name}: match_class must be null exactly for non Aqua/NOAA-20 points")
+            mc = c["match_counts"]
+            if sum(mc["aqua"].values()) != c["n_by_platform"]["aqua"]:
+                errors.append(f"world/index.json {c['id']}: match_counts.aqua must add up to the Aqua pixels")
+            probs = [c["iou"], c["p_v_given_m"], c["p_m_given_v"], *c["not_comparable_share"].values(),
+                     c["sensitivity_180"]["p_v_given_m"], c["sensitivity_180"]["p_m_given_v"],
+                     *c["sensitivity_180"]["not_comparable_share"].values()]
+            if not all(v is None or 0 <= v <= 1 for v in probs):
+                errors.append(f"world/index.json {c['id']}: iou / probabilities must be in [0, 1] or null")
+            a = mc["aqua"]
+            want = a["both"] / (a["both"] + a["modis_only"]) if a["both"] + a["modis_only"] else None
+            if (want is None) != (c["p_v_given_m"] is None) or (want is not None and abs(want - c["p_v_given_m"]) > 1e-4):
+                errors.append(f"world/index.json {c['id']}: p_v_given_m != both / (both + modis_only)")
+            u = mc["noaa20_units"]
+            if sum(u.values()) != c["n"]["D"]["noaa20_units"] + c["n"]["N"]["noaa20_units"]:
+                errors.append(f"world/index.json {c['id']}: match_counts.noaa20_units must add up to the fire units")
+            want = u["both"] / (u["both"] + u["viirs_only"]) if u["both"] + u["viirs_only"] else None
+            if (want is None) != (c["p_m_given_v"] is None) or (want is not None and abs(want - c["p_m_given_v"]) > 1e-4):
+                errors.append(f"world/index.json {c['id']}: p_m_given_v != both / (both + viirs_only), fire units")
 
         # #35: cells_{тив}.json
         cpath = WORLD / c.get("cells_file", "")

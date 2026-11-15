@@ -19,6 +19,19 @@ python etl/run_all.py --from clean_hotspots
 ```
 (`make etl` does the same if you have `make`.)
 
+### World map (Dashboard, issue #31)
+
+Separate from `run_all.py`: it calls the FIRMS API and needs `FIRMS_MAP_KEY` in `.env`.
+
+| # | Script | Reads | Writes (`etl/data/…`) |
+|---|---|---|---|
+| W1 | `fetch_world_nrt.py` | FIRMS Area API (`world`, NRT: S-NPP, NOAA-20, NOAA-21, MODIS; 2026-11-05 to 2026-11-14, 2 requests of 5 days each), Natural Earth | `raw/world/{SOURCE}_{DATE}_{DAY_RANGE}.csv`, `raw/ne_110m_admin_0_countries.geojson` |
+
+```bash
+python etl/fetch_world_nrt.py   # resumable: files already downloaded are skipped
+```
+S-NPP returns 0 rows: FIRMS stopped S-NPP data on 2026-11-02, so this is expected, not an error.
+
 `harmonize_v0.py` is a **prototype**: it uses a 0.05° grid and national day-time counts, while PLAN D9 specifies H3 res 8 fire units and D7 day/night ratios. Treat its numbers as indicative.
 
 ## Where the raw data comes from (not in git)

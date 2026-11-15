@@ -3,7 +3,9 @@
  * that is plain HTML (legend, card, notes, credits), so it works the same in every mode.
  */
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
+import { ROUTES } from "../routes";
 import { createSimClock, hasWebGL, useCoarsePointer, useReducedMotion } from "./env";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { formatDate, formatNumber } from "./format";
@@ -88,6 +90,7 @@ export function HomeGlobeSection({ satellites, stats, timeScale = DEFAULT_TIME_S
                 autoRotate={!reduced}
                 coarsePointer={coarse}
                 highlighted={shown}
+                focused={selected}
                 onHover={setHovered}
                 onSelect={toggle}
                 onReady={onReady}
@@ -103,6 +106,11 @@ export function HomeGlobeSection({ satellites, stats, timeScale = DEFAULT_TIME_S
             <span className="globe-chip">{t("globe.time.accelerated", { n: formatNumber(scale, lang) })}</span>
           )}
         </div>
+        {!shownOrbit && (
+          <Link to={ROUTES.dashboard} className="globe-analyze">
+            {t("globe.analyze")}
+          </Link>
+        )}
         {shownOrbit && (
           <PlatformCard orbit={shownOrbit} stats={stats} clock={clock} locked={selected !== null} onClose={close} />
         )}

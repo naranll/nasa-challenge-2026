@@ -89,15 +89,64 @@
   border-radius: 10px;
   padding: 0.75rem 0.9rem;
   font-size: 0.9rem;
+  animation: globe-card-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Wide screens: the card sits bottom left; HomeGlobe holds the clicked satellite top right (FOCUS_AT_WIDE). */
 @media (min-width: 720px) {
   .globe-card {
-    left: auto;
-    top: 3rem;
-    bottom: auto;
+    right: auto;
     width: 22rem;
     max-height: calc(100% - 4rem);
+    animation-name: globe-card-in-left;
+  }
+}
+
+@keyframes globe-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes globe-card-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+/* Bottom right of the globe when no card is open: straight to the dashboard */
+.globe-analyze {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #120a02;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgb(0 0 0 / 0.45);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.globe-analyze:hover,
+.globe-analyze:focus-visible {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globe-analyze {
+    transition: none;
+  }
+
+  .globe-card {
+    animation: none;
   }
 }
 

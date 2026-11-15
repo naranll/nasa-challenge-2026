@@ -4,7 +4,7 @@ import { formatNumber } from "../globe/format";
 import { nameKey } from "../globe/platforms";
 import { useI18n, type Lang } from "../i18n";
 import "./calendar.css";
-import type { CalendarRow, CalendarView } from "./calendarData";
+import { hasValues, type CalendarRow, type CalendarView } from "./calendarData";
 import { RAMP_GRADIENT, rampColor } from "./scale";
 
 const MONTH_INDEXES = Array.from({ length: 12 }, (_, i) => i);
@@ -37,6 +37,18 @@ export function CalendarHeatmap({ rows, view, max, title }: Props) {
       ? t("cal.cell.raw", { ym: c.ym, n, platform: t(nameKey(c.platform)) })
       : t("cal.cell.harmonized", { ym: c.ym, n });
   };
+
+  // Contract rule 4: unknown is not zero, and the UI says so in words instead of drawing an empty grid.
+  if (!hasValues(rows)) {
+    return (
+      <figure className="calendar" data-view={view} data-no-values>
+        <figcaption>{title}</figcaption>
+        <p className="chart-note" role="note">
+          {t(view === "harmonized" ? "cal.empty.harmonized" : "cal.empty.raw")}
+        </p>
+      </figure>
+    );
+  }
 
   return (
     <figure className="calendar" data-view={view}>

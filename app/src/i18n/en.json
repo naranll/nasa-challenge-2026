@@ -107,6 +107,8 @@
   "cal.cell.unknown": "{ym}: no data",
   "cal.cell.raw": "{ym}: {n} raw hotspots from {platform}",
   "cal.cell.harmonized": "{ym}: {n} Aqua-equivalent hotspots",
+  "cal.empty.harmonized": "Harmonized counts are not ready yet: the conversion ratios between the satellites have not been computed. Switch to Raw to see each satellite's own counts.",
+  "cal.empty.raw": "No hotspot counts are available for this region yet.",
   "cal.legend.unit": "hotspots per month",
   "cal.legend.forecast": "upcoming month",
   "cal.legend.noaa20": "counted from NOAA-20",

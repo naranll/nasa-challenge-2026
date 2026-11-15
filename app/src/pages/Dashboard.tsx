@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { CalendarHeatmap, CalendarLegend } from "../calendar/CalendarHeatmap";
-import { calendarGrid, sharedMax, type CalendarView } from "../calendar/calendarData";
+import { calendarGrid, hasValues, sharedMax, type CalendarView } from "../calendar/calendarData";
 import { ViewSwitch } from "../calendar/ViewSwitch";
 import type { CalendarFile, RegionsFile } from "../data/contracts";
 import { dataOf, useDataFile } from "../data/useDataFile";
@@ -53,8 +53,12 @@ export default function Dashboard() {
             max={max}
             title={t(view === "raw" ? "dash.calendar.raw" : "dash.calendar.harmonized", { region: name })}
           />
-          <CalendarLegend max={max} />
-          <p className="chart-note">{t(view === "raw" ? "dash.note.raw" : "dash.note.harmonized")}</p>
+          {hasValues(grids[view]) && (
+            <>
+              <CalendarLegend max={max} />
+              <p className="chart-note">{t(view === "raw" ? "dash.note.raw" : "dash.note.harmonized")}</p>
+            </>
+          )}
         </>
       )}
       <WorldMapSection />

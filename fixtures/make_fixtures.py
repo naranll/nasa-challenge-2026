@@ -188,7 +188,7 @@ WORLD_BBOXES = {
 
 
 def world():
-    """world/index.json + world/points_{тив}.json: etl/world_map.py-ийн ижил функцээр, зохиомол цэгүүдтэй."""
+    """world/index.json + world/points_{тив}.json + world/cells_{тив}.json: etl/world_map.py-ийн ижил функцээр, зохиомол цэгүүдтэй."""
     sys.path.insert(0, str(OUT.parent / "etl"))
     import pandas as pd
     import world_map as wm
@@ -196,10 +196,11 @@ def world():
     rnd = random.Random(33)
     rows = []
     for cid, (w, s, e, n) in WORLD_BBOXES.items():
-        for _ in range(rnd.randint(3, 6)):  # хэдэн "гал"-ын бөөгнөрөл
+        # хэдэн "гал"-ын бөөгнөрөл. Африкт олон: r_day/r_night fallback-гүй тив fixture-т байх (#35).
+        for _ in range(14 if cid == "africa" else rnd.randint(3, 6)):
             clon, clat = rnd.uniform(w, e), rnd.uniform(s, n)
             for _ in range(rnd.randint(20, 60)):
-                platform = rnd.choices(wm.PLATFORMS, weights=[1, 1, 0, 4, 4])[0]  # S-NPP 11-02-нд зогссон
+                platform = rnd.choices(wm.PLATFORMS, weights=[1, 2, 0, 4, 4])[0]  # S-NPP 11-02-нд зогссон
                 day = rnd.random() < 0.6
                 lon = clon + rnd.gauss(0, 0.8)
                 rows.append(dict(
@@ -210,11 +211,18 @@ def world():
                     hhmm=rnd.randrange(24) * 100 + rnd.randrange(60), daynight="D" if day else "N"))
     pts = pd.DataFrame(rows)
     dropped = dict(antarctica=12, seven_seas=7, no_continent=3)
+    units = wm.fire_units(pts)
+    ratios = wm.continent_ratios(pts, units)
     index = wm.index_doc(pts, dropped, WORLD_BBOXES, wm.PERIOD,
-                         ["VIIRS_SNPP_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT", "MODIS_NRT"], synthetic=True)
+                         ["VIIRS_SNPP_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT", "MODIS_NRT"], synthetic=True,
+                         ratios=ratios)
     for c in index["continents"]:
+        sub = pts[pts["continent"] == c["id"]]
         write(OUT / "world" / c["points_file"],
-              wm.points_doc(pts[pts["continent"] == c["id"]], c["id"], wm.PERIOD, synthetic=True), compact=True)
+              wm.points_doc(sub, c["id"], wm.PERIOD, synthetic=True), compact=True)
+        write(OUT / "world" / c["cells_file"],
+              wm.cells_doc(sub, units[units["continent"] == c["id"]], ratios["continents"][c["id"]], c["id"],
+                           wm.PERIOD, synthetic=True), compact=True)
     write(OUT / "world" / "index.json", index, compact=True)  # бодит файлууд шиг авсаархан
 
 

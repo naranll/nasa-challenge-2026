@@ -62,6 +62,36 @@ if WORLD.exists():
             if not all(ok(v) for v in cols[name]):
                 errors.append(f"world/{path.name}: column {name} has a value out of range")
 
+        # #35: cells_{тив}.json
+        cpath = WORLD / c.get("cells_file", "")
+        if "cells_file" not in c or not cpath.is_file():
+            errors.append(f"world/index.json {c['id']}: cells_file missing")
+            continue
+        cells = json.loads(cpath.read_text(encoding="utf-8"))
+        if cells["n"] != len(cells["cells"]):
+            errors.append(f"world/{cpath.name}: n must equal the number of cells")
+        r = {"D": c["r_day"], "N": c["r_night"]}
+        aqua_total = units_total = 0
+        for cell in cells["cells"]:
+            u = cell["noaa20_units"]
+            aqua_total += cell["aqua"]
+            units_total += u["D"] + u["N"]
+            if cell["r"] != r:
+                errors.append(f"world/{cpath.name} {cell['id']}: r must equal index r_day/r_night")
+                break
+            if not 5 <= len(cell["boundary"]) <= 10:  # H3: 6, pentagon 5, icosahedron edge-д 10 хүртэл
+                errors.append(f"world/{cpath.name} {cell['id']}: boundary must have 5-10 vertices")
+                break
+            want = None if any(u[d] and r[d] is None for d in r) else sum(u[d] * r[d] for d in r if u[d])
+            if (want is None) != (cell["viirs_harm"] is None) or (want is not None and abs(want - cell["viirs_harm"]) > 0.01):
+                errors.append(f"world/{cpath.name} {cell['id']}: viirs_harm != units_D x r_D + units_N x r_N")
+                break
+        n = c["n"]
+        if aqua_total != n["D"]["aqua"] + n["N"]["aqua"] or units_total != n["D"]["noaa20_units"] + n["N"]["noaa20_units"]:
+            errors.append(f"world/{cpath.name}: cell totals must equal index n")
+        if bool(c["flags"]) != any(c["fallback"].values()):
+            errors.append(f"world/index.json {c['id']}: flags must contain ratio_fallback exactly when a fallback is used")
+
 if errors:
     print("\n".join(errors))
     sys.exit(1)

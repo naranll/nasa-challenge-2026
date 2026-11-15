@@ -25,7 +25,7 @@ Source decisions: [PLAN.md](../PLAN.md) (D2 unit, D3 chain, D4 start, D6 area, D
 | `hex_year/raw.json`, `hex_year/harm.json` | P1 (raw), P2 (harm) | P3 | D12 |
 | `case_study.json`, `matches_summary.json`, `satellites.json` | P2, P2, P3 | P4, P3 | D14, D8, §4 |
 | `monthly_counts.parquet` *(internal, not served)* | P1 | P2 | §3 |
-| `world/index.json`, `world/points_{continent}.json` | `etl/build_world_map.py` | Dashboard world map | #31, D2, D8 |
+| `world/index.json`, `world/points_{continent}.json`, `world/cells_{continent}.json` | `etl/build_world_map.py` | Dashboard world map | #31, D2, D8, D9 |
 
 Shapes for `case_study`, `matches_summary` and `satellites` are added by their owners before G1.
 
@@ -139,7 +139,39 @@ World NRT hotspots for **2026-11-05 – 2026-11-14**, split by continent. Writte
     "n_by_platform": { "terra": 0, "aqua": 0, "snpp": 0, "noaa20": 0, "noaa21": 0 } } ] }
 ```
 A continent is assigned by point-in-polygon on Natural Earth 110m countries (`CONTINENT`); a point outside every polygon takes the nearest country within 1°. Natural Earth puts Russia and France (with French Guiana) in Europe, so Europe's bbox is very wide.
-Later tickets add keys to each continent (`r_day`, `r_night`, `flags`, `iou`, `p_v_given_m`, … — #35, #37).
+Later tickets add keys to each continent (`iou`, `p_v_given_m`, … — #37).
+
+**Aqua-equivalent keys (#35, additive).** `index.json` also has:
+
+```jsonc
+{ "world_ratio": { "D": 0.45, "N": 0.44,                  // Σ Aqua pixels / Σ NOAA-20 fire units, all continents; null = no units
+                   "n": { "D": { "aqua": 141, "noaa20_units": 313 }, "N": { "aqua": 84, "noaa20_units": 193 } } },
+  "harmonization": { "fire_unit": "h3_res8_x_overpass", "overpass_gap_min": 10, "min_n": 30,
+                     "cell_resolution": 5, "noaa20_vs": "aqua" },
+  "continents": [ { "...": "(keys above)",
+    "r_day": 0.37, "r_night": 0.41,        // ratio used for this continent (its own, or the world one on fallback); null = unknown
+    "n": { "D": { "aqua": 52, "noaa20_units": 141 }, "N": { "aqua": 32, "noaa20_units": 79 } },  // this continent's own sums
+    "fallback": { "D": false, "N": false }, // true = fewer than min_n on either side, so that D/N uses the world ratio
+    "flags": [],                            // "ratio_fallback" when D or N fell back
+    "cells_file": "cells_africa.json" } ] }
+```
+VIIRS side = **NOAA-20 fire units only** (H3 res 8 × overpass, PLAN D9); Aqua side = pixels. Terra, S-NPP and NOAA-21 take no part (one platform per side as in D3, but Aqua ↔ NOAA-20 directly, not through S-NPP; see docs/research/world_map.md). Overpass: same platform, same UTC date, same res 8 cell; times sorted, a gap **> 10 min** to the previous time starts a new overpass (exactly 10 min is the same one). Ratios are a ratio of sums, day and night separately. Ratios are rounded to 4 decimals.
+
+```jsonc
+// world/cells_{continent}.json — H3 res 5 cells with at least one Aqua pixel or NOAA-20 fire unit, sorted by id
+{ "schema_version": "0.1", "synthetic": false, "continent": "africa", "resolution": 5,
+  "unit": "aqua_equivalent_hotspots", "period": { "start": "2026-11-05", "end": "2026-11-14" }, "n": 1,
+  "cells": [ {
+    "id": "857a6b2bfffffff",                 // H3 v4 index
+    "lat": -8.123, "lon": 25.456,            // centre, 3 decimals
+    "boundary": [[25.4, -8.1], "…"],         // [lon, lat] vertices, 3 decimals: 6 (5 for a pentagon, up to 10 at an
+                                             // icosahedron edge). Crossing 180°: negative lons + 360, like bbox
+    "viirs_harm": 6.5,                       // Σ unit_D × r_D + Σ unit_N × r_N, 2 decimals; null if a needed r is null
+    "aqua": 2,                               // Aqua pixels (× 1)
+    "noaa20_units": { "D": 3, "N": 1 },
+    "r": { "D": 2.0, "N": 0.5 } } ] }         // the ratios used (= index r_day, r_night)
+```
+A cell takes only this continent's hotspots; a cell on a continent border can appear in both files with each side's counts.
 
 ```jsonc
 // world/points_{continent}.json — one array per column (compact), row i = hotspot i, sorted by UTC time

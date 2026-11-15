@@ -11,6 +11,7 @@ Decisions: [PLAN.md](../PLAN.md) §2–3 · Audit of the raw files: [docs/resear
 | 2 | `clean_hotspots.py` | `raw/fire_*.csv` | `processed/hotspots_clean.parquet` |
 | 3 | `build_cell_days.py` | step 2 + step 1 | `processed/cell_days_monthly.csv` |
 | 4 | `harmonize_v0.py` | step 2 | `processed/national_monthly_harmonized.csv` |
+| 5 | `export_contracts.py` | step 2 + step 1 | `public/data/pipeline_stats.json`, `regions.json`, `calendar/{region_id}.json` (23), `hex_year/raw.json` (`"synthetic": false`, committed) |
 
 ```bash
 pip install -r etl/requirements.txt
@@ -35,6 +36,8 @@ python -m pytest etl/tests      # world_map.py tests (pip install -r etl/require
 ```
 Decisions (UTC dates, no static-source mask, continent rule): [docs/research/world_map.md](../docs/research/world_map.md).
 S-NPP returns 0 rows: FIRMS stopped S-NPP data on 2026-11-02, so this is expected, not an error.
+
+`export_contracts.py` writes only what the real files give: raw counts per platform, dates, regions. Calendar `harmonized` and `baseline` and regions `name_mn` are `null` (flag `not_harmonized`); `ratios.json`, `validation.json` and `hex_year/harm.json` are not written until the D7/D9/D10 code exists. It never reads `fixtures/`. Hotspots outside the simplified aimag polygons go to the nearest aimag within 0.1° (counted in `pipeline_stats.json` `aimag_assignment`). Tests: `python -m pytest etl/tests` (the parquet checks are skipped where `etl/data/` is missing).
 
 `harmonize_v0.py` is a **prototype**: it uses a 0.05° grid and national day-time counts, while PLAN D9 specifies H3 res 8 fire units and D7 day/night ratios. Treat its numbers as indicative.
 

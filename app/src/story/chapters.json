@@ -1,0 +1,203 @@
+{
+  "_note": "S-01 placeholder copy. Bodies are the brief's one-sentence beats, so anything factual is tagged [verify]. mn is null until P5 supplies native-proofed text (the page then shows English). No chapter here contains a statistic.",
+  "chapters": [
+    {
+      "id": "ch0-numrug",
+      "lengthVh": 220,
+      "data": [],
+      "claims": [],
+      "keyframes": [
+        { "globe": { "focus": "world", "altitude": 3.4, "brightness": 0.25 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.4, "brightness": 0.45 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 1.6, "brightness": 0.6 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "8 October",
+        "body": "A fire started in a strictly protected area; satellites saw it before most people could. [verify] Cause under investigation.",
+        "caption": "Placeholder. Numrug data (numrug.json) has not been delivered yet.",
+        "alt": "Placeholder chapter. A dark globe turns toward Mongolia."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch1-burning",
+      "lengthVh": 240,
+      "data": ["calendar/mongolia.json"],
+      "claims": ["S-C01"],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 1.6, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 0, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.2, "brightness": 0.3 }, "chart": { "visible": 1, "reveal": 0.5, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.2, "brightness": 0.3 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "A burning country",
+        "body": "How big, how often, how fast. [verify]",
+        "caption": "Hotspots per year, raw counts for each platform.",
+        "alt": "Placeholder chapter. A line chart of raw hotspots per year draws from left to right."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch2-eyes",
+      "lengthVh": 200,
+      "data": [],
+      "claims": [],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 2.2, "brightness": 0.3 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 1.8, "brightness": 0.4 }, "chart": { "visible": 0.3, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 1.8, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "Eyes that don't blink",
+        "body": "A hotspot becomes a decision: a pass, a map, a crew. [verify]",
+        "caption": "Placeholder. Latency claims must be sourced from FIRMS documentation.",
+        "alt": "Placeholder chapter. The chart fades out and the globe stays on Mongolia."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch3-crews",
+      "lengthVh": 200,
+      "data": [],
+      "claims": [],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 1.8, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "world", "altitude": 2.8, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "The morning and afternoon crews",
+        "body": "Terra and Aqua carry MODIS: coarse eyes, a long memory. [verify]",
+        "caption": "Placeholder. Orbit lines and overpass times come with this chapter.",
+        "alt": "Placeholder chapter. The globe pulls back to show the whole Earth, then returns to Mongolia."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch4-newcomers",
+      "lengthVh": 200,
+      "data": [],
+      "claims": [],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.55 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 1.7, "brightness": 0.55 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "The sharper newcomers",
+        "body": "VIIRS on Suomi NPP, NOAA-20 and NOAA-21: finer pixels, a wider swath. [verify]",
+        "caption": "Placeholder. Pixel comparison comes with this chapter.",
+        "alt": "Placeholder chapter. The globe moves slowly closer to Mongolia."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch5-physics",
+      "lengthVh": 220,
+      "data": [],
+      "claims": [],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 1.7, "brightness": 0.55 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 3.0, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 3.0, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "How a satellite feels fire",
+        "body": "Hot ground glows brightest in the mid-infrared; the gap between two bands is the clue. [verify]",
+        "caption": "Placeholder. The interactive is a simplified illustration.",
+        "alt": "Placeholder chapter. The globe darkens and steps back to make room for an interactive."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch6-record",
+      "lengthVh": 220,
+      "data": ["calendar/mongolia.json"],
+      "claims": ["S-C01"],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 3.0, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.25 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.25 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "The record",
+        "body": "A long record lets scientists say whether a season is unusual. [verify]",
+        "caption": "Hotspots per year, every platform in the archive.",
+        "alt": "Placeholder chapter. The full chart of raw hotspots per year returns."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch7-handover",
+      "lengthVh": 240,
+      "data": ["calendar/mongolia.json"],
+      "claims": ["S-C01"],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.25 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } }
+      ],
+      "en": {
+        "headline": "The handover",
+        "body": "Terra and Aqua are retiring; the newest crew must continue the same record, but it measures differently. [verify]",
+        "caption": "Placeholder. Built in S-02.",
+        "alt": "Placeholder chapter. The chart shows the raw lines; this is where the sensor change shows up."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch8-harmonization",
+      "lengthVh": 260,
+      "data": ["calendar/mongolia.json"],
+      "claims": ["S-C01", "S-C02"],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0.5 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } }
+      ],
+      "en": {
+        "headline": "Harmonization",
+        "body": "Make the seam disappear, and show the uncertainty honestly. [verify]",
+        "caption": "The raw lines fade into one harmonized line.",
+        "alt": "Placeholder chapter. The separate platform lines fade out while one harmonized line appears."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch9-mongolia",
+      "lengthVh": 200,
+      "data": [],
+      "claims": [],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.4 }, "chart": { "visible": 0.2, "reveal": 1, "harmonize": 1 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 1 } }
+      ],
+      "en": {
+        "headline": "What it gives Mongolia",
+        "body": "A calendar, fire events, a daily risk card, a crew what-if. [verify]",
+        "caption": "Placeholder. Four short loops, each with an 'open in app' link.",
+        "alt": "Placeholder chapter. The chart fades away; the globe returns to Mongolia."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch10-back",
+      "lengthVh": 260,
+      "data": ["calendar/mongolia.json"],
+      "claims": ["S-C02"],
+      "keyframes": [
+        { "globe": { "focus": "mongolia", "altitude": 2.0, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 1 } },
+        { "globe": { "focus": "mongolia", "altitude": 1.6, "brightness": 0.55 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } },
+        { "globe": { "focus": "mongolia", "altitude": 1.5, "brightness": 0.6 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } }
+      ],
+      "en": {
+        "headline": "Back to Numrug",
+        "body": "How unusual was that October? What would the model have said? [verify] Cause under investigation.",
+        "caption": "Placeholder. Needs numrug.json and the backtest result.",
+        "alt": "Placeholder chapter. The globe returns close to Mongolia and the harmonized chart is shown."
+      },
+      "mn": null
+    }
+  ]
+}

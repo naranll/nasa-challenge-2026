@@ -1,0 +1,19 @@
+{
+  "_note": "Local claim IDs for the /story page. P1/P2 merge these into docs/claims.md. A number on screen must cite one of these IDs.",
+  "claims": {
+    "S-C01": {
+      "what": "Raw hotspot count per platform per year, Mongolia: sum of each platform's own monthly raw counts. Years with fewer than 12 known months are marked partial.",
+      "file": "calendar/mongolia.json",
+      "field": "months[].raw.<platform>",
+      "script": "Job 2 pipeline (#23); same sum as the home page chart (globe/homeData.ts yearlySeries)",
+      "status": "fixture (synthetic) until the real calendar file exists"
+    },
+    "S-C02": {
+      "what": "Harmonized (Aqua-equivalent) hotspot count per year, Mongolia: sum of the monthly harmonized values. Months with null are skipped, not counted as 0.",
+      "file": "calendar/mongolia.json",
+      "field": "months[].harmonized",
+      "script": "Job 2 pipeline (#23)",
+      "status": "fixture (synthetic) until the real calendar file exists"
+    }
+  }
+}

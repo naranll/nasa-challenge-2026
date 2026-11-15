@@ -93,23 +93,38 @@ export function Ch4Harmonize({ progress: p, reduced, lowBandwidth, lang }: Stage
     <div className={`c c4${wide ? " is-wide" : ""}`}>
       <Beat v={head} headline={t("c4Head")} line={t("c4Line")} />
       <div className="c-body c4-body" ref={box} style={{ opacity: show }}>
-        <div className="c4-center">
+        <div className="c4-core">
           {data ? <Chart chain={data.chain} harm={data.harm} morph={morph} bandOn={bandOn} /> : <p className="c4-empty">…</p>}
-          <p className="c4-legend">
-            <span className="c4-key c4-raw" /> {t("rawLine")} <span className="c4-key c4-smooth" /> {t("smoothLine")} <span className="c4-key c4-band" /> {t("band")}
-            {data?.synthetic && <span className="c4-badge">{t("fixture")}</span>}
-          </p>
+          <ul className="c4-legend" aria-label="Chart key">
+            <li>
+              <i className="c4-key c4-raw" />
+              {t("rawLine")}
+            </li>
+            <li>
+              <i className="c4-key c4-smooth" />
+              {t("smoothLine")}
+            </li>
+            <li>
+              <i className="c4-key c4-band" />
+              {t("band")}
+            </li>
+          </ul>
         </div>
         {STEPS.map((s, i) => {
           const reached = steps - i;
           const on = reached > 0;
           return (
-            <section key={s.k} className={`c4-step c4-${s.area}${on ? " is-on" : ""}`} style={{ opacity: mix(0.45, 1, Math.min(1, Math.max(0, reached))), transform: `translateY(${(1 - Math.min(1, Math.max(0, reached + 0.4))) * 10}px)` }}>
-              <h3>
-                <span className="c4-num">{on && reached >= 1 ? <Icon name="check" /> : i + 1}</span>
-                {t(s.k)}
-              </h3>
-              <p>{t(s.d)}</p>
+            <section key={s.k} className={`c4-step c4-${s.area}${on ? " is-on" : ""}`} style={{ opacity: mix(0.5, 1, Math.min(1, Math.max(0, reached))), transform: `translateY(${(1 - Math.min(1, Math.max(0, reached + 0.4))) * 10}px)` }}>
+              <span className="c4-bignum" aria-hidden="true">
+                {i + 1}
+              </span>
+              <div className="c4-text">
+                <h3>
+                  {t(s.k)}
+                  {on && reached >= 1 && <Icon name="check" />}
+                </h3>
+                <p>{t(s.d)}</p>
+              </div>
             </section>
           );
         })}

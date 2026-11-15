@@ -7,7 +7,7 @@
  */
 import { SATELLITES, type SatelliteId } from "../components/SatelliteShot";
 import type { StageProps } from "../types";
-import { Beat, easeOut, ramp, sceneText, win } from "./kit";
+import { Beat, easeOut, ramp, sceneText, SensorTag, win } from "./kit";
 
 /** Kept for tests and notes: the year-axis helpers of the earlier bar chart. */
 export const AXIS_FROM = 1998;
@@ -57,14 +57,25 @@ function Message({ v, side, children }: { v: number; side: "modis" | "viirs" | "
   );
 }
 
-function Avatars({ ids, v, size }: { ids: SatelliteId[]; v: number; size: "pair" | "trio" }) {
+interface Av {
+  id: SatelliteId;
+  sensor: "MODIS" | "VIIRS";
+  /** A satellite that no longer works: dimmed, with a short status. */
+  status?: string;
+}
+
+function Avatars({ items, v, size }: { items: Av[]; v: number; size: "trio" | "pair" }) {
   const a = easeOut(ramp(v, 0, 0.5));
   return (
     <div className={`c3-av c3-av-${size}`} style={{ opacity: a, transform: `translateX(${(1 - a) * -24}px)` }}>
-      {ids.map((id) => (
-        <figure key={id}>
-          <img src={SATELLITES[id].src} alt={SATELLITES[id].alt.en} decoding="async" draggable={false} />
-          <figcaption>{SATELLITES[id].name}</figcaption>
+      {items.map((it) => (
+        <figure key={it.id} className={it.status ? "is-off" : ""}>
+          <img src={SATELLITES[it.id].src} alt={SATELLITES[it.id].alt.en} decoding="async" draggable={false} />
+          <figcaption>
+            <strong>{SATELLITES[it.id].name}</strong>
+            <SensorTag sensor={it.sensor} />
+            {it.status && <em>{it.status}</em>}
+          </figcaption>
         </figure>
       ))}
     </div>
@@ -86,13 +97,13 @@ export function Ch3Handover({ progress: p, reduced, lowBandwidth, lang }: StageP
       <Beat v={still ? 1 : ramp(p, 0.56, 0.66) * (1 - away)} headline={t("c3HeadB")} line={t("c3LineB")} />
       <div className="c-body c3-chat" style={{ transform: `translateY(${-away * 60}dvh)`, opacity: 1 - away * 0.9 }}>
         <section className="c3-row" style={rise(r1)}>
-          <Avatars ids={["terra", "aqua"]} v={r1} size="pair" />
+          <Avatars items={[{ id: "terra", sensor: "MODIS" }, { id: "aqua", sensor: "MODIS" }, { id: "suomi-npp", sensor: "VIIRS", status: t("c3Off") }]} v={r1} size="trio" />
           <Message v={ramp(r1, 0.35, 1)} side="modis">
             {t("c3Msg1")}
           </Message>
         </section>
         <section className="c3-row" style={rise(r2)}>
-          <Avatars ids={["suomi-npp", "noaa-20", "noaa-21"]} v={r2} size="trio" />
+          <Avatars items={[{ id: "noaa-20", sensor: "VIIRS" }, { id: "noaa-21", sensor: "VIIRS" }]} v={r2} size="pair" />
           <Message v={ramp(r2, 0.35, 1)} side="viirs">
             {t("c3Msg2")}
           </Message>

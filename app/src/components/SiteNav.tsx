@@ -7,8 +7,6 @@ const links: { to: string; label: MessageKey }[] = [
   { to: ROUTES.home, label: "nav.home" },
   { to: ROUTES.harmonizing, label: "nav.harmonizing" },
   { to: ROUTES.dashboard, label: "nav.dashboard" },
-  { to: ROUTES.story, label: "nav.story" },
-  { to: ROUTES.forecast, label: "nav.forecast" },
 ];
 
 export function SiteNav() {

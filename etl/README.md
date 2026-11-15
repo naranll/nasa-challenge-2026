@@ -32,7 +32,7 @@ Separate from `run_all.py`: it calls the FIRMS API and needs `FIRMS_MAP_KEY` in 
 ```bash
 python etl/fetch_world_nrt.py   # resumable: files already downloaded are skipped
 python etl/build_world_map.py   # clean, assign continents, fire units + ratios, match + IoU, write JSON, print per-continent summaries (~2 min)
-python -m pytest etl/tests      # world_map.py tests (pip install -r etl/requirements-dev.txt)
+python -m pytest etl/tests      # world_map.py tests + check_world() on the committed public/data/world files (pip install -r etl/requirements-dev.txt)
 ```
 Decisions (UTC dates, no static-source mask, continent rule): [docs/research/world_map.md](../docs/research/world_map.md).
 S-NPP returns 0 rows: FIRMS stopped S-NPP data on 2026-11-02, so this is expected, not an error.

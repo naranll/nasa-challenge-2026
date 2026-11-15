@@ -7,41 +7,25 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-errors = []
 
-for path in sorted(ROOT.rglob("*.json")):
-    rel = path.relative_to(ROOT)
-    try:
+
+def check_world(world, synthetic):
+    """Errors in a world/ folder (index, points, cells). `synthetic` is what every file must say:
+    True for fixtures/world, False for the committed real public/data/world (#39)."""
+    errors = []
+    for path in sorted(world.glob("*.json")):
         doc = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as e:
-        errors.append(f"{rel}: invalid JSON ({e})")
-        continue
-    if doc.get("synthetic") is not True:
-        errors.append(f"{rel}: must contain \"synthetic\": true")
-    if "schema_version" not in doc:
-        errors.append(f"{rel}: missing schema_version")
-
-for path in sorted((ROOT / "calendar").glob("*.json")):
-    doc = json.loads(path.read_text(encoding="utf-8"))
-    months = doc.get("months", [])
-    yms = [m["ym"] for m in months]
-    if not yms or yms[0] != "2002-07":
-        errors.append(f"calendar/{path.name}: must start at 2002-07 (PLAN D4)")
-    if yms != sorted(set(yms)):
-        errors.append(f"calendar/{path.name}: months must be unique and ordered")
-    for m in months:
-        if m["harmonized"] == 0 and m["raw"].get("aqua") is None and m["raw"].get("snpp") is None:
-            errors.append(f"calendar/{path.name} {m['ym']}: unknown must be null, not 0")
-
-WORLD = ROOT / "world"
-if WORLD.exists():
-    index = json.loads((WORLD / "index.json").read_text(encoding="utf-8"))
+        if doc.get("synthetic") is not synthetic:
+            errors.append(f"world/{path.name}: must contain \"synthetic\": {str(synthetic).lower()}")
+        if "schema_version" not in doc:
+            errors.append(f"world/{path.name}: missing schema_version")
+    index = json.loads((world / "index.json").read_text(encoding="utf-8"))
     for c in index.get("continents", []):
         w, s, e, n = c["bbox"]
         # 180°-ыг дамнавал east > 180 байж болно, гэхдээ west < east, өргөн ≤ 360.
         if not (-180 <= w < e <= w + 360 and -90 <= s < n <= 90):
             errors.append(f"world/index.json {c['id']}: bad bbox {c['bbox']}")
-        path = WORLD / c["points_file"]
+        path = world / c["points_file"]
         if not path.exists():
             errors.append(f"world/index.json {c['id']}: {c['points_file']} missing")
             continue
@@ -86,7 +70,7 @@ if WORLD.exists():
                 errors.append(f"world/index.json {c['id']}: p_m_given_v != both / (both + viirs_only), fire units")
 
         # #35: cells_{тив}.json
-        cpath = WORLD / c.get("cells_file", "")
+        cpath = world / c.get("cells_file", "")
         if "cells_file" not in c or not cpath.is_file():
             errors.append(f"world/index.json {c['id']}: cells_file missing")
             continue
@@ -114,8 +98,46 @@ if WORLD.exists():
             errors.append(f"world/{cpath.name}: cell totals must equal index n")
         if bool(c["flags"]) != any(c["fallback"].values()):
             errors.append(f"world/index.json {c['id']}: flags must contain ratio_fallback exactly when a fallback is used")
+    return errors
 
-if errors:
-    print("\n".join(errors))
-    sys.exit(1)
-print("fixtures OK")
+
+def main():
+    errors = []
+
+    for path in sorted(ROOT.rglob("*.json")):
+        rel = path.relative_to(ROOT)
+        if rel.parts[0] == "world":
+            continue  # check_world() below checks synthetic + schema_version there
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            errors.append(f"{rel}: invalid JSON ({e})")
+            continue
+        if doc.get("synthetic") is not True:
+            errors.append(f"{rel}: must contain \"synthetic\": true")
+        if "schema_version" not in doc:
+            errors.append(f"{rel}: missing schema_version")
+
+    for path in sorted((ROOT / "calendar").glob("*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        months = doc.get("months", [])
+        yms = [m["ym"] for m in months]
+        if not yms or yms[0] != "2002-07":
+            errors.append(f"calendar/{path.name}: must start at 2002-07 (PLAN D4)")
+        if yms != sorted(set(yms)):
+            errors.append(f"calendar/{path.name}: months must be unique and ordered")
+        for m in months:
+            if m["harmonized"] == 0 and m["raw"].get("aqua") is None and m["raw"].get("snpp") is None:
+                errors.append(f"calendar/{path.name} {m['ym']}: unknown must be null, not 0")
+
+    if (ROOT / "world").exists():
+        errors += check_world(ROOT / "world", synthetic=True)
+
+    if errors:
+        print("\n".join(errors))
+        sys.exit(1)
+    print("fixtures OK")
+
+
+if __name__ == "__main__":
+    main()

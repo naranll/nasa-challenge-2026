@@ -68,3 +68,40 @@ Pair: **NOAA-20 ↔ Aqua** (the two sides of the ratio above). Terra, S-NPP and 
 | Oceania | 0.4355 | 0.5094 (0.5189) | 0.2307 (0.1961) | 0.9623 (0.1982) | 0.9632 (0.2369) |
 
 **Limitations.** Most of the ±60 min result is Not comparable (D10: reported, not hidden). Even at ±180 min a fire can grow or die between the two overpasses, so a low P(V|M) / P(M|V) is not only a detection difference. R_match is small (about 1–2.5 km), so a position error larger than half a MODIS pixel counts as a miss.
+
+## Real run and limitations (#39)
+
+Run on 2026-11-15 with `VITE_MOCK=false` (the default). `python etl/fetch_world_nrt.py` found all 8 CSVs already downloaded (MAP_KEY status 0 / 5000 before and after, so no request used); `python etl/build_world_map.py` (~50 s) rebuilt `public/data/world/` **byte-identical** to the committed files, so the committed numbers come from the scripts as they are.
+
+**Input.** 1,204,456 hotspots in the period (MODIS 107,704 · NOAA-20 555,422 · NOAA-21 541,330 · S-NPP 0). Assigned to a continent: 1,202,279. Dropped: 2,177 with no country within 1° (Antarctica 0, Seven seas 0).
+
+**Files** (`"synthetic": false`; the loader refuses `"synthetic": true` in real mode). Total 58.7 MB (sizes printed by the build), 9.9 MB gzip (measured by hand with Python `gzip`, level 6). The browser only loads `index.json` plus the selected continent's points file (raw view) or cells file (Harmonize).
+
+| Continent | points | cells | gzip (points + cells) |
+|---|---|---|---|
+| Africa | 23.8 MB | 5.4 MB | 3.9 + 0.9 MB |
+| Asia | 4.8 MB | 2.5 MB | 0.9 + 0.5 MB |
+| Europe | 0.3 MB | 0.2 MB | 0.1 + 0.1 MB |
+| North America | 1.3 MB | 1.1 MB | 0.2 + 0.2 MB |
+| South America | 7.1 MB | 3.0 MB | 1.2 + 0.5 MB |
+| Oceania | 8.1 MB | 1.1 MB | 1.2 + 0.2 MB |
+
+`index.json` is 5.6 kB. Africa's points file is the one to watch: 637,752 points, ~4 MB over the wire.
+
+**Checks.**
+- `etl/tests/test_world_real_files.py` runs the fixture invariants (`fixtures/check_fixtures.py → check_world`) on the committed real files: column lengths, code ranges, match_class null exactly for Terra / S-NPP / NOAA-21, match counts adding up to the pixels and fire units, P(V|M) and P(M|V) recomputed from the counts, every cell's `viirs_harm` recomputed from its units × r, cell totals = index totals, `"synthetic": false` and `schema_version` in every file. All pass. Whole suite on this machine: 122 passed, 3 errors; the errors are the parquet cross-checks in `test_export_contracts.py`, which cannot load `hotspots_clean.parquet` because pyarrow (listed in `etl/requirements.txt`) is not installed in this local Python 3.14 env (same 3 errors on the clean previous commit, not caused by #39).
+- Browser (dev server, real mode, `#/dashboard`): no synthetic banner; all six continents switch and show their r_day / r_night; VIIRS / MODIS switch; Harmonize shows cells on both sides with one scale; hover on a point (e.g. "Terra · MODIS, 8 Nov 2026 09:21 UTC, FRP 2.6 MW, low, Day, not in the NOAA-20 ↔ Aqua comparison") and on a cell (VIIRS: "0 × 0.166 + 1 × 0.0416 = 0.04"; MODIS: "Aqua hotspots: 1 × 1"); stats row matches `index.json` (Africa IoU 0.35, P(V|M) 19.7% = 189 of 961). No console errors from the world section on a fresh load. (Navigating from Home to Dashboard logs React "synchronously unmount a root" warnings from the Home globe; not part of this section.)
+
+**Decisions this view rests on** (all above, collected here):
+1. **PLAN.md is not changed.** This world view contradicts PLAN §5 ("removed: all world data") and D6 ("MVP = Mongolia"). The team decided on 2026-11-15 to add it as a separate Dashboard section without editing the PLAN; the Mongolian calendar, its D3 chain and its numbers are untouched.
+2. **Dates are UTC**, not local. Day-by-day numbers are not comparable with the Mongolian calendar (UTC+8).
+3. **No static-source mask.** NRT has no `type` column; gas flares, power plants, volcanoes and industry are counted as fires.
+4. **Aqua drift and ±60 min.** Aqua passes ~2.2 h after NOAA-20 (D5), so a ±60 min window finds the other satellite for only 1–17% of hotspots. The ±180 min numbers are in `index.json → sensitivity_180` and in the claims ledger, not in the UI.
+5. **The continent ratio is not the D3 chain.** `r = Σ Aqua pixels / Σ NOAA-20 fire units` over these 10 days, per continent and D/N. It is not r₁ × r₂ via S-NPP, not calibrated on 2012–2021, and not used by the calendar.
+
+**Weak results (D10: reported, not hidden).**
+- **P(V|M) and P(M|V) rest on small, unstable samples.** At ±60 min the comparable Aqua pixels are 961 (Africa), 319 (Asia), 36 (Europe), 214 (North America), 171 (South America), 373 (Oceania). Widening to ±180 min moves P(V|M) by up to +0.19 (Africa 0.20 → 0.39, North America 0.34 → 0.50) and in Asia it goes *down* (0.27 → 0.22). The numbers show the method; they are not a stable detection agreement.
+- **P(M|V) is low everywhere (0.08–0.30).** Expected: VIIRS 375 m sees small fires MODIS 1 km cannot, so "Aqua also saw it" is rare. It is not evidence that MODIS is broken.
+- **Europe IoU is 0.07.** Europe here is mostly Russia (Natural Earth puts all of Russia in Europe) and has the fewest fires (211 Aqua pixels in 10 days).
+- **Night ratios are small and thin.** r_night is 0.016–0.12; Europe's night ratio is built on 35 Aqua pixels, just above the 30 fallback threshold. No continent fell back to the world ratio, but Europe night is close.
+- **Ten days of NRT** is a demonstration sample. Fires grow and die between overpasses, so even a perfect detector pair would not reach P = 1.

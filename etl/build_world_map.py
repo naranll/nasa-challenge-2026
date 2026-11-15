@@ -1,6 +1,7 @@
 """
-World map 2/8 (#33), 4/8 (#35): татсан NRT CSV-үүдийг цэвэрлэж, тив оноож, NOAA-20 fire unit ба тивийн
-r_day/r_night-ээр Aqua-equivalent тоо тооцож, апп-ын JSON-ыг бичнэ.
+World map 2/8 (#33), 4/8 (#35), 6/8 (#37): татсан NRT CSV-үүдийг цэвэрлэж, тив оноож, NOAA-20 fire unit ба тивийн
+r_day/r_night-ээр Aqua-equivalent тоо тооцож, NOAA-20 ↔ Aqua match (±60 мин, ±180 мин sensitivity), IoU-г
+тооцоод апп-ын JSON-ыг бичнэ.
 
     python etl/build_world_map.py
 
@@ -71,13 +72,15 @@ def build(raw_dir=RAW, ne_path=NE_PATH, out_dir=OUT, period=wm.PERIOD):
     units = wm.fire_units(kept)
     ratios = wm.continent_ratios(kept, units)
     bboxes = wm.continent_bboxes(countries)
-    index = wm.index_doc(kept, dropped, bboxes, period, sources, ratios=ratios)
+
+    # #37: match бүх тивээр нэг дор (тивийн хил дээрх хос алдагдахгүй), ±180 мин нь зөвхөн index-д.
+    kept = kept.assign(match_class=wm.match_classes(kept))
+    cells, match = wm.continent_cells_and_match(kept, units, ratios, period)
+
+    index = wm.index_doc(kept, dropped, bboxes, period, sources, ratios=ratios, match=match)
     for c in index["continents"]:
-        pts = kept[kept["continent"] == c["id"]]
-        write_json(out_dir / c["points_file"], wm.points_doc(pts, c["id"], period))
-        write_json(out_dir / c["cells_file"],
-                   wm.cells_doc(pts, units[units["continent"] == c["id"]], ratios["continents"][c["id"]],
-                                c["id"], period))
+        write_json(out_dir / c["points_file"], wm.points_doc(kept[kept["continent"] == c["id"]], c["id"], period))
+        write_json(out_dir / c["cells_file"], cells[c["id"]])
     write_json(out_dir / "index.json", index)
 
     print("\nТив бүрийн хураангуй (UTC, 2026-11-05 – 11-14):")
@@ -94,6 +97,17 @@ def build(raw_dir=RAW, ne_path=NE_PATH, out_dir=OUT, period=wm.PERIOD):
         n = c["n"]
         print(f"{c['id']:<15}{c['r_day']!s:>8}{c['r_night']!s:>9}{n['D']['aqua']:>8}{n['D']['noaa20_units']:>8}"
               f"{n['N']['aqua']:>8}{n['N']['noaa20_units']:>8}  {','.join(c['flags'])}")
+
+    print(f"\nMatch NOAA-20 ↔ Aqua (±{wm.MATCH_WINDOW_MIN} мин; ±{wm.SENSITIVITY_WINDOW_MIN} мин хаалтанд). "
+          "NC = Not comparable хувь (Aqua пиксел / NOAA-20 unit)")
+    print(f"{'тив':<15}{'IoU':>8}{'P(V|M)':>16}{'P(M|V)':>16}{'NC aqua':>16}{'NC unit':>16}")
+    for c in index["continents"]:
+        s = c["sensitivity_180"]
+        print(f"{c['id']:<15}{c['iou']!s:>8}"
+              + "".join(f"{f'{a} ({b})':>16}" for a, b in [
+                  (c["p_v_given_m"], s["p_v_given_m"]), (c["p_m_given_v"], s["p_m_given_v"]),
+                  (c["not_comparable_share"]["aqua"], s["not_comparable_share"]["aqua"]),
+                  (c["not_comparable_share"]["noaa20_units"], s["not_comparable_share"]["noaa20_units"])]))
     return index
 
 

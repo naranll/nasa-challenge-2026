@@ -1,6 +1,7 @@
 /**
- * Dashboard-ийн World map хэсэг (#31, #34, #36): тив сонгох, VIIRS | MODIS сэлгэх, түүхий hotspot-ын canvas map,
- * Harmonize товчоор H3 res 5 hexagon (Aqua-equivalent, хоёр дэлгэц нэг шкалтай), тивийн r мөр.
+ * Dashboard-ийн World map хэсэг (#31, #34, #36, #38): тив сонгох, VIIRS | MODIS сэлгэх, түүхий hotspot-ын 3D globe,
+ * Harmonize товчоор H3 res 5 hexagon (Aqua-equivalent, хоёр дэлгэц нэг шкалтай), тивийн r мөр,
+ * Harmonize горимд NOAA-20 ↔ Aqua match-ийн статистикийн мөр (IoU, P(V|M), P(M|V), Not comparable).
  * index.json-ийг эхэнд, тивийн points эсвэл cells файлыг зөвхөн тэр тив, тэр горимыг сонгосон үед ачаална.
  */
 import { useMemo, useState } from "react";
@@ -12,8 +13,12 @@ import { platformsOf, type Sensor } from "../globe/platforms";
 import { useI18n, type MessageKey } from "../i18n";
 import "../calendar/calendar.css";
 import { cellValue, drawnOn, harmMax, NO_RATIO_COLOR } from "./cellsData";
-import { WorldMapCanvas, type WorldLayer } from "./WorldMapCanvas";
+import { matchLines, type MatchConfig } from "./matchData";
+import { WorldGlobe } from "./WorldGlobe";
 import { PLATFORM_COLOR } from "./worldData";
+
+/** Globe дээр юу зурах вэ: түүхий цэгүүд эсвэл Harmonize-ийн hexagon-ууд (`max` = хоёр дэлгэцийн нэг max). */
+export type WorldLayer = { kind: "points"; file: WorldPointsFile } | { kind: "cells"; file: WorldCellsFile; max: number };
 import "./world.css";
 
 /** Монголын баг тул анхдагч нь Ази. Файлд байхгүй бол эхний тив. */
@@ -57,9 +62,9 @@ export function WorldMapSection() {
   const dropped = index ? Object.values(index.dropped).reduce((a, b) => a + b, 0) : 0;
 
   return (
-    <section className="world-section" aria-labelledby="world-title">
+    <section className="panel world-section" aria-labelledby="world-title">
       <h2 id="world-title">{t("world.title", period)}</h2>
-      <p>{t("world.lead")}</p>
+      <p className="panel-lead">{t("world.lead")}</p>
       {indexFile.status === "error" ? (
         <p role="alert">{t("data.error")}</p>
       ) : index === null || continent === null ? (
@@ -67,8 +72,8 @@ export function WorldMapSection() {
       ) : (
         <>
           <div className="dashboard-controls">
-            <label>
-              {t("world.continent")}{" "}
+            <label className="field">
+              <span className="field-label">{t("world.continent")}</span>
               <select value={continent.id} onChange={(e) => setContinentId(e.target.value as WorldContinentId)}>
                 {index.continents.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -84,31 +89,27 @@ export function WorldMapSection() {
                 </button>
               ))}
             </div>
-            <div className="view-switch">
+            <div className="view-switch view-switch-harm">
               <button type="button" aria-pressed={harm} disabled={!canHarmonize} onClick={() => setHarmonize((h) => !h)}>
                 {t("world.harm.button")}
               </button>
             </div>
           </div>
           <RatioRow continent={continent} />
-          {/* Тивийн файл ачаалж/алдаа гарч байхад ч сонголтууд үлдэнэ, ингэснээр өөр тив рүү шилжиж болно. */}
-          {loaded.status === "error" ? (
-            <p role="alert">{t("data.error")}</p>
-          ) : layer === null ? (
-            <p aria-busy="true">{t("data.loading")}</p>
-          ) : (
-            <WorldMapCanvas
-              continent={continent}
-              layer={layer}
-              sensor={sensor}
-              label={t(harm ? "world.harm.map.aria" : "world.map.aria", {
-                continent: continentName,
-                sensor: sensorName,
-                n: formatNumber(harm ? shownCells : shown, lang),
-                ...period,
-              })}
-            />
-          )}
+          {/* Тивийн файл ачаалж/алдаа гарч байхад ч globe ба сонголтууд үлдэнэ, ингэснээр өөр тив рүү шилжиж болно. */}
+          {loaded.status === "error" && <p role="alert">{t("data.error")}</p>}
+          <WorldGlobe
+            continent={continent}
+            layer={layer}
+            sensor={sensor}
+            loadingText={loaded.status === "error" || layer !== null ? null : t("world.globe.loading")}
+            label={t(harm ? "world.harm.map.aria" : "world.map.aria", {
+              continent: continentName,
+              sensor: sensorName,
+              n: formatNumber(harm ? shownCells : shown, lang),
+              ...period,
+            })}
+          />
           {harm ? (
             cells !== null && (
               <>
@@ -149,6 +150,8 @@ export function WorldMapSection() {
               </div>
             </>
           )}
+          {/* index.json-оос тул cells файл ачаалж байхад ч харагдана. */}
+          {harm && <MatchRow continent={continent} match={index.match} />}
           <p className="chart-note">
             {t("world.note.dropped", { n: formatNumber(dropped, lang) })} {t("world.note.static")}
           </p>
@@ -182,5 +185,33 @@ function RatioRow({ continent }: { continent: WorldContinent }) {
       {t("world.ratio.row", { d: ratio(continent.r_day), n: ratio(continent.r_night) })}
       {fallbackKey && <span className="world-ratio-fallback">{t(fallbackKey)}</span>}
     </p>
+  );
+}
+
+/**
+ * Harmonize горимын статистикийн мөр (#38): тивийн IoU, P(V|M), P(M|V) ба Not comparable-ийн хувь.
+ * null утгыг 'N/A' биш, учрыг нь хэлсэн өгүүлбэрээр. #37-оос өмнөх index.json-д харагдахгүй.
+ */
+function MatchRow({ continent, match }: { continent: WorldContinent; match: MatchConfig | undefined }) {
+  const { t, lang } = useI18n();
+  const lines = matchLines(continent, match);
+  if (!lines || !match) return null;
+  const params = (line: (typeof lines)[number]) => {
+    const out: Record<string, string> = {};
+    for (const [k, v] of Object.entries(line.ratios ?? {})) out[k] = formatNumber(v, lang, { maximumFractionDigits: 2 });
+    for (const [k, v] of Object.entries(line.shares ?? {}))
+      out[k] = v === null ? t("world.stats.nc.none") : formatNumber(v, lang, { style: "percent", maximumFractionDigits: 1 });
+    for (const [k, v] of Object.entries(line.counts ?? {})) out[k] = formatNumber(v, lang);
+    return out;
+  };
+  return (
+    <div className="world-stats">
+      <p className="world-stats-title">{t("world.stats.title", { window: formatNumber(match.window_min, lang) })}</p>
+      <ul>
+        {lines.map((line) => (
+          <li key={line.key}>{t(line.key, params(line))}</li>
+        ))}
+      </ul>
+    </div>
   );
 }

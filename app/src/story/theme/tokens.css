@@ -1,0 +1,32 @@
+/*
+ * Story theme tokens (values mirror theme/tokens.json; a test keeps them in sync).
+ * Grammar: near-black ink, hairline rules, cream text, teal = MODIS, indigo = VIIRS, ember = fire / Mongolia only.
+ */
+.story-root {
+  --story-ink: #070a0f;
+  --story-plate: #0a1118;
+  --story-hairline: #1c2229;
+  --story-orbit: #373e41;
+  --story-faint: #68696a;
+  --story-muted: #969591;
+  --story-cream: #e8e4d9;
+
+  --story-modis: #6fe0d4;
+  --story-modis-text: #58b4ac;
+  --story-modis-limb: #3a7b7a;
+  --story-modis-deep: #2b807e;
+
+  --story-viirs: #8a91d8;
+  --story-viirs-bright: #a4acfe;
+  --story-viirs-limb: #48517a;
+  --story-viirs-deep: #3e46a7;
+
+  --story-ember-core: #ffc087;
+  --story-ember: #f2994a;
+  --story-ember-glow: #6e4738;
+
+  /* Fonts: files in assets/fonts/ are registered by theme/fonts.ts; until then the system stack is used. */
+  --story-display: "Story Display", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --story-body: "Story Body", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --story-mono: "Story Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}

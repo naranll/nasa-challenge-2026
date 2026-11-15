@@ -1,0 +1,25 @@
+/*
+ * Applies the skin to the live /story page (dark ground only). Loaded after story.css; every rule is scoped to
+ * .story-root.sk-skin so nothing leaks to other pages.
+ */
+.story-root.sk-skin {
+  --story-display: var(--sk-font-display);
+  --story-body: var(--sk-font-body);
+  --story-mono: var(--sk-font-mono);
+  position: relative;
+}
+.sk-skin .story-head h2 { text-transform: uppercase; font-weight: 700; letter-spacing: 0.01em; line-height: 0.98; }
+.sk-skin .story-subtitle { color: var(--sk-cream-dim); }
+.sk-skin .story-badge, .sk-skin .story-skip, .sk-skin .story-nav { font-family: var(--sk-font-mono); letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.7rem; }
+
+/* decor sits behind the stage, never takes pointer events */
+.sk-skin-decor { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.sk-skin-decor .sk-frame { z-index: 0; }
+/* the stage is see-through so the orb sits behind the chapter content; grain sits above everything */
+.sk-skin .story-stage { background: transparent; }
+.sk-skin > .sk-grain { z-index: 40; }
+.sk-skin-orb { position: absolute; right: -10%; top: 22%; width: min(34vw, 380px); aspect-ratio: 1; }
+.sk-skin-orb .sk-orb { position: relative; }
+
+@media (max-width: 640px) { .sk-skin-orb { right: -22%; width: 60vw; } }
+@media (max-width: 640px) { .sk-skin-decor .sk-frame__coord { display: none; } }

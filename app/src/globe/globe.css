@@ -447,3 +447,8 @@
   font-size: 0.75rem;
   color: var(--muted);
 }
+
+/* The story button is the primary call to action. */
+.home-nav-button[href$="/story"] {
+  border-color: var(--accent);
+}

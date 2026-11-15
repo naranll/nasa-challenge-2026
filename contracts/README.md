@@ -143,7 +143,7 @@ World NRT hotspots for **2026-11-05 – 2026-11-14**, split by continent. Writte
     "n_by_platform": { "terra": 0, "aqua": 0, "snpp": 0, "noaa20": 0, "noaa21": 0 } } ] }
 ```
 A continent is assigned by point-in-polygon on Natural Earth 110m countries (`CONTINENT`); a point outside every polygon takes the nearest country within 1°. Natural Earth puts Russia and France (with French Guiana) in Europe, so Europe's bbox is very wide.
-Later tickets add keys to each continent (`iou`, `p_v_given_m`, … — #37).
+Later tickets add keys to each continent (Aqua-equivalent #35, match #37: below).
 
 **Aqua-equivalent keys (#35, additive).** `index.json` also has:
 
@@ -192,10 +192,27 @@ A cell takes only this continent's hotspots; a cell on a continent border can ap
     "date": [0, 9],                                    // index into dates (UTC)
     "hhmm": [342, 1832],                               // UTC time as FIRMS acq_time: 342 = 03:42
     "daynight": ["N", "D"],
-    "match_class": [null, null] } }                    // index into codes.match_class; null = not matched yet
-                                                       // (#37) or not in the match (Terra, NOAA-21)
+    "match_class": [null, 2] } }                       // index into codes.match_class (#37); null = not in the
+                                                       // match (Terra, S-NPP, NOAA-21)
 ```
 Code lists only grow at the end (additive-only), so a stored code never changes meaning.
+
+**Match keys (#37, additive).** NOAA-20 ↔ Aqua only. `index.json` also has:
+
+```jsonc
+{ "match": { "pair": "noaa20_vs_aqua", "window_min": 60, "sensitivity_window_min": 180, "earth_radius_m": 6371000,
+             "r_match": "0.5*sqrt(scan^2+track^2)+0.1875 km", "not_comparable_km": 300, "iou_cell_resolution": 5 },
+  "continents": [ { "...": "(keys above)",
+    "iou": 0.35,                     // H3 res 5 cells with Aqua > 0 and NOAA-20 units > 0 / cells with either; null = no cells
+    "p_v_given_m": 0.1967,           // P(VIIRS | MODIS) = both / (both + modis_only), Aqua pixels; null = 0 / 0
+    "p_m_given_v": 0.08,             // P(MODIS | VIIRS) = both / (both + viirs_only), NOAA-20 fire units
+    "not_comparable_share": { "aqua": 0.9709, "noaa20_units": 0.9822 },  // not_comparable / all, each side; null = none
+    "match_counts": { "aqua": { "both": 0, "modis_only": 0, "not_comparable": 0 },
+                      "noaa20_units": { "both": 0, "viirs_only": 0, "not_comparable": 0 } },
+    "sensitivity_180": { "p_v_given_m": 0.39, "p_m_given_v": 0.11,       // same with |Δt| ≤ 180 min; data only,
+                         "not_comparable_share": { "aqua": 0.02, "noaa20_units": 0.22 } } } ] }  // not shown in the UI
+```
+One fire: haversine distance (r = 6371000 m) ≤ R_match of the Aqua pixel, |Δt| ≤ 60 min (UTC date + time, so it crosses midnight), same day/night flag → `both` on both sides. Otherwise `not_comparable` when the other platform has **no hotspot at all within 300 km and ±60 min**, else `modis_only` (Aqua) / `viirs_only` (NOAA-20). A fire unit is `both` if any of its pixels is, else `viirs_only` if any pixel is, else `not_comparable`. Not comparable is left out of both probabilities. Matching runs over all continents at once; a continent's numbers use its own hotspots. Values are rounded to 4 decimals.
 
 ## `monthly_counts.parquet` (P1 → P2, internal)
 

@@ -783,7 +783,7 @@
         "headline": "Terra and Aqua are retiring soon",
         "body": "Their long watch is coming to an end.",
         "caption": "Retirement dates are not shown: they are still being checked. Satellite pictures are stylized illustrations.",
-        "alt": "A text chat. Terra and Aqua say: We are retiring. The three VIIRS satellites answer: Wait, this early?! I don't know how to handle this alone! Then our team's fusion icon says: I have an idea. Let's harmonize!"
+        "alt": "A text chat. Terra and Aqua (MODIS) and Suomi NPP, which no longer works, say: We are retiring. NOAA-20 and NOAA-21 answer: Wait, this early?! I don't know how to handle historical data! Our team's fusion icon replies in bold bright colours: I know! Fusion!"
       },
       "mn": null
     },
@@ -838,10 +838,10 @@
         }
       ],
       "en": {
-        "headline": "Our harmonization, step by step",
+        "headline": "How Fusion works",
         "body": "Raw counts become one smooth, comparable record.",
         "caption": "Simplified illustration of the method. The band is illustrative, not a measured uncertainty.",
-        "alt": "A chart in the centre: a jagged raw line becomes one smooth line with a band. Five steps are written around it: collect, align, calibrate, chain and verify."
+        "alt": "A chart in the centre: a jagged raw line becomes one smooth line with a band. Five boxes around it, each joined to it by a line, explain the steps: collect, align, calibrate, chain and verify."
       },
       "mn": null
     },

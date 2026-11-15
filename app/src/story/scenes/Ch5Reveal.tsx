@@ -40,7 +40,6 @@ export function Ch5Reveal({ progress: p, reduced, lowBandwidth, lang }: StagePro
   const head = still ? 1 : ramp(p, 0, 0.06);
   const link = still ? 1 : easeOut(ramp(p, 0.82, 0.94));
   const R = wide ? 6 : 4.5;
-  const synthetic = hotspots.status === "ok" && hotspots.data.synthetic;
 
   return (
     <div className={`c c5${wide ? " is-wide" : ""}`} ref={box}>
@@ -66,7 +65,6 @@ export function Ch5Reveal({ progress: p, reduced, lowBandwidth, lang }: StagePro
         <a className="c5-link" href={APP_HARMONY}>
           {t("seeIt")} <span aria-hidden="true">›</span>
         </a>
-        <span className="c5-badge">{synthetic ? t("fixture") : t("illustrative")}</span>
       </div>
     </div>
   );

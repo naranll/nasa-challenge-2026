@@ -42,3 +42,6 @@ No Higgsfield tool processed any image. Nothing left the workspace.
 
 ## Chapters v3 (2026-11-15)
 - Claude Code (Claude Sonnet 5.5): ch2 detection demo redone (`scenes/DetectDemo.tsx`: satellite flies over, beam, heat rises, zoom lens shows MODIS one big pixel vs VIIRS several small pixels, three captions); ch3 rebuilt as a text-message chat (retirement, VIIRS reply, our team's fusion icon with "Let's harmonize!"; copy written from the owner's brief); ch5 reduced to the Mongolia map plus a button to the app's Harmonizing page. The fusion icon is an original SVG (two overlapping circles and a spark). Checked by screenshot at 1440x900 and 390x844.
+
+## Chapters v4 (2026-11-15)
+- Claude Code (Claude Sonnet 5.5), from the owner's notes: one-line headlines; ch2 animation enlarged on the left with MODIS vs VIIRS and the timeline on the right; ch3 chat now tags Terra/Aqua MODIS, shows Suomi NPP as not working (owner's statement; claim S-C12 is still [verify]) and the other two VIIRS satellites reply about historical data, final bubble "I know! Fusion!" in bright colours; ch4 renamed "How Fusion works" with each step in its own box joined to the chart by a line and a tidy chart key; ch5 and ch4 stage badges removed (the site-wide banner and the Sources & notes panel still say the data is synthetic).

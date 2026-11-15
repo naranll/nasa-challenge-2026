@@ -75,7 +75,7 @@ export function detectState(loop: number) {
   const viirs = loop >= 0.5;
   const t = viirs ? (loop - 0.5) * 2 : loop * 2; // 0..1 inside the pass
   const fly = ramp(t, 0.05, 0.55); // satellite crosses the sky at an even pace
-  const sx = mix(56, 296, fly);
+  const sx = mix(104, 300, fly);
   const near = 1 - Math.min(1, Math.abs(sx - FIRE.x) / 60); // 1 right above the fire
   const heat = ramp(near, 0.3, 0.75);
   const lit = ramp(t, 0.36, 0.5) * (1 - ramp(t, 0.94, 1));

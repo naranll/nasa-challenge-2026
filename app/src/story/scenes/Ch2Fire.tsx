@@ -130,19 +130,20 @@ export function Ch2Fire({ progress: p, reduced, lowBandwidth, lang }: StageProps
     <div className={`c c2${wide ? " is-wide" : ""}`}>
       <Beat v={still ? 1 : win(p, -0.1, 1.1, 0.06)} headline={t("c2Head")} line={t("c2Line")} />
       <div className="c-body c2-body" ref={box}>
-        <div className="c2-top">
-          <div className="c2-left" style={show(vSpec)}>
+        <div className="c2-stage" style={show(vMech)}>
+          <DetectDemo loop={pb.phase} labels={[t("c2Fly"), t("c2Heat"), t("c2BigPixel"), t("c2SmallPixels"), t("c2Alt")]} />
+        </div>
+        <div className="c2-side">
+          <div className="c2-cmp" style={show(vSpec)}>
             <Specialty sensor="MODIS" rows={MODIS_ROWS} />
-          </div>
-          <div className="c2-mid" style={show(vMech)}>
-            <DetectDemo loop={pb.phase} labels={[t("c2Fly"), t("c2Heat"), t("c2BigPixel"), t("c2SmallPixels"), t("c2Alt")]} />
-          </div>
-          <div className="c2-right" style={show(vSpec)}>
+            <span className="c2-vs" aria-hidden="true">
+              vs
+            </span>
             <Specialty sensor="VIIRS" rows={VIIRS_ROWS} />
           </div>
-        </div>
-        <div className="c2-bottom" style={show(vHist)}>
-          <History t={t} draw={draw} />
+          <div className="c2-bottom" style={show(vHist)}>
+            <History t={t} draw={draw} />
+          </div>
         </div>
       </div>
       {vMech > 0.3 && pb.canPause && <PlayPause paused={pb.paused} onToggle={pb.toggle} label={pb.paused ? t("play") : t("pause")} />}

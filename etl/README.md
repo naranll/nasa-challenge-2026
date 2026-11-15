@@ -26,10 +26,14 @@ Separate from `run_all.py`: it calls the FIRMS API and needs `FIRMS_MAP_KEY` in 
 | # | Script | Reads | Writes (`etl/data/…`) |
 |---|---|---|---|
 | W1 | `fetch_world_nrt.py` | FIRMS Area API (`world`, NRT: S-NPP, NOAA-20, NOAA-21, MODIS; 2026-11-05 to 2026-11-14, 2 requests of 5 days each), Natural Earth | `raw/world/{SOURCE}_{DATE}_{DAY_RANGE}.csv`, `raw/ne_110m_admin_0_countries.geojson` |
+| W2 | `build_world_map.py` | step W1 | `public/data/world/index.json`, `public/data/world/points_{continent}.json` (committed, `"synthetic": false`) |
 
 ```bash
 python etl/fetch_world_nrt.py   # resumable: files already downloaded are skipped
+python etl/build_world_map.py   # clean, assign continents, write JSON, print a per-continent summary
+python -m pytest etl/tests      # world_map.py tests (pip install -r etl/requirements-dev.txt)
 ```
+Decisions (UTC dates, no static-source mask, continent rule): [docs/research/world_map.md](../docs/research/world_map.md).
 S-NPP returns 0 rows: FIRMS stopped S-NPP data on 2026-11-02, so this is expected, not an error.
 
 `harmonize_v0.py` is a **prototype**: it uses a 0.05° grid and national day-time counts, while PLAN D9 specifies H3 res 8 fire units and D7 day/night ratios. Treat its numbers as indicative.

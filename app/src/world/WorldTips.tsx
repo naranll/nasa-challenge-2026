@@ -6,7 +6,7 @@ import { useI18n, type MessageKey } from "../i18n";
 import { cellValue } from "./cellsData";
 import { PLATFORM_COLOR, pointAt } from "./worldData";
 
-/** Түүхий hotspot-ын tooltip (#34). */
+/** Түүхий hotspot-ын tooltip (#34, #38): match class, эсвэл NOAA-20 ↔ Aqua харьцуулалтад ороогүйг. */
 export function PointTip({ file, row }: { file: WorldPointsFile; row: number }) {
   const { t, lang } = useI18n();
   const point = pointAt(file, row);
@@ -22,9 +22,11 @@ export function PointTip({ file, row }: { file: WorldPointsFile; row: number }) 
       <span>{t("world.tip.frp", { frp: formatNumber(point.frp, lang, { maximumFractionDigits: 2 }) })}</span>
       <span>{t("world.tip.conf", { conf: t(`world.conf.${point.conf}` as MessageKey) })}</span>
       <span>{t(`world.dn.${point.daynight}` as MessageKey)}</span>
-      {point.matchClass !== null && (
-        <span>{t("world.tip.match", { match: t(`world.match.${point.matchClass}` as MessageKey) })}</span>
-      )}
+      <span>
+        {point.matchClass === null
+          ? t("world.tip.match.none")
+          : t("world.tip.match", { match: t(`world.match.${point.matchClass}` as MessageKey) })}
+      </span>
     </>
   );
 }

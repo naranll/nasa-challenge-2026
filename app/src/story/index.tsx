@@ -2,7 +2,9 @@
 import { CHAPTERS } from "./chapters/index"; // explicit: "./chapters" would resolve to chapters.json
 import { StageEngine } from "./engine/StageEngine";
 import { SlideShell } from "./shell/SlideShell";
+import "./theme/tokens.css";
 import "./story.css";
+import "./scenes/scenes.css";
 
 export default function StoryPage() {
   return (

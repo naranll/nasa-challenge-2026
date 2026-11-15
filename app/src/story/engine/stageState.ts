@@ -16,7 +16,7 @@ export function resolveFocus(focus: GlobeFocus): { lat: number; lng: number } {
 
 export function resolveKeyframe(k: KeyframeSpec): StageTarget {
   const { lat, lng } = resolveFocus(k.globe.focus);
-  return { globe: { lat, lng, altitude: k.globe.altitude, brightness: k.globe.brightness }, chart: { ...k.chart } };
+  return { globe: { lat, lng, altitude: k.globe.altitude, brightness: k.globe.brightness }, chart: { steps: 0, ...k.chart } };
 }
 
 export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -42,6 +42,7 @@ export function blend(a: StageTarget, b: StageTarget, t: number): StageTarget {
       visible: lerp(a.chart.visible, b.chart.visible, t),
       reveal: lerp(a.chart.reveal, b.chart.reveal, t),
       harmonize: lerp(a.chart.harmonize, b.chart.harmonize, t),
+      steps: lerp(a.chart.steps, b.chart.steps, t),
     },
   };
 }

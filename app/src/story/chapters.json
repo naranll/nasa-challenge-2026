@@ -57,19 +57,20 @@
     },
     {
       "id": "ch3-crews",
-      "lengthVh": 200,
-      "data": [],
+      "lengthVh": 220,
+      "scene": "crews",
+      "data": ["hex_year/raw.json"],
       "claims": [],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 1.8, "brightness": 0.4 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "world", "altitude": 2.8, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.5 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 0, "reveal": 1, "harmonize": 0 } }
       ],
       "en": {
-        "headline": "The morning and afternoon crews",
-        "body": "Terra and Aqua carry MODIS: coarse eyes, a long memory. [verify]",
-        "caption": "Placeholder. Orbit lines and overpass times come with this chapter.",
-        "alt": "Placeholder chapter. The globe pulls back to show the whole Earth, then returns to Mongolia."
+        "headline": "The two crews",
+        "body": "MODIS flies on Terra and Aqua. VIIRS flies on Suomi NPP, NOAA-20 and NOAA-21.",
+        "caption": "The marks are illustrative: each is drawn at a random spot inside a cell of the synthetic fixture (hex_year/raw.json), not where a satellite saw a fire. Each mark stands for several detections. The swaths are schematic.",
+        "alt": "Mongolia's outline on a dark sky. A faint teal band sweeps across it and a few large ember dots light up behind it, over pictures of Terra and Aqua. Then an indigo band sweeps across and many small ember triangles light up, over pictures of Suomi NPP, NOAA-20 and NOAA-21."
       },
       "mn": null
     },
@@ -130,38 +131,75 @@
     {
       "id": "ch7-handover",
       "lengthVh": 240,
-      "data": ["calendar/mongolia.json"],
-      "claims": ["S-C01"],
+      "scene": "handover",
+      "chartStyle": "bare",
+      "data": [
+        "calendar/mongolia.json",
+        "hex_year/raw.json",
+        "satellites.json",
+        "data/lifecycle.json"
+      ],
+      "claims": [
+        "S-C01",
+        "S-C02",
+        "S-C10",
+        "S-C11",
+        "S-C12",
+        "S-C13",
+        "S-C14",
+        "S-C15"
+      ],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.6, "brightness": 0.25 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } }
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0, "steps": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } }
       ],
       "en": {
         "headline": "The handover",
-        "body": "Terra and Aqua are retiring; the newest crew must continue the same record, but it measures differently. [verify]",
-        "caption": "Placeholder. Built in S-02.",
-        "alt": "Placeholder chapter. The chart shows the raw lines; this is where the sensor change shows up."
+        "body": "Terra and Aqua are nearing the end of their service. The newer VIIRS satellites carry the record on. [verify]",
+        "caption": "Dates marked [verify] come from the project brief and are not yet checked against NASA / FIRMS notices. The pictures dim and light up on those dates. The line is the harmonized (Aqua-equivalent) count; the marks on the map are illustrative.",
+        "alt": "Mongolia's outline with faint ember hotspots. Three satellite pictures: Terra and Aqua dim as they near the end of service, and NOAA-21 lights up when it enters FIRMS. On the chart, the separate lines for each satellite resolve into one ember line of hotspots per year that runs on without a break through the changes of satellite."
       },
-      "mn": null
+      "mn": {
+        "headline": "Дамжуулалт",
+        "body": "Terra болон Aqua үйлчилгээгээ дуусгах дөхөж байна. Шинэ VIIRS хиймэл дагуулууд бүртгэлийг үргэлжлүүлнэ. [verify]",
+        "caption": "[verify] гэж тэмдэглэсэн огноонууд төслийн бичгээс авсан, NASA / FIRMS-ийн мэдэгдэлтэй харьцуулаагүй. Зургууд тэр огноонд бүдгэрч, гэрэлтэнэ. Шугам нь уялдуулсан (Aqua-тэй дүйцэх) тоо; газрын зураг дээрх тэмдэг нь зураглал.",
+        "alt": "Монголын хүрээ ба бүдэг халуун цэгүүд. Гурван хиймэл дагуулын зураг: Terra, Aqua үйлчилгээгээ дуусгахад бүдгэрч, NOAA-21 FIRMS-д орохдоо гэрэлтэнэ. Графикт хиймэл дагуул тус бүрийн шугамууд нэг шугам болж, хиймэл дагуул солигдоход тасалдалгүй үргэлжилнэ."
+      },
+      "chartHeightDvh": 34
     },
     {
       "id": "ch8-harmonization",
-      "lengthVh": 260,
-      "data": ["calendar/mongolia.json"],
-      "claims": ["S-C01", "S-C02"],
+      "lengthVh": 200,
+      "scene": "harmonize",
+      "chartStyle": "bare",
+      "data": [
+        "hex_year/raw.json",
+        "hex_year/harm.json",
+        "calendar/mongolia.json"
+      ],
+      "claims": [
+        "S-C02",
+        "S-C16"
+      ],
       "keyframes": [
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 0.5 } },
-        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1 } }
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } },
+        { "globe": { "focus": "mongolia", "altitude": 2.8, "brightness": 0.2 }, "chart": { "visible": 1, "reveal": 1, "harmonize": 1, "steps": 0 } }
       ],
       "en": {
-        "headline": "Harmonization",
-        "body": "Make the seam disappear, and show the uncertainty honestly. [verify]",
-        "caption": "The raw lines fade into one harmonized line.",
-        "alt": "Placeholder chapter. The separate platform lines fade out while one harmonized line appears."
+        "headline": "How we harmonize",
+        "body": "Different sensors count fires differently. Five steps turn their counts into one series. [verify]",
+        "caption": "The map and the flow are simplified illustrations: marks are drawn inside the cells of the synthetic fixtures (hex_year/raw.json and harm.json), not at real detection positions. The five boxes group the eight steps of Figure 1 (below).",
+        "alt": "Sparse large ember dots (MODIS) and many small ember triangles (VIIRS) on Mongolia's outline fall into a pipeline of five boxes: ingest, clean, de-duplicate, match to Aqua, validate. They come out as one even map of hotspots, and below it one smooth ember line of hotspots per year draws. The animation loops and can be paused."
       },
-      "mn": null
+      "mn": {
+        "headline": "Бид хэрхэн уялдуулдаг вэ",
+        "body": "Өөр өөр мэдрүүр галыг өөрөөр тоолдог. Таван алхам тэдгээрийн тоог нэг цуваа болгоно. [verify]",
+        "caption": "Газрын зураг ба урсгал нь хялбарчилсан зураглал: тэмдгүүд нь хиймэл жишиг өгөгдлийн нүднүүд дотор зурагдсан, бодит илрүүлэлтийн байрлал биш. Таван хайрцаг нь 1-р зургийн найман алхмыг бүлэглэсэн (доор).",
+        "alt": "Монголын хүрээн дэх цөөн том цэгүүд (MODIS) болон олон жижиг гурвалжнууд (VIIRS) таван хайрцагтай урсгалд орно: оруулах, цэвэрлэх, давхардал арилгах, Aqua-тай тохируулах, шалгах. Тэд нэг жигд халуун цэгийн зураг болж гарч, доор жилийн халуун цэгийн нэг гөлгөр шугам зурагдана. Хөдөлгөөн давтагдах бөгөөд түр зогсоож болно."
+      },
+      "chartHeightDvh": 26
     },
     {
       "id": "ch9-mongolia",
@@ -196,6 +234,284 @@
         "body": "How unusual was that October? What would the model have said? [verify] Cause under investigation.",
         "caption": "Placeholder. Needs numrug.json and the backtest result.",
         "alt": "Placeholder chapter. The globe returns close to Mongolia and the harmonized chart is shown."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch1-crews",
+      "lengthVh": 640,
+      "data": [],
+      "claims": [],
+      "own": true,
+      "chartHeightDvh": 0,
+      "keyframes": [
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
+      ],
+      "en": {
+        "headline": "Meet the crews",
+        "body": "Five satellites watch Earth's heat from space.",
+        "caption": "Satellite pictures are stylized illustrations. Nicknames come from the project brief.",
+        "alt": "A dark globe made of dots with orange hotspots on the left. Five satellites arrive one at a time on the right: Terra, Aqua, Suomi NPP, NOAA-20 and NOAA-21. Then each gets a short explainer: how it feels heat and what its data is used for."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch2-fire",
+      "lengthVh": 340,
+      "data": [],
+      "claims": [],
+      "own": true,
+      "chartHeightDvh": 0,
+      "keyframes": [
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
+      ],
+      "en": {
+        "headline": "Satellites feel heat from above",
+        "body": "A swath sweeps the ground and flags hot spots.",
+        "caption": "Simplified illustration of how the two sensors report the same fire.",
+        "alt": "A single ember on a dark field. A band sweeps across it and the same fire appears as a large dot for MODIS and a small triangle for VIIRS."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch3-handover",
+      "lengthVh": 420,
+      "data": [
+        "satellites.json"
+      ],
+      "claims": [
+        "S-C10"
+      ],
+      "own": true,
+      "chartHeightDvh": 0,
+      "keyframes": [
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
+      ],
+      "en": {
+        "headline": "Five satellites, years of watching",
+        "body": "Each bar shows how long a satellite has worked.",
+        "caption": "Launch years come from the real satellites.json. Retirement and start-of-FIRMS dates are not shown on screen because they are not yet verified.",
+        "alt": "Five bars, one per satellite, showing launch year and how long each has worked. Terra and Aqua are marked retiring. NOAA-21, the youngest, is highlighted as taking over."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch4-harmonize",
+      "lengthVh": 480,
+      "data": [
+        "calendar/mongolia.json"
+      ],
+      "claims": [
+        "S-C16",
+        "S-C02"
+      ],
+      "own": true,
+      "chartHeightDvh": 0,
+      "keyframes": [
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
+      ],
+      "en": {
+        "headline": "Two sensors, one record",
+        "body": "They see fire differently. We bring them together.",
+        "caption": "Hands are an original line-art homage; the chart is a simplified illustration on fixture data.",
+        "alt": "Two line-art hands reach toward each other, one teal for MODIS and one indigo for VIIRS. Warm light streams from the gap and becomes a five-step workflow: collect, align, clean, calibrate, verify. A jagged raw line turns into one smooth line with a band."
+      },
+      "mn": null
+    },
+    {
+      "id": "ch5-reveal",
+      "lengthVh": 360,
+      "data": [
+        "hex_year/harm.json"
+      ],
+      "claims": [
+        "S-C17"
+      ],
+      "own": true,
+      "chartHeightDvh": 0,
+      "keyframes": [
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        },
+        {
+          "globe": {
+            "focus": "world",
+            "altitude": 3,
+            "brightness": 0.2
+          },
+          "chart": {
+            "visible": 0,
+            "reveal": 1,
+            "harmonize": 0
+          }
+        }
+      ],
+      "en": {
+        "headline": "One record. One Mongolia.",
+        "body": "Every sensor, merged into a single set of fires.",
+        "caption": "Hotspot marks are illustrative, drawn inside the real border; one mark stands for several detections.",
+        "alt": "The outline of Mongolia draws itself, then one merged set of orange hotspots lights up inside it. A link leads on to the app."
       },
       "mn": null
     }

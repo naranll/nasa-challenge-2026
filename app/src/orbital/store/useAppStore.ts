@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import * as THREE from 'three'
 import type { Filter } from '../data/satellites'
-import { HOTSPOTS } from '../data/hotspots'
+import type { Fires } from '../data/fires'
 
 interface AppState {
   filter: Filter
@@ -11,6 +11,9 @@ interface AppState {
   pointer: { x: number; y: number }
   trackedId: string | null
   selectedId: string | null
+  /** Real FIRMS detections inside Mongolia; null until loaded (or if the file failed). */
+  fires: Fires | null
+  setFires: (f: Fires | null) => void
   setFilter: (f: Filter) => void
   toggleFilter: (f: Exclude<Filter, 'ALL'>) => void
   setHovered: (id: string | null, from3D?: boolean) => void
@@ -26,15 +29,21 @@ export const useAppStore = create<AppState>((set, get) => ({
   pointer: { x: 0, y: 0 },
   trackedId: null,
   selectedId: null,
+  fires: null,
+  setFires: (fires) => set({ fires }),
   setFilter: (filter) => set({ filter }),
   toggleFilter: (f) => set({ filter: get().filter === f ? 'ALL' : f }),
   setHovered: (hoveredId, from3D = false) => set({ hoveredId, hoverFrom3D: from3D }),
   setPointer: (x, y) => set({ pointer: { x, y } }),
   track: (trackedId) => {
     if (trackedId) sim.zoomTarget = null
+    sim.fastUntil = performance.now() + FAST_AFTER_CHANGE_MS
     set({ trackedId })
   },
-  select: (selectedId) => set({ selectedId }),
+  select: (selectedId) => {
+    sim.fastUntil = performance.now() + FAST_AFTER_CHANGE_MS
+    set({ selectedId })
+  },
 }))
 
 /**
@@ -44,9 +53,13 @@ export const useAppStore = create<AppState>((set, get) => ({
 export const sim = {
   /** world positions of every satellite, updated each frame */
   satPos: {} as Record<string, THREE.Vector3>,
-  /** 0..1 heat of each hotspot (boosted while a beam scans it) */
-  hotspotHeat: HOTSPOTS.map(() => 0),
-  /** the spinning earth group (for hotspot world positions) */
+  /** fire each satellite's beam is on, as a unit vector in the Earth's frame (null = no beam) */
+  scan: {} as Record<string, THREE.Vector3 | null>,
+  /** replay clock for the fires: seconds after Fires.startMs */
+  fireT: 0,
+  /** draw at full frame rate until this performance.now() time (camera moves); 30 fps otherwise */
+  fastUntil: 0,
+  /** the spinning earth group (for fire world positions) */
   earth: null as THREE.Object3D | null,
   /** camera distance from Earth centre */
   camDist: 4.4,
@@ -55,6 +68,9 @@ export const sim = {
   /** set by the CameraRig when the user drags the 3D view */
   userInteracting: false,
 }
+
+/** How long after a select/track change the scene renders at full rate, so the camera move is smooth. */
+const FAST_AFTER_CHANGE_MS = 2500
 
 /* ---------- Altitude bar ⇄ camera distance mapping ---------- */
 

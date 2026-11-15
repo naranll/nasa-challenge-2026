@@ -202,6 +202,34 @@ export interface WorldPointsFile {
   };
 }
 
+/**
+ * home_fires.json: the home globe's hotspots (scripts/home_fires/make_home_fires.ts). Every hotspot inside
+ * Mongolia plus every `sample.every`-th one elsewhere, from world/points_{continent}.json. Integer columns.
+ */
+export interface HomeFiresFile {
+  schema_version: string;
+  synthetic: boolean;
+  source: string;
+  /** UTC days, inclusive. */
+  period: { start: string; end: string };
+  sample: { every: number; mongolia: "all" };
+  /** Hotspots in the source files. */
+  source_n: number;
+  n: number;
+  scale: { lonlat: number; frp: number };
+  columns: {
+    /** degrees × scale.lonlat */
+    lon: number[];
+    lat: number[];
+    /** minutes after period.start 00:00 UTC */
+    t: number[];
+    /** MW × scale.frp */
+    frp: number[];
+    /** 1 = inside Mongolia */
+    mn: (0 | 1)[];
+  };
+}
+
 /** One H3 res 5 cell of world/cells_{continent}.json (#35). */
 export interface WorldCell {
   /** H3 v4 index. */

@@ -3,8 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import { MIN_DIST, sim, useAppStore } from '../store/useAppStore'
-import { clamp, damp, latLonToVec3 } from '../utils/geo'
-import { HOTSPOTS } from '../data/hotspots'
+import { clamp, damp } from '../utils/geo'
 
 const ORIGIN = new THREE.Vector3()
 const _desired = new THREE.Vector3()
@@ -14,7 +13,15 @@ const _q = new THREE.Quaternion()
 const _dir = new THREE.Vector3()
 const _h = new THREE.Vector3()
 const _best = new THREE.Vector3()
-const HOTSPOT_LOCAL = HOTSPOTS.map((h) => latLonToVec3(h.lat, h.lon, 1))
+const _local = new THREE.Vector3()
+
+/**
+ * Where the opened satellite sits on screen, as a fraction of the canvas: top right, clear of the
+ * altitude bar, while its drawer is bottom left (ui/CompareDrawer.tsx), so the two never cover each other.
+ */
+const FOCUS_AT_WIDE = { x: 0.64, y: 0.3 }
+const FOCUS_AT_NARROW = { x: 0.6, y: 0.22 } // phones: the drawer is a full-width bottom sheet
+const NARROW_PX = 640
 
 /**
  * Drives the camera on top of OrbitControls:
@@ -26,6 +33,8 @@ export default function CameraRig() {
   const camera = useThree((s) => s.camera)
   const key = useRef<THREE.DirectionalLight>(null!)
   const controls = useThree((s) => s.controls) as unknown as OrbitControlsImpl | null
+  const size = useThree((s) => s.size)
+  const offset = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
     if (!controls) return
@@ -34,7 +43,10 @@ export default function CameraRig() {
       sim.zoomTarget = null
       if (useAppStore.getState().trackedId) useAppStore.getState().track(null)
     }
-    const onEnd = () => (sim.userInteracting = false)
+    const onEnd = () => {
+      sim.userInteracting = false
+      sim.fastUntil = performance.now() + 1200 // let the damping settle at full rate
+    }
     controls.addEventListener('start', onStart)
     controls.addEventListener('end', onEnd)
     return () => {
@@ -45,7 +57,7 @@ export default function CameraRig() {
 
   useFrame((_, dt) => {
     if (!controls) return
-    const { trackedId } = useAppStore.getState()
+    const { trackedId, selectedId, fires } = useAppStore.getState()
     const sp = trackedId ? sim.satPos[trackedId] : undefined
     // minDistance is measured to controls.target, which is the satellite while tracking
     controls.minDistance = sp ? 0.25 : MIN_DIST
@@ -63,13 +75,14 @@ export default function CameraRig() {
     } else {
       controls.target.lerp(ORIGIN, damp(3, dt))
       if (sim.zoomTarget !== null) {
-        // diving toward the surface: swing the view over the nearest fire hotspot
-        if (sim.zoomTarget < 1.5 && sim.earth) {
-          sim.earth.getWorldQuaternion(_q)
+        // diving toward the surface: swing the view over the nearest real fire (data/fires.ts)
+        const swing = sim.zoomTarget < 1.5 && sim.earth && fires && fires.n > 0
+        if (swing) {
+          sim.earth!.getWorldQuaternion(_q)
           _dir.copy(camera.position).normalize()
           let best = -2
-          for (const h of HOTSPOT_LOCAL) {
-            _h.copy(h).applyQuaternion(_q)
+          for (const i of fires.beam) {
+            _h.copy(_local.fromArray(fires.pos, i * 3)).applyQuaternion(_q)
             const d = _h.dot(_dir)
             if (d > best) {
               best = d
@@ -81,7 +94,7 @@ export default function CameraRig() {
           camera.position.copy(_dir).multiplyScalar(len)
         }
         let aligned = true
-        if (sim.zoomTarget < 1.5) aligned = _dir.dot(_best) > 0.9995
+        if (swing) aligned = _dir.dot(_best) > 0.9995
         const d = camera.position.length()
         const nd = d + (sim.zoomTarget - d) * damp(7, dt)
         camera.position.setLength(nd)
@@ -98,6 +111,26 @@ export default function CameraRig() {
     controls.rotateSpeed = clamp((dist - 1) * 0.35, 0.04, 0.7)
     controls.zoomSpeed = clamp((dist - 1) * 0.5, 0.15, 0.9)
     controls.update()
+
+    // Opened + tracked satellite: slide the view centre (where the satellite is) to the top right.
+    // A camera view offset, not a CSS move: the stars stay whole and hover picking stays exact.
+    const cam = camera as THREE.PerspectiveCamera
+    const { width: w, height: h } = size
+    const spot = w < NARROW_PX ? FOCUS_AT_NARROW : FOCUS_AT_WIDE
+    const on = sp && selectedId === trackedId
+    const tx = on ? (spot.x - 0.5) * w : 0
+    const ty = on ? (spot.y - 0.5) * h : 0
+    const o = offset.current
+    const k = damp(3.2, dt)
+    o.x += (tx - o.x) * k
+    o.y += (ty - o.y) * k
+    if (Math.hypot(tx - o.x, ty - o.y) < 0.5) [o.x, o.y] = [tx, ty]
+    if (o.x === 0 && o.y === 0) {
+      if (cam.view?.enabled) cam.clearViewOffset()
+    } else {
+      cam.setViewOffset(w, h, -o.x, -o.y, w, h) // every frame: also keeps it right after a resize
+      if (o.x !== tx || o.y !== ty) sim.fastUntil = Math.max(sim.fastUntil, performance.now() + 100)
+    }
   })
 
   return <directionalLight ref={key} intensity={2.4} color="#FFF4E6" />

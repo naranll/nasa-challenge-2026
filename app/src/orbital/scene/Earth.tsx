@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { makeEarthTextures } from '../utils/textures'
 import { sim } from '../store/useAppStore'
-import Hotspots from './Hotspots'
+import FirePoints from './FirePoints'
 
 const atmosphereVert = /* glsl */ `
   varying vec3 vNormal;
@@ -84,7 +84,7 @@ export function EarthBody({ emissiveIntensity = 0.75, children }: BodyProps) {
   return (
     <group>
       <mesh>
-        <sphereGeometry args={[1, 128, 128]} />
+        <sphereGeometry args={[1, 64, 48]} />
         <meshStandardMaterial
           map={map}
           emissiveMap={emissive}
@@ -97,10 +97,10 @@ export function EarthBody({ emissiveIntensity = 0.75, children }: BodyProps) {
       {children}
       {/* thin rim light + soft outer halo (raycast disabled: hover must hit the sphere, not the shell) */}
       <mesh scale={1.004} material={rimMat} raycast={() => null}>
-        <sphereGeometry args={[1, 96, 96]} />
+        <sphereGeometry args={[1, 48, 32]} />
       </mesh>
       <mesh scale={1.075} material={haloMat} raycast={() => null}>
-        <sphereGeometry args={[1, 96, 96]} />
+        <sphereGeometry args={[1, 48, 32]} />
       </mesh>
     </group>
   )
@@ -119,7 +119,7 @@ export default function Earth() {
     <group rotation={[0, 0, (23.4 * Math.PI) / 180]}>
       <group ref={spin} rotation={[0, -1.2, 0]}>
         <EarthBody>
-          <Hotspots />
+          <FirePoints />
         </EarthBody>
       </group>
     </group>

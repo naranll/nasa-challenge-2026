@@ -197,6 +197,19 @@ nav.site-nav a.active {
   border-color: var(--accent);
 }
 
+.back-home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back-home:hover,
+.back-home:focus-visible {
+  color: var(--accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;

@@ -1,21 +1,24 @@
-import { StrictMode } from "react";
+import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import { I18nProvider } from "./i18n";
-import Dashboard from "./pages/Dashboard";
-import Forecast from "./pages/Forecast";
-import Harmonizing from "./pages/Harmonizing";
 import Home from "./pages/Home";
-import Story from "./pages/Story";
 import { ROUTES } from "./routes";
 import "./styles.css";
+
+// Only the home page is in the first download; the others load when opened (they carry their own globes).
+const Harmonizing = lazy(() => import("./pages/Harmonizing"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Story = lazy(() => import("./pages/Story"));
+const Forecast = lazy(() => import("./pages/Forecast"));
 
 // HashRouter: GitHub Pages has no server-side routing, so deep links must live after "#".
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <I18nProvider>
       <HashRouter>
+        <Suspense fallback={null}>
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Home />} />
@@ -25,6 +28,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path={ROUTES.forecast.slice(1)} element={<Forecast />} />
           </Route>
         </Routes>
+        </Suspense>
       </HashRouter>
     </I18nProvider>
   </StrictMode>,

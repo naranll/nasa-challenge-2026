@@ -26,6 +26,7 @@ Source decisions: [PLAN.md](../PLAN.md) (D2 unit, D3 chain, D4 start, D6 area, D
 | `case_study.json`, `matches_summary.json`, `satellites.json` | P2, P2, P3 | P4, P3 | D14, D8, §4 |
 | `monthly_counts.parquet` *(internal, not served)* | P1 | P2 | §3 |
 | `world/index.json`, `world/points_{continent}.json`, `world/cells_{continent}.json` | `etl/build_world_map.py` | Dashboard world map | #31, D2, D8, D9 |
+| `home_fires.json` | `scripts/home_fires/make_home_fires.ts` (from `world/points_*`; re-run after the world map) | Home globe (`orbital/data/fires.ts`) | — |
 
 Shapes for `case_study`, `matches_summary` and `satellites` are added by their owners before G1.
 

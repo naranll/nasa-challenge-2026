@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { geoEquirectangular, geoGraticule10, geoPath } from 'd3-geo'
 import { feature } from 'topojson-client'
 import type { Topology, GeometryCollection } from 'topojson-specification'
-import landTopo from 'world-atlas/land-50m.json'
+import landTopo from 'world-atlas/land-110m.json'
 
 /** Soft radial glow used for hotspots, satellite halos and nebula dust. */
 export function makeGlowTexture(inner = 'rgba(255,255,255,1)', size = 128) {
@@ -64,12 +64,15 @@ let earthCache: { map: THREE.CanvasTexture; emissive: THREE.CanvasTexture } | nu
 
 /**
  * Stylised Earth: terracotta continents + glowing outlines on a dark ocean,
- * painted from Natural Earth land polygons (world-atlas, 1:50m).
+ * painted from Natural Earth land polygons (world-atlas, 1:110m).
+ * Kept small for a fast first paint: 2048 × 1024 (a quarter of the pixels of 4096 × 2048, painted on the
+ * main thread at load), 1:110m land (55 kB instead of 545 kB of JSON in the bundle), and no canvas blur.
  */
 export function makeEarthTextures(maxAniso = 8) {
   if (earthCache) return earthCache
-  const W = 4096
-  const H = 2048
+  const W = 2048
+  const H = 1024
+  const px = W / 4096 // line widths and grain were tuned at 4096 px
   const projection = geoEquirectangular()
     .scale(W / (2 * Math.PI))
     .translate([W / 2, H / 2])
@@ -93,7 +96,7 @@ export function makeEarthTextures(maxAniso = 8) {
   g.beginPath()
   path(geoGraticule10())
   g.strokeStyle = 'rgba(152,216,232,0.07)'
-  g.lineWidth = 1.5
+  g.lineWidth = 1.5 * px
   g.stroke()
 
   // land fill with a latitude gradient (deeper terracotta toward the poles)
@@ -113,18 +116,19 @@ export function makeEarthTextures(maxAniso = 8) {
   g.beginPath()
   path(land)
   g.clip()
-  for (let i = 0; i < 26000; i++) {
-    const x = Math.random() * W
-    const y = Math.random() * H
-    g.fillStyle = Math.random() < 0.5 ? 'rgba(255,190,120,0.10)' : 'rgba(90,25,5,0.12)'
-    g.fillRect(x, y, 2 + Math.random() * 3, 2 + Math.random() * 3)
+  // two colours, so the fill style changes twice, not 26 000 times
+  for (const [style, count] of [['rgba(255,190,120,0.10)', 3250], ['rgba(90,25,5,0.12)', 3250]] as const) {
+    g.fillStyle = style
+    for (let i = 0; i < count; i++) {
+      g.fillRect(Math.random() * W, Math.random() * H, (2 + Math.random() * 3) * px * 1.4, (2 + Math.random() * 3) * px * 1.4)
+    }
   }
   g.restore()
 
   g.beginPath()
   path(land)
   g.strokeStyle = 'rgba(255,196,140,0.9)'
-  g.lineWidth = 2
+  g.lineWidth = Math.max(1, 2 * px)
   g.stroke()
 
   /* ---- emissive (glow) map ---- */
@@ -139,20 +143,22 @@ export function makeEarthTextures(maxAniso = 8) {
   pe(land)
   ge.fillStyle = 'rgba(120,40,10,0.55)'
   ge.fill()
-  ge.shadowColor = '#FF9A4D'
-  ge.shadowBlur = 18
-  ge.strokeStyle = '#FFB070'
-  ge.lineWidth = 3.5
+  // soft glow: a wide faint stroke under the sharp one (a canvas shadowBlur here took most of the load time)
   ge.beginPath()
   pe(land)
+  ge.strokeStyle = 'rgba(255,154,77,0.22)'
+  ge.lineWidth = 9 * px * 2
+  ge.stroke()
+  ge.strokeStyle = '#FFB070'
+  ge.lineWidth = 3.5 * px * 1.4
   ge.stroke()
 
   const map = new THREE.CanvasTexture(c)
   map.colorSpace = THREE.SRGBColorSpace
-  map.anisotropy = maxAniso
+  map.anisotropy = Math.min(4, maxAniso)
   const emissive = new THREE.CanvasTexture(e)
   emissive.colorSpace = THREE.SRGBColorSpace
-  emissive.anisotropy = maxAniso
+  emissive.anisotropy = Math.min(4, maxAniso)
   earthCache = { map, emissive }
   return earthCache
 }

@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { BANDS, COLORS, SENSOR_SUMMARY, getSat, type Sensor } from '../data/satellites'
 import { useAppStore } from '../store/useAppStore'
+import { SiteNav } from '../../components/SiteNav'
 
 /** 1 km MODIS pixel with the ~2.67 × 2.67 VIIRS 375 m pixels that fit inside it. */
 function PixelCompare({ sensor }: { sensor: Sensor }) {
@@ -47,11 +48,12 @@ export default function CompareDrawer() {
       {sat && (
         <motion.section
           key={sat.id}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 40 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="glass pointer-events-auto absolute bottom-5 left-1/2 z-30 w-[min(600px,calc(100%-24px))] -translate-x-1/2 rounded-2xl p-5"
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -40 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          // bottom left; CameraRig holds the satellite itself at the top right, apart from this
+          className="glass pointer-events-auto absolute bottom-3 left-3 z-30 max-h-[calc(100%-24px)] w-[min(560px,calc(100%-24px))] overflow-y-auto rounded-2xl p-5 sm:bottom-5 sm:left-10"
           role="dialog"
           aria-label={`${sat.name} thermal band comparison`}
         >
@@ -139,6 +141,9 @@ export default function CompareDrawer() {
               {trackedId === sat.id ? '● TRACKING — RELEASE' : '◎ TRACK IN ORBIT'}
             </button>
           </footer>
+
+          {/* the site's page links and language switch (there is no site header) */}
+          <SiteNav />
         </motion.section>
       )}
     </AnimatePresence>

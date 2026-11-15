@@ -13,6 +13,8 @@ import {
   LineDashedMaterial,
   Mesh,
   MeshBasicMaterial,
+  PerspectiveCamera,
+  Quaternion,
   Points,
   PointsMaterial,
   SphereGeometry,
@@ -20,7 +22,7 @@ import {
 } from "three";
 import { useI18n } from "../i18n";
 import earthUrl from "./assets/earth-day.jpg";
-import { useElementSize, type SimClock } from "./env";
+import { useElementSize, useReducedMotion, type SimClock } from "./env";
 import { EARTH_RADIUS_KM, MONGOLIA_CENTER } from "./geo";
 import { groundTrack, periodMinutes, positionAt } from "./orbit";
 import { PLATFORM_DASH, platformsOf, SENSOR_COLOR, SENSORS, type PlatformId } from "./platforms";
@@ -35,6 +37,8 @@ export interface HomeGlobeProps {
   autoRotate: boolean;
   coarsePointer: boolean;
   highlighted: PlatformId | null;
+  /** Platform whose card is locked open (bottom left): the camera follows it and holds it at the top right. */
+  focused: PlatformId | null;
   onHover: (id: PlatformId | null) => void;
   /** null = tap/click on empty space. */
   onSelect: (id: PlatformId | null) => void;
@@ -62,6 +66,16 @@ const STAR_COUNT = 600;
 const GLOBE_CURVATURE_DEG = 6; // sphere facet size; 60 × 30 segments (library default is 4°)
 const MARKER_SEGMENTS: [number, number] = [8, 6];
 const FRAME_MS = 1000 / 30;
+// Focus: the card sits bottom left (globe.css), so the clicked satellite is held at the top right, apart from it.
+const WIDE_QUERY = "(min-width: 720px)"; // same breakpoint as the side-panel card in globe.css
+const FOCUS_AT_WIDE = { x: 0.7, y: 0.32 }; // satellite's screen spot, as a fraction of the globe area
+const FOCUS_AT_NARROW = { x: 0.62, y: 0.22 }; // phones: the card is a bottom sheet
+const FOCUS_MAX_LAT = 70; // the camera never goes over a pole (the orbits are polar); near one the satellite drifts up a little
+const FOCUS_TAU_S = 0.3; // easing time constant; ~95% of the way in 0.9 s
+const SETTLED_PX = 0.5;
+// Following a moving satellite always trails it by ~speed × τ (≈1° at ×60), so "settled" must allow that,
+// or the 30 fps cap would never come back while a card is open.
+const SETTLED_RAD = 0.035;
 
 interface Live {
   marker: Mesh;
@@ -88,18 +102,19 @@ function starField(radius: number): Points {
 }
 
 export default function HomeGlobe(props: HomeGlobeProps) {
-  const { orbits, clock, autoRotate, coarsePointer, highlighted, onHover, onSelect, onReady, onFallback } = props;
+  const { orbits, clock, autoRotate, coarsePointer, highlighted, focused, onHover, onSelect, onReady, onFallback } = props;
   const { t } = useI18n();
   const wrap = useRef<HTMLDivElement>(null);
   const globe = useRef<GlobeMethods | undefined>(undefined);
   const { width, height } = useElementSize(wrap);
   const [ready, setReady] = useState(false);
   const [fps, setFps] = useState<number | null>(null);
+  const reducedMotion = useReducedMotion();
   const showFps = typeof location !== "undefined" && location.href.includes("debug=fps");
 
   // Latest props for the frame loop, without re-running effects.
-  const latest = useRef({ highlighted, autoRotate, onHover, onSelect, onReady, onFallback });
-  latest.current = { highlighted, autoRotate, onHover, onSelect, onReady, onFallback };
+  const latest = useRef({ highlighted, focused, reducedMotion, autoRotate, onHover, onSelect, onReady, onFallback });
+  latest.current = { highlighted, focused, reducedMotion, autoRotate, onHover, onSelect, onReady, onFallback };
 
   const material = useMemo(() => new MeshBasicMaterial(), []);
 
@@ -173,11 +188,59 @@ export default function HomeGlobe(props: HomeGlobeProps) {
     let last = windowStart;
     let quality = 0;
     let drawnAt = -Infinity;
+    // Focus. A camera view offset (not a CSS move) puts the view centre, where the followed satellite is,
+    // at the top right; it keeps the star field whole, and getScreenCoords includes it, so picking stays exact.
+    const camera = g.camera() as PerspectiveCamera;
+    const wide = window.matchMedia(WIDE_QUERY);
+    const offset = { x: 0, y: 0 }; // px from the canvas centre
+    let offsetSize = "";
+    let following: PlatformId | null = null; // stops when the user drags; restarts on the next click
+    let focusedBefore: PlatformId | null = null;
+    let settling = false;
+    const ease = (dtS: number) => (latest.current.reducedMotion ? 1 : 1 - Math.exp(-dtS / FOCUS_TAU_S));
+    const applyOffset = (k: number) => {
+      const w = el.clientWidth;
+      const h = el.clientHeight;
+      const spot = wide.matches ? FOCUS_AT_WIDE : FOCUS_AT_NARROW;
+      const target = latest.current.focused ? { x: (spot.x - 0.5) * w, y: (spot.y - 0.5) * h } : { x: 0, y: 0 };
+      const size = `${w}x${h}`;
+      const still = offset.x === target.x && offset.y === target.y;
+      if (still && ((offset.x === 0 && offset.y === 0) || size === offsetSize)) return false; // re-apply after a resize
+      offsetSize = size;
+      offset.x += (target.x - offset.x) * k;
+      offset.y += (target.y - offset.y) * k;
+      if (Math.hypot(target.x - offset.x, target.y - offset.y) < SETTLED_PX) Object.assign(offset, target);
+      if (offset.x === 0 && offset.y === 0) camera.clearViewOffset();
+      else camera.setViewOffset(w, h, -offset.x, -offset.y, w, h);
+      return offset.x !== target.x || offset.y !== target.y;
+    };
+    const turn = new Quaternion();
+    const step = new Quaternion();
+    const follow = (k: number) => {
+      const geo = following ? live.get(following)?.geo : null;
+      if (!geo) return false;
+      const want = toVec(Math.max(-FOCUS_MAX_LAT, Math.min(FOCUS_MAX_LAT, geo.lat)), geo.lng, 0).normalize();
+      const dist = camera.position.length();
+      const dir = camera.position.clone().normalize();
+      const angle = dir.angleTo(want);
+      step.identity().slerp(turn.setFromUnitVectors(dir, want), k);
+      camera.position.copy(dir.applyQuaternion(step).multiplyScalar(dist));
+      camera.lookAt(0, 0, 0);
+      return angle * (1 - k) > SETTLED_RAD;
+    };
     const frame = () => {
       raf = requestAnimationFrame(frame);
       if (!running) return;
       const t0 = performance.now();
-      if (t0 - drawnAt < FRAME_MS - 2) return;
+      const focusedNow = latest.current.focused;
+      if (focusedNow !== focusedBefore) {
+        focusedBefore = focusedNow;
+        following = focusedNow;
+        settling = true;
+      }
+      // Full frame rate while the focus moves, so the motion is smooth; the 30 fps cap otherwise.
+      if (!settling && t0 - drawnAt < FRAME_MS - 2) return;
+      const k = ease(Math.min(0.1, (t0 - drawnAt) / 1000));
       drawnAt = t0;
       const now = clock.now();
       const hi = latest.current.highlighted;
@@ -202,6 +265,8 @@ export default function HomeGlobe(props: HomeGlobeProps) {
         pts.forEach((p, i) => p && attr.setXYZ(i, p.x, p.y, p.z));
         attr.needsUpdate = true;
       }
+      settling = applyOffset(k);
+      settling = follow(k) || settling;
       renderOnce();
 
       const tNow = performance.now();
@@ -248,6 +313,7 @@ export default function HomeGlobe(props: HomeGlobeProps) {
     // Auto-rotate stops while the user drags and resumes after 4 s (A11).
     let resume: ReturnType<typeof setTimeout> | undefined;
     const onStart = () => {
+      following = null; // the user took the camera
       clearTimeout(resume);
       controls.autoRotate = false;
     };

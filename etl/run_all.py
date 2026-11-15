@@ -13,6 +13,7 @@ STEPS = [
     "clean_hotspots",   # FIRMS CSVs -> etl/data/processed/hotspots_clean.parquet
     "build_cell_days",  # hotspots -> fire cell-days per aimag and month
     "harmonize_v0",     # Aqua <-> S-NPP ratio + monthly series (prototype)
+    "export_contracts", # real contract JSON -> public/data/ ("synthetic": false)
 ]
 
 start = 0

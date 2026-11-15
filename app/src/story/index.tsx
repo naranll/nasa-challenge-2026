@@ -4,6 +4,8 @@ import { StageEngine } from "./engine/StageEngine";
 import { SlideShell } from "./shell/SlideShell";
 import "./theme/tokens.css";
 import "./story.css";
+import "./skin/skin.css";
+import "./skin/story-skin.css";
 import "./scenes/scenes.css";
 
 export default function StoryPage() {

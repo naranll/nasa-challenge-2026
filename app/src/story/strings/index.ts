@@ -1,6 +1,6 @@
 /** The story's own UI strings (the app's i18n files are not edited). mn is marked needs-native-proof. */
 import { useCallback } from "react";
-import { format, useI18n, type MessageParams } from "../../i18n";
+import { format, type MessageParams } from "../../i18n";
 import en from "./en.json";
 import mn from "./mn.json";
 
@@ -13,7 +13,7 @@ export function storyText(lang: "en" | "mn", key: StoryKey, params?: MessagePara
   return format(table[lang][key] || table.en[key], params);
 }
 
+/** The story is English-only: the app language switch does not change it. */
 export function useStoryText() {
-  const { lang } = useI18n();
-  return useCallback((key: StoryKey, params?: MessageParams) => storyText(lang, key, params), [lang]);
+  return useCallback((key: StoryKey, params?: MessageParams) => storyText("en", key, params), []);
 }

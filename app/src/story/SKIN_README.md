@@ -78,3 +78,6 @@ A year is placed and printed **only if `verified: true`**. Anything else prints 
 ## Known limits
 - Satellite art is the SVG fallback (Higgsfield was not used, see `AI_USAGE.md`). Dropping `terra.webp` etc. into `assets/art/` upgrades them with no code change.
 - VIIRS indigo on the cobalt ground is low contrast; the triangle shape and text label carry the meaning.
+
+## Live on /story
+The skin is applied to the real page: `story/index.tsx` loads `skin.css` and `story-skin.css`; `SlideShell` adds `sk-skin`, one orb, bottom hairline details and grain. The page is dark only and English only (no language switch; `useStoryText` and `StageEngine` are fixed to "en"). The Home button reads "Learn about harmony ›" and routes to `/story`.

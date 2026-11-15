@@ -1,6 +1,6 @@
 .pv-flags { position: fixed; left: 50%; translate: -50% 0; top: 6px; z-index: 20; }
 .pv-board { padding: clamp(28px, 6vw, 72px) var(--sk-gutter); min-height: 100vh; }
-.pv-hero { position: relative; min-height: min(80vh, 720px); display: grid; align-content: end; padding-bottom: var(--sk-s6); }
+.pv-hero { position: relative; min-height: min(60vh, 520px); display: grid; align-content: end; padding-bottom: var(--sk-s6); }
 .pv-orbwrap { position: absolute; right: -6%; top: 0; width: min(78vw, 560px); aspect-ratio: 1; }
 .pv-orbwrap .sk-orb { position: relative; }
 .pv-numeral { position: absolute; left: -0.04em; top: 8%; font: 700 var(--sk-text-numeral)/0.8 var(--sk-font-display); color: transparent; -webkit-text-stroke: 1px var(--sk-hair); z-index: var(--sk-z-art); }

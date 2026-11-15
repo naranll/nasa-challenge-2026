@@ -5,7 +5,6 @@
  * natively: no scroll-jacking.
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { useI18n } from "../../i18n";
 import { buildSeries } from "../data/series";
 import { useCalendar } from "../data/adapters";
 import { useHotspots } from "../data/hotspots";
@@ -29,7 +28,7 @@ import { useScrolledVh } from "./useScrollProgress";
 const PIPE_KEYS: StoryKey[] = ["pipe.1", "pipe.2", "pipe.3", "pipe.4", "pipe.5"];
 
 export function StageEngine({ chapters }: { chapters: ChapterDef[] }) {
-  const { lang } = useI18n();
+  const lang = "en" as const; // the story is English-only
   const s = useStoryText();
   const reduced = useStoryMotion();
   const lowBandwidth = useLowBandwidth();

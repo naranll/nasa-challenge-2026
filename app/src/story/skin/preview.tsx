@@ -4,7 +4,7 @@ import "./skin.css";
 import "./preview.css";
 import {
   CartoonSatellite, GlyphTile, GradientOrb, GrainOverlay, HairlineFrame, SkinStage, SparkFlare, SpectrumTimeline, TrackedCaption, TwoHands,
-  generatedArtIds, useParallax, useReveal, useSkinMode,
+  generatedArtIds, useParallax, useSkinMode,
   type SatelliteId, type TimelineEvent,
 } from "./index";
 
@@ -20,24 +20,15 @@ const EVENTS: TimelineEvent[] = [
 const SATS: SatelliteId[] = ["terra", "aqua", "snpp", "noaa20", "noaa21"];
 
 function Board({ tone }: { tone: "ink" | "cobalt" }) {
-  const head = useReveal<HTMLHeadingElement>();
-  const line = useReveal<HTMLParagraphElement>({ delay: 140 });
   const par = useParallax<HTMLDivElement>(10);
-  const cobalt = tone === "cobalt";
   return (
     <SkinStage tone={tone} className="pv-board">
       <HairlineFrame grid={72} diagonals={[[0, 100, 100, 0], [0, 60, 62, 0]]} coords={["47.92°N", "106.92°E", "SK-01", "STYLIZED"]} barcode="space-khuushuur" />
 
-      {/* hero: one orb, a spark, huge numeral, headline */}
+      {/* hero orb: one object, a spark, no text */}
       <section className="pv-hero">
         <div ref={par} className="sk-parallax pv-orbwrap">
-          <GradientOrb size="min(78vw, 560px)" spark from={cobalt ? "#ff5a1f" : "#ff5a1f"} mid="#d62b8f" to={cobalt ? "#19c3b1" : "#1f3fbf"} />
-        </div>
-        <span className="pv-numeral" aria-hidden="true">7<small>/11</small></span>
-        <div className="pv-copy">
-          <TrackedCaption tone="dim" wide>Chapter 07 · The handover</TrackedCaption>
-          <h2 ref={head.ref} {...head.props}>Өнөөдөр, Үнэн</h2>
-          <p ref={line.ref} {...line.props}>One idea per screen. A hero orb, a spark, quiet type.</p>
+          <GradientOrb size="min(78vw, 560px)" spark />
         </div>
       </section>
 
@@ -111,7 +102,7 @@ function App() {
         <TrackedCaption size="micro" tone="dim">{`reduced=${mode.reduced} lite=${mode.lite}`}</TrackedCaption>
       </div>
       <Board tone="ink" />
-      <Board tone="cobalt" />
+      
     </>
   );
 }

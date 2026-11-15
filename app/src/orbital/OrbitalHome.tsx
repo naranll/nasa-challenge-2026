@@ -15,12 +15,12 @@ import AltitudeBar from './ui/AltitudeBar'
 import SatelliteTooltip from './ui/SatelliteTooltip'
 import CompareDrawer from './ui/CompareDrawer'
 import { sim, useAppStore } from './store/useAppStore'
-import { FIRE_FILE, firesInside, isPointsFile } from './data/fires'
+import { FIRE_FILE, firesFromFile, isHomeFiresFile } from './data/fires'
 import { loadData } from '../data'
-import type { WorldPointsFile } from '../data/contracts'
+import type { HomeFiresFile } from '../data/contracts'
 import { ROUTES } from '../routes'
 
-/** Wait this long after the first paint before fetching the 5 MB fire file, so the globe shows first. */
+/** Wait this long after the first paint before fetching the hotspot file (~0.3 MB gzipped), so the globe shows first. */
 const FIRES_AFTER_MS = 400
 const DAY_MS = 86_400_000
 
@@ -48,8 +48,12 @@ function FireClock() {
     <>
       <br />
       <span className="text-[#F27D26]/80">
-        ● {fires.n.toLocaleString('en-GB')} FIRES IN MONGOLIA · NASA FIRMS NRT · {dayLabel(Date.parse(fires.firstDay))} –{' '}
+        ● {fires.n.toLocaleString('en-GB')} HOTSPOTS · NASA FIRMS NRT · {dayLabel(Date.parse(fires.firstDay))} –{' '}
         {dayLabel(Date.parse(fires.lastDay))} · REPLAY <span ref={out} className="text-white/60" /> UTC
+        <br />
+        <span className="text-white/25">
+          WORLD: EVERY {fires.every}TH HOTSPOT · MONGOLIA: ALL {fires.inMongolia.toLocaleString('en-GB')}
+        </span>
       </span>
     </>
   )
@@ -74,8 +78,8 @@ export default function OrbitalHome() {
   useEffect(() => {
     let live = true
     const timer = setTimeout(() => {
-      loadData<WorldPointsFile>(FIRE_FILE)
-        .then((doc) => live && isPointsFile(doc) && useAppStore.getState().setFires(firesInside(doc)))
+      loadData<HomeFiresFile>(FIRE_FILE)
+        .then((doc) => live && isHomeFiresFile(doc) && useAppStore.getState().setFires(firesFromFile(doc)))
         .catch(() => undefined)
     }, FIRES_AFTER_MS)
     return () => {
@@ -99,7 +103,7 @@ export default function OrbitalHome() {
         >
           DRAG · ORBIT &nbsp;&nbsp; SCROLL · ZOOM &nbsp;&nbsp; CLICK SATELLITE · DETAILS
           <br />
-          <span className="text-white/20">Orbits stylised · fires are real detections, each flashing when it was seen</span>
+          <span className="text-white/20">Orbits stylised · every light is a real hotspot, flashing when it was detected</span>
           <FireClock />
         </p>
       </div>
@@ -116,6 +120,8 @@ export default function OrbitalHome() {
           >
             <Link
               to={ROUTES.dashboard}
+              // inline: the global `a { color }` in styles.css is unlayered and would beat the Tailwind class
+              style={{ color: '#0B0D13' }}
               className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full bg-[#F27D26] px-5 font-mono text-[11px] font-medium tracking-[0.22em] text-[#0B0D13] no-underline shadow-[0_0_32px_-6px_#F27D26AA] transition-[filter,transform] duration-150 hover:-translate-y-px hover:brightness-110"
             >
               ANALYZE →

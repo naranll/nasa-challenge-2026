@@ -81,7 +81,7 @@ export default function CameraRig() {
           sim.earth!.getWorldQuaternion(_q)
           _dir.copy(camera.position).normalize()
           let best = -2
-          for (let i = 0; i < fires.n; i++) {
+          for (const i of fires.beam) {
             _h.copy(_local.fromArray(fires.pos, i * 3)).applyQuaternion(_q)
             const d = _h.dot(_dir)
             if (d > best) {

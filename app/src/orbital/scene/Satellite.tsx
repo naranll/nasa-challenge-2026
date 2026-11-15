@@ -161,7 +161,7 @@ export default function Satellite({ info }: { info: SatelliteInfo }) {
       // satellite direction in the Earth's own frame, so the fires need no per-frame transform
       _dir.copy(pos).normalize().applyQuaternion(_qi.copy(_q).invert())
       const p = fires.pos
-      for (let i = 0; i < fires.n; i++) {
+      for (const i of fires.beam) {
         const d = p[i * 3] * _dir.x + p[i * 3 + 1] * _dir.y + p[i * 3 + 2] * _dir.z
         if (d > bestDot) {
           bestDot = d

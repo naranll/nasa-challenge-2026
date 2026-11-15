@@ -12,7 +12,10 @@ import { sim, useAppStore } from '../store/useAppStore'
 
 /** Real seconds one pass over the whole period takes. */
 export const REPLAY_LOOP_S = 60
-/** How long (data time) a fresh detection glows: ~1.5 s on screen. */
+/**
+ * How long (data time) a fresh detection glows: ~1.5 s on screen. With ~58 000 hotspots over 10 days,
+ * that is ~1 500 lit at any moment, in waves that follow the satellites' overpass times.
+ */
 const FLASH_DATA_HOURS = 6
 const SURFACE = 1.004
 const N_SAT = SATELLITES.length
@@ -38,10 +41,10 @@ const vert = /* glsl */ `
     }
     float strength = clamp(log(1.0 + aFrp) / 5.0, 0.2, 1.0);  // FRP 1 MW → 0.2, ~150 MW → 1
     vHot = max(flash, 0.8 * scan);
-    vGlow = 0.22 + 0.78 * vHot;
+    vGlow = 0.1 + 0.9 * vHot;  // ~58 000 hotspots: a faint ember between flashes, or the land turns orange
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     float near = clamp(3.5 / -mv.z, 0.7, 4.0);  // bigger as the camera dives in
-    gl_PointSize = uPx * (2.2 + 8.0 * vHot) * (0.6 + 0.6 * strength) * near;
+    gl_PointSize = uPx * (1.6 + 7.0 * vHot) * (0.6 + 0.6 * strength) * near;
     gl_Position = projectionMatrix * mv;
   }
 `

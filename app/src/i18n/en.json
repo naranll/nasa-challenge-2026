@@ -5,6 +5,7 @@
   "nav.dashboard": "Dashboard",
   "nav.story": "Story",
   "nav.forecast": "Forecast",
+  "nav.back_home": "← Home",
   "lang.switch": "МН",
   "banner.synthetic": "SYNTHETIC sample data. These numbers are made up for building the site. They are not real.",
   "page.home.lead": "Two generations of fire satellites, one consistent record.",

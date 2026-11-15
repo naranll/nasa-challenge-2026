@@ -81,3 +81,58 @@ export interface ValidationFile {
   limitations?: string[];
 }
 
+
+/** World map (#31). Continent ids, in the order of world/index.json. */
+export type WorldContinentId = "africa" | "asia" | "europe" | "north_america" | "south_america" | "oceania";
+
+/** One continent in world/index.json. */
+export interface WorldContinent {
+  id: WorldContinentId;
+  name_en: string;
+  name_mn: string;
+  /** [west, south, east, north]. Crossing 180°: east > 180, draw points with lon < west at lon + 360. */
+  bbox: [number, number, number, number];
+  points_file: string;
+  n_points: number;
+  n_by_platform: Record<PlatformKey, number>;
+}
+
+/** world/index.json: period, sources, dropped counts and the continent list. */
+export interface WorldIndexFile {
+  schema_version: string;
+  synthetic: boolean;
+  period: { start: string; end: string };
+  time_zone: "UTC";
+  sources: string[];
+  /** Hotspots left out of every continent, counted. */
+  dropped: { antarctica: number; seven_seas: number; no_continent: number };
+  continents: WorldContinent[];
+}
+
+export type WorldConfLevel = "low" | "nominal" | "high";
+export type WorldMatchClass = "both" | "viirs_only" | "modis_only" | "not_comparable";
+
+/** world/points_{continent}.json: one array per column, all of length `n`. Codes index into `codes`. */
+export interface WorldPointsFile {
+  schema_version: string;
+  synthetic: boolean;
+  continent: WorldContinentId;
+  n: number;
+  codes: { platform: PlatformKey[]; conf: WorldConfLevel[]; match_class: WorldMatchClass[] };
+  /** UTC dates; `columns.date` indexes into this. */
+  dates: string[];
+  columns: {
+    lon: number[];
+    lat: number[];
+    platform: number[];
+    /** MW */
+    frp: number[];
+    conf: number[];
+    date: number[];
+    /** UTC time as FIRMS acq_time: 342 = 03:42. */
+    hhmm: number[];
+    daynight: ("D" | "N")[];
+    /** null = not matched (Terra, NOAA-21, or before #37). */
+    match_class: (number | null)[];
+  };
+}

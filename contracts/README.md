@@ -25,6 +25,7 @@ Source decisions: [PLAN.md](../PLAN.md) (D2 unit, D3 chain, D4 start, D6 area, D
 | `hex_year/raw.json`, `hex_year/harm.json` | P1 (raw), P2 (harm) | P3 | D12 |
 | `case_study.json`, `matches_summary.json`, `satellites.json` | P2, P2, P3 | P4, P3 | D14, D8, §4 |
 | `monthly_counts.parquet` *(internal, not served)* | P1 | P2 | §3 |
+| `world/index.json`, `world/points_{continent}.json` | `etl/build_world_map.py` | Dashboard world map | #31, D2, D8 |
 
 Shapes for `case_study`, `matches_summary` and `satellites` are added by their owners before G1.
 
@@ -116,6 +117,49 @@ Refresh before the demo; epochs older than 7 days draw as "approximate", older t
   "limitations": [ "…" ] }
 ```
 Test ids: `aqua_loyo`, `aqua_forward`, `r2_loyo`, `year_rank_spearman` (PLAN D10).
+
+## `world/` (Dashboard world map, #31)
+
+World NRT hotspots for **2026-11-05 – 2026-11-14**, split by continent. Written by `etl/build_world_map.py`; real files are committed with `"synthetic": false`. Dates and times are **UTC** (there is no single local time for the world). No static-source mask: NRT files have no `type` column, so power plants and gas flares stay in (see `docs/research/world_map.md`).
+
+```jsonc
+// world/index.json
+{ "schema_version": "0.1", "synthetic": false,
+  "period": { "start": "2026-11-05", "end": "2026-11-14" }, "time_zone": "UTC",
+  "sources": ["MODIS_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT", "VIIRS_SNPP_NRT"],  // FIRMS sources read
+  "dropped": { "antarctica": 0, "seven_seas": 0, "no_continent": 0 },  // hotspots left out, counted (not silent)
+  "continents": [ {
+    "id": "asia",                      // africa | asia | europe | north_america | south_america | oceania
+    "name_en": "Asia", "name_mn": "Ази",
+    "bbox": [26.0, -10.4, 145.5, 55.4], // [west, south, east, north] from Natural Earth borders.
+                                        // Crossing 180°: the narrowest longitude interval, so east > 180 is
+                                        // allowed; draw points with lon < west at lon + 360.
+    "points_file": "points_asia.json",
+    "n_points": 0,
+    "n_by_platform": { "terra": 0, "aqua": 0, "snpp": 0, "noaa20": 0, "noaa21": 0 } } ] }
+```
+A continent is assigned by point-in-polygon on Natural Earth 110m countries (`CONTINENT`); a point outside every polygon takes the nearest country within 1°. Natural Earth puts Russia and France (with French Guiana) in Europe, so Europe's bbox is very wide.
+Later tickets add keys to each continent (`r_day`, `r_night`, `flags`, `iou`, `p_v_given_m`, … — #35, #37).
+
+```jsonc
+// world/points_{continent}.json — one array per column (compact), row i = hotspot i, sorted by UTC time
+{ "schema_version": "0.1", "synthetic": false, "continent": "asia", "n": 2,
+  "codes": { "platform": ["terra", "aqua", "snpp", "noaa20", "noaa21"],   // the numbers in the columns
+             "conf": ["low", "nominal", "high"],
+             "match_class": ["both", "viirs_only", "modis_only", "not_comparable"] },
+  "dates": ["2026-11-05", "…", "2026-11-14"],                              // UTC
+  "columns": {
+    "lon": [106.988, -179.0], "lat": [47.123, 66.5],   // degrees, 3 decimals
+    "platform": [3, 1],                                // index into codes.platform
+    "frp": [12.35, 0.96],                              // MW
+    "conf": [2, 0],                                    // index into codes.conf (MODIS <30/<80/else; VIIRS l/n/h)
+    "date": [0, 9],                                    // index into dates (UTC)
+    "hhmm": [342, 1832],                               // UTC time as FIRMS acq_time: 342 = 03:42
+    "daynight": ["N", "D"],
+    "match_class": [null, null] } }                    // index into codes.match_class; null = not matched yet
+                                                       // (#37) or not in the match (Terra, NOAA-21)
+```
+Code lists only grow at the end (additive-only), so a stored code never changes meaning.
 
 ## `monthly_counts.parquet` (P1 → P2, internal)
 

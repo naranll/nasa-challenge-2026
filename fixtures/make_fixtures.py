@@ -8,6 +8,7 @@ Deterministic (seeded): re-running gives identical files.
 import json
 import math
 import random
+import sys
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent
@@ -24,9 +25,10 @@ def season(month):  # spring + autumn peaks, steppe-like shape
     return 0.25 + 0.75 * max(math.exp(-((month - 4) ** 2) / 3), 0.6 * math.exp(-((month - 10) ** 2) / 2))
 
 
-def write(path, doc):
+def write(path, doc, compact=False):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    fmt = dict(separators=(",", ":")) if compact else dict(indent=1)
+    path.write_text(json.dumps(doc, ensure_ascii=False, **fmt), encoding="utf-8")
     print("wrote", path.relative_to(OUT.parent))
 
 
@@ -137,6 +139,7 @@ def main():
     write(OUT / "hex_year" / "harm.json", harm)
     write(OUT / "pipeline_stats.json", pipeline_stats(calendars["mongolia"]))
     write(OUT / "validation.json", validation())
+    world()
 
 
 def validation():
@@ -172,6 +175,47 @@ def pipeline_stats(cal):
     return dict(schema_version=SCHEMA, synthetic=True, rows_by_platform=rows,
                 first_detection=first, last_detection=dict(FAKE_LAST_DAY),
                 n_hotspots_total=sum(rows.values()), years_covered=[2002, 2026])
+
+
+# World map (#33). Bbox-ууд нь Natural Earth 110m-ээс wm.continent_bboxes-ийн гаргасан утга (1 оронтой).
+# Europe: NE-д Орос (Чукотк) ба Франц (Франц Гвиана) Europe-д ордог тул өргөн, 180°-ыг дамнана.
+# Fixture нь NE файлгүйгээр ажиллахын тулд энд хуулсан.
+WORLD_BBOXES = {
+    "africa": [-17.6, -34.8, 51.1, 37.4], "asia": [26.0, -10.4, 145.5, 55.4],
+    "europe": [-54.5, 2.1, 190.1, 81.3], "north_america": [-171.8, 7.2, -12.2, 83.6],
+    "south_america": [-81.4, -55.6, -34.7, 12.4], "oceania": [113.3, -46.6, 180.2, -2.5],
+}
+
+
+def world():
+    """world/index.json + world/points_{тив}.json: etl/world_map.py-ийн ижил функцээр, зохиомол цэгүүдтэй."""
+    sys.path.insert(0, str(OUT.parent / "etl"))
+    import pandas as pd
+    import world_map as wm
+
+    rnd = random.Random(33)
+    rows = []
+    for cid, (w, s, e, n) in WORLD_BBOXES.items():
+        for _ in range(rnd.randint(3, 6)):  # хэдэн "гал"-ын бөөгнөрөл
+            clon, clat = rnd.uniform(w, e), rnd.uniform(s, n)
+            for _ in range(rnd.randint(20, 60)):
+                platform = rnd.choices(wm.PLATFORMS, weights=[1, 1, 0, 4, 4])[0]  # S-NPP 11-02-нд зогссон
+                day = rnd.random() < 0.6
+                lon = clon + rnd.gauss(0, 0.8)
+                rows.append(dict(
+                    continent=cid, platform=platform,
+                    lon=(lon + 180) % 360 - 180, lat=max(s, min(n, clat + rnd.gauss(0, 0.6))),
+                    frp=round(rnd.lognormvariate(1.5, 1.0), 2), conf=rnd.choice(wm.CONF_LEVELS),
+                    date=wm.period_dates(wm.PERIOD)[rnd.randrange(10)],
+                    hhmm=rnd.randrange(24) * 100 + rnd.randrange(60), daynight="D" if day else "N"))
+    pts = pd.DataFrame(rows)
+    dropped = dict(antarctica=12, seven_seas=7, no_continent=3)
+    index = wm.index_doc(pts, dropped, WORLD_BBOXES, wm.PERIOD,
+                         ["VIIRS_SNPP_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT", "MODIS_NRT"], synthetic=True)
+    for c in index["continents"]:
+        write(OUT / "world" / c["points_file"],
+              wm.points_doc(pts[pts["continent"] == c["id"]], c["id"], wm.PERIOD, synthetic=True), compact=True)
+    write(OUT / "world" / "index.json", index, compact=True)  # бодит файлууд шиг авсаархан
 
 
 if __name__ == "__main__":

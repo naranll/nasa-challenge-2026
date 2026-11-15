@@ -22,7 +22,7 @@ export default function Dashboard() {
   // One scale for both views, so switching to Raw shows the jump instead of rescaling it away.
   const grids = useMemo(() => (cal ? { raw: calendarGrid(cal, "raw"), harmonized: calendarGrid(cal, "harmonized") } : null), [cal]);
   const max = grids ? sharedMax([grids.raw, grids.harmonized]) : 0;
-  const name = region ? (lang === "mn" ? region.name_mn : region.name_en) : "";
+  const name = region ? ((lang === "mn" ? region.name_mn : null) ?? region.name_en) : "";
 
   return (
     <section className="dashboard">
@@ -40,7 +40,7 @@ export default function Dashboard() {
               <select value={region?.region_id} onChange={(e) => setRegionId(e.target.value)}>
                 {regions.map((r) => (
                   <option key={r.region_id} value={r.region_id}>
-                    {lang === "mn" ? r.name_mn : r.name_en}
+                    {(lang === "mn" ? r.name_mn : null) ?? r.name_en}
                   </option>
                 ))}
               </select>
